@@ -119,5 +119,4 @@ pip install -e ".[test]"
 PYTHONPATH=. pytest tests/
 ```
 
-## License
-MIT
+
