@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+.pytest_cache/
+env/
+venv/
+.env
+
+# Build & Dist
+build/
+dist/
+*.egg-info/
+
+# AIC generated
+.aic/
+
+# System
+.DS_Store

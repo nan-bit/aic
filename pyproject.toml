@@ -1,0 +1,20 @@
+[project]
+name = "aic"
+version = "0.1.0"
+description = "AI Compiler CLI: Semantic Dependency Graph for AI Agents"
+dependencies = [
+    "click",
+]
+requires-python = ">=3.8"
+
+[project.scripts]
+aic = "aic.cli:cli"
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
