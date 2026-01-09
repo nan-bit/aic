@@ -2,6 +2,7 @@
 name = "aic"
 version = "0.1.0"
 description = "AI Compiler CLI: Semantic Dependency Graph for AI Agents"
+license = {text = "MIT"}
 dependencies = [
     "click",
 ]

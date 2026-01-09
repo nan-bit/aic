@@ -119,4 +119,10 @@ pip install -e ".[test]"
 PYTHONPATH=. pytest tests/
 ```
 
+## Acknowledgements
 
+This project was inspired by ideas from a colleague. For more information, please refer to the following patent: [System and method for semantic dependency graph management](https://www.tdcommons.org/dpubs_series/8241/).
+
+## License
+
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
