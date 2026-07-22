@@ -1,21 +1,21 @@
 [project]
 name = "aic"
-version = "0.1.0"
-description = "AI Compiler CLI: Semantic Dependency Graph for AI Agents"
+version = "0.2.0"
+description = "Incremental impact analysis: what does this change actually put at risk?"
+readme = "README.md"
 license = {text = "MIT"}
-dependencies = [
-    "click",
-]
-requires-python = ">=3.8"
+requires-python = ">=3.9"
+dependencies = []
 
 [project.scripts]
-aic = "aic.cli:cli"
+aic = "aic.cli:main"
 
 [project.optional-dependencies]
-test = [
-    "pytest",
-]
+test = ["pytest"]
 
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["aic*"]

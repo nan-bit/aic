@@ -16,6 +16,8 @@ dist/
 
 # AIC generated
 .aic/
+bench/.cache/
+bench/results.json
 
 # System
 .DS_Store
