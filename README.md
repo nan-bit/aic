@@ -1,34 +1,45 @@
-# AIC — incremental impact analysis
+# AIC — the AI Compiler
 
-**One question:** *I changed this file. What else do I now need to look at?*
+**AIC** treats code analysis the way a build system treats compilation: do the
+expensive work once, then on every change redo only what that change actually
+touched. It keeps a persistent graph of the codebase and answers one question
+incrementally —
 
-Most analysis tools answer that with "everything," because they are stateless —
-they rebuild their understanding of the repo on every invocation. That is fine
-at PR time, when it happens once. It is not fine inside an agent loop, where a
-coding agent might touch forty files before it stops to think.
+> **I changed this file. What else do I now need to look at?**
 
-AIC keeps a persistent graph of the codebase and answers the question
-incrementally. Change one file and it reparses one file, then tells you exactly
-which of your obligations that change put at risk.
+Most analysis tools answer "everything," because they are stateless — they
+rebuild their understanding of the repo on every invocation. That is fine at PR
+time, when it happens once. It is the wrong cost model inside an agent loop,
+where a coding agent might touch forty files before it stops to think. Forty
+edits should not mean forty full scans.
 
 On Django (883 files, 9,213 functions):
 
 ```
-cold index                1432 ms
-re-index, nothing changed   87 ms
-re-index after one edit    101 ms   (1 file reparsed, 882 skipped)
+first index (one time)        2.6 s    full parse + probes + taint dataflow
+re-index, nothing changed      51 ms   stat-diff finds no work
+one file, via `aic touch`   14–60 ms   reparse one file, propagate
 ```
 
-The same one-file edit produces a very different blast radius depending on
-*which* file:
+That last number is the product. And it is not one number — the same one-file
+edit costs wildly different amounts depending on *which* file, because the blast
+radius does:
 
-| edited file | dependents invalidated |
-|---|---:|
-| `contrib/gis/db/backends/mysql/schema.py` | **1** |
-| `db/models/query.py` | **570** |
+| edited file | dependents invalidated | recheck cost |
+|---|---:|---:|
+| `contrib/gis/db/backends/mysql/schema.py` | **1** | 14 ms |
+| `db/models/query.py` | **570** | 60 ms |
 
 A stateless scanner cannot tell those two apart. It does identical full work
-either way.
+either way. AIC does work proportional to what the change reached — which is the
+same principle reachability analysis brings to vulnerability triage, applied to
+the *cost of staying current* instead of the finding count.
+
+> **Why "compiler"?** The engine is incremental compilation: a dependency graph,
+> dirty-marking on change, and a pass that re-resolves only dirty nodes until the
+> graph is clean. AIC runs that machinery in the analysis direction. The name and
+> the model come from the [Graph-based AI Compiler](#lineage) disclosure it is
+> built on.
 
 ## Install
 
@@ -64,14 +75,11 @@ wall-clock is Python interpreter startup, which a resident process removes.
 ```
 
 ```console
-$ aic index django/
-mode                      incremental
-files on disk             883
-  reparsed                1  (added 0, changed 1)
-  skipped (unchanged)     882
+$ aic touch django/ db/models/query.py
+reparsed                  1
 marked dirty (dependents) 570
-graph                     883 files / 9213 functions / 3295 import edges
-elapsed                   101 ms
+graph                     883 files / 9213 functions
+elapsed                   59.7 ms
 ```
 
 ## Probes
@@ -181,6 +189,7 @@ Stated plainly, because they bound what the numbers mean.
   import cycle — exactly where the current approach is weakest.
 - **Python only.**
 
+<a name="lineage"></a>
 ## Lineage
 
 The dirty-propagation model comes from
