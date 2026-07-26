@@ -1,0 +1,11 @@
+{
+  "description": "An identity helper passes taint straight through.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.view",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

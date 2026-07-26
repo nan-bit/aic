@@ -1,0 +1,11 @@
+{
+  "description": "Taint is stored on the instance by one method and sunk by another.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.Repo.run",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

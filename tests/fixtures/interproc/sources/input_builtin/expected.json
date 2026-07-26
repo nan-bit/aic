@@ -1,0 +1,11 @@
+{
+  "description": "Interactive input reaches an eval sink.",
+  "flows": [
+    {
+      "source": "app.run",
+      "sink": "app.run",
+      "kind": "code-exec"
+    }
+  ],
+  "safe_because": null
+}

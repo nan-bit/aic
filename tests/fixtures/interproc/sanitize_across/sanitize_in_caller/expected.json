@@ -1,0 +1,5 @@
+{
+  "description": "The caller sanitizes before handing off to the sinking helper.",
+  "flows": [],
+  "safe_because": "the value is quoted in the caller, one frame above the sink"
+}

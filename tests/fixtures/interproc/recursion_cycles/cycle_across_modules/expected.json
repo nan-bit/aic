@@ -1,0 +1,11 @@
+{
+  "description": "A call cycle spanning two modules carries taint to a sink.",
+  "flows": [
+    {
+      "source": "a.view",
+      "sink": "b.finish",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

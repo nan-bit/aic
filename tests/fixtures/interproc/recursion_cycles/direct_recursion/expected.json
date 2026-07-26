@@ -1,0 +1,11 @@
+{
+  "description": "A recursive function eventually reaches the sink with tainted data.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.walk",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

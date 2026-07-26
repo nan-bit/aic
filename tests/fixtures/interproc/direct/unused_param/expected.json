@@ -1,0 +1,5 @@
+{
+  "description": "The callee receives tainted data but sinks a different, clean value.",
+  "flows": [],
+  "safe_because": "the tainted argument binds to `unused`, which never reaches the sink"
+}

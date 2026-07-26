@@ -286,8 +286,8 @@ def propagate(seed, rev):
     return seen
 
 
-def marker_reachable(marked_fns, call_edges, by_name, import_edges=None):
-    """Functions that are, or can transitively reach, a marked function.
+def resolved_calls(call_edges, by_name, import_edges=None):
+    """caller -> {callee}, both as (path, qualname).
 
     Call resolution is name-based, which in Python over-approximates badly:
     `execute` names hundreds of unrelated methods. Left unconstrained the
@@ -301,12 +301,16 @@ def marker_reachable(marked_fns, call_edges, by_name, import_edges=None):
     over-approximates within that set. Closing the remaining gap needs real
     type inference -- which is precisely the expensive part that commercial
     reachability engines sell.
+
+    Exposed separately from `marker_reachable` because it bounds anything built
+    on top of it: an inter-procedural analysis cannot follow a call this does
+    not resolve, so its recall is a ceiling on theirs.
     """
     visible = None
     if import_edges is not None:
         visible = {f: set(dsts) | {f} for f, dsts in import_edges.items()}
 
-    rev = {}
+    fwd = {}
     for caller, callees in call_edges.items():
         caller_file = caller[0]
         allowed = visible.get(caller_file, {caller_file}) if visible is not None else None
@@ -316,8 +320,15 @@ def marker_reachable(marked_fns, call_edges, by_name, import_edges=None):
                     continue
                 if allowed is not None and target[0] not in allowed:
                     continue
-                rev.setdefault(target, set()).add(caller)
-    return propagate(marked_fns, rev)
+                fwd.setdefault(caller, set()).add(target)
+    return fwd
+
+
+def marker_reachable(marked_fns, call_edges, by_name, import_edges=None):
+    """Functions that are, or can transitively reach, a marked function."""
+    return propagate(
+        marked_fns, reverse(resolved_calls(call_edges, by_name, import_edges))
+    )
 
 
 def strongly_connected(nodes, edges):

@@ -1,0 +1,11 @@
+{
+  "description": "A sanitized value is recombined with raw attacker data downstream.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

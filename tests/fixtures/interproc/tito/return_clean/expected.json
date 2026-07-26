@@ -1,0 +1,5 @@
+{
+  "description": "The helper takes a tainted argument but returns a constant.",
+  "flows": [],
+  "safe_because": "build discards its argument and returns a literal query"
+}

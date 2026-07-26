@@ -1,0 +1,11 @@
+{
+  "description": "A callable is passed in and invoked; the dangerous implementation is used.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.danger",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

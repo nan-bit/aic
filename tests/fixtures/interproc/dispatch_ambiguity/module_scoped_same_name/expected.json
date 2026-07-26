@@ -1,0 +1,5 @@
+{
+  "description": "Two modules define run(); only the unused one is dangerous.",
+  "flows": [],
+  "safe_because": "views imports run from safe_ops; danger_ops.run is never reached"
+}

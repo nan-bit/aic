@@ -1,0 +1,5 @@
+{
+  "description": "The callee sinks its parameter, but every caller passes a literal.",
+  "flows": [],
+  "safe_because": "lookup is only ever called with a constant, so no attacker data reaches the sink"
+}

@@ -1,0 +1,11 @@
+{
+  "description": "Taint arrives through a keyword argument.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

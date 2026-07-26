@@ -1,0 +1,5 @@
+{
+  "description": "A dedicated helper sanitizes; the sink is reached only through it.",
+  "flows": [],
+  "safe_because": "scrub quotes the value before run ever sees it"
+}
