@@ -1,0 +1,5 @@
+{
+  "description": "The helper sanitizes before returning.",
+  "flows": [],
+  "safe_because": "clean returns a quoted value, so nothing unsafe reaches the sink"
+}

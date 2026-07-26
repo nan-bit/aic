@@ -1,0 +1,5 @@
+{
+  "description": "Argument order sends the taint to the parameter that is not sunk.",
+  "flows": [],
+  "safe_because": "the tainted value binds to `unused`; `query` is a literal"
+}

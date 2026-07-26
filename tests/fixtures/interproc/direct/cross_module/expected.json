@@ -1,0 +1,11 @@
+{
+  "description": "Source and sink live in different modules.",
+  "flows": [
+    {
+      "source": "views.view",
+      "sink": "db.lookup",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

@@ -1,0 +1,5 @@
+{
+  "description": "A recursive function, but the sink only ever sees a literal.",
+  "flows": [],
+  "safe_because": "the recursion carries the taint but the sink argument is a literal"
+}

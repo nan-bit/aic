@@ -1,0 +1,11 @@
+{
+  "description": "The same two classes, but the caller uses the dangerous one.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.Dangerous.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

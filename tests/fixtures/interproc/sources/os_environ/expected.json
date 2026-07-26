@@ -1,0 +1,11 @@
+{
+  "description": "An environment variable reaches a shell sink.",
+  "flows": [
+    {
+      "source": "app.run",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

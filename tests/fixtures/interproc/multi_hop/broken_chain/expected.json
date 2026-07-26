@@ -1,0 +1,5 @@
+{
+  "description": "Three frames, but the middle frame drops the tainted value.",
+  "flows": [],
+  "safe_because": "middle ignores its argument and calls inner with a literal"
+}

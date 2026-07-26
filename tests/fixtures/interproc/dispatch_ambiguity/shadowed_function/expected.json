@@ -1,0 +1,5 @@
+{
+  "description": "A local definition shadows an imported name of the same spelling.",
+  "flows": [],
+  "safe_because": "`execute` here is a local string helper, not a database cursor"
+}

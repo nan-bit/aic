@@ -1,0 +1,11 @@
+{
+  "description": "Sanitization happens, but only after the value has already been sunk.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

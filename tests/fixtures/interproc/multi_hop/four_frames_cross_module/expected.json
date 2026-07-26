@@ -1,0 +1,11 @@
+{
+  "description": "Four frames spanning two modules, ending in a shell sink.",
+  "flows": [
+    {
+      "source": "entry.handle",
+      "sink": "shell.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

@@ -1,0 +1,11 @@
+{
+  "description": "Two functions call each other; the taint survives the cycle.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.ping",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

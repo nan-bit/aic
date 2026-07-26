@@ -1,0 +1,11 @@
+{
+  "description": "A sanitizer is applied, but to a value that is not the one sunk.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

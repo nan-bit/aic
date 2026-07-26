@@ -1,0 +1,5 @@
+{
+  "description": "The tainted parameter is never supplied; the safe default is used.",
+  "flows": [],
+  "safe_because": "view calls run with no arguments, so the literal default is sunk"
+}

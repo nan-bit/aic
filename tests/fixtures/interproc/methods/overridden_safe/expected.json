@@ -1,0 +1,5 @@
+{
+  "description": "A subclass overrides the dangerous method with a safe one.",
+  "flows": [],
+  "safe_because": "Child.lookup overrides the base and sinks a literal"
+}

@@ -1,0 +1,5 @@
+{
+  "description": "The helper returns only its clean parameter.",
+  "flows": [],
+  "safe_because": "pick returns its second argument, which is a literal"
+}

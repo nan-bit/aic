@@ -235,6 +235,18 @@ class Store:
             "WHERE probe=? ORDER BY path LIMIT ?", (probe, limit),
         ))
 
+    def all_markers(self, probe):
+        """Every marker row for a probe, unordered.
+
+        Callers filter and rank in Python (see query.markers_for). Pushing the
+        path filter into SQL would mean chunking around SQLite's parameter
+        limit for a set that is thousands of rows at most.
+        """
+        return list(self.conn.execute(
+            "SELECT path, qualname, kind, detail, line FROM markers WHERE probe=?",
+            (probe,),
+        ))
+
     # --- dirty propagation ---------------------------------------------
 
     def mark_clean_all(self):

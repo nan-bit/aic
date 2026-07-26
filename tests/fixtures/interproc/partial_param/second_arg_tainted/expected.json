@@ -1,0 +1,11 @@
+{
+  "description": "The sink consumes the second parameter, which is the tainted one.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

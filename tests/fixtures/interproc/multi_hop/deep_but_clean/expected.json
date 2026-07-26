@@ -1,0 +1,5 @@
+{
+  "description": "A long call chain that never carries attacker data.",
+  "flows": [],
+  "safe_because": "the chain takes no arguments; the sink receives a constant"
+}

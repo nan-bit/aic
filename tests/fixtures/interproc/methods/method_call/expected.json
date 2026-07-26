@@ -1,0 +1,11 @@
+{
+  "description": "Taint passed to an instance method that sinks it.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.Repo.lookup",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

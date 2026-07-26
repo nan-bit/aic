@@ -1,0 +1,11 @@
+{
+  "description": "The sinking method is inherited from a base class.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.Base.lookup",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

@@ -1,0 +1,5 @@
+{
+  "description": "Instance state is set from a literal, then sunk.",
+  "flows": [],
+  "safe_because": "remember discards its argument and stores a literal"
+}

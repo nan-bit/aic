@@ -1,0 +1,5 @@
+{
+  "description": "A value read from a module-level literal table is not a source.",
+  "flows": [],
+  "safe_because": "CONFIG is a module literal, not attacker-controlled input"
+}

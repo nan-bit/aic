@@ -1,0 +1,5 @@
+{
+  "description": "Sanitizer, caller and sink are each in a different module.",
+  "flows": [],
+  "safe_because": "the value is quoted in sanitize.scrub before runner.run receives it"
+}

@@ -1,0 +1,11 @@
+{
+  "description": "Taint reaches a classmethod that sinks it.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.Runner.run",
+      "kind": "command-exec"
+    }
+  ],
+  "safe_because": null
+}

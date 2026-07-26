@@ -1,0 +1,11 @@
+{
+  "description": "Taint crosses three call frames before reaching the sink.",
+  "flows": [
+    {
+      "source": "app.view",
+      "sink": "app.inner",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

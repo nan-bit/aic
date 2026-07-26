@@ -1,0 +1,5 @@
+{
+  "description": "The sink consumes the first parameter, which is always a literal.",
+  "flows": [],
+  "safe_because": "the sink reads `cmd`, which is passed a literal; the taint lands in `name` and stays there"
+}

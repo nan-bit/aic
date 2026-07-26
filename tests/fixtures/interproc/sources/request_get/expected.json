@@ -1,0 +1,11 @@
+{
+  "description": "A web request parameter reaches a SQL sink.",
+  "flows": [
+    {
+      "source": "views.view",
+      "sink": "views.view",
+      "kind": "sql"
+    }
+  ],
+  "safe_because": null
+}

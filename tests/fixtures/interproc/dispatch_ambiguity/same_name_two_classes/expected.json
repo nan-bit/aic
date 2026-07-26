@@ -1,0 +1,5 @@
+{
+  "description": "Two classes define run(); the caller uses the harmless one.",
+  "flows": [],
+  "safe_because": "the call binds to Safe.run; name-based resolution cannot tell it apart from Dangerous.run"
+}
