@@ -91,11 +91,11 @@ over the real transport, asking the same question of the same graph:
 
 | package | `aic index` + `impact` | MCP call | speedup |
 |---|---:|---:|---:|
-| requests | 71 ms | **8 ms** | 8.6× |
-| django | 180 ms | **116 ms** | 1.6× |
+| requests | 71 ms | **9 ms** | 7.9× |
+| django | 185 ms | **124 ms** | 1.5× |
 
-A resident process removes ~64 ms of fixed process overhead per question, and
-repays its own ~270 ms startup after about **4–5 questions**. The speedup shrinks
+A resident process removes ~60 ms of fixed process overhead per question, and
+repays its own ~300 ms startup after roughly **5–7 questions**. The speedup shrinks
 on large repos because the query itself starts to dominate — which says the next
 optimization is the reachability computation, not the transport. Full tables and
 the per-call breakdown: [bench/SURFACES.md](bench/SURFACES.md).
@@ -120,7 +120,7 @@ reachability, dirty propagation, blast radius — is probe-agnostic.
 | `tests` | test functions | what do I have to re-run? |
 
 They select very differently, which is how you know the seam is real rather than
-a security tool wearing a platform costume: on Django, `security` reaches 8.6% of
+a security tool wearing a platform costume: on Django, `security` reaches 4.4% of
 functions, `api` 83.6%, `tests` 0.3%.
 
 Adding one means implementing a single `inspect()` method and registering it in
@@ -133,16 +133,16 @@ DSL.
 cheap heuristic pass marks dangerous call sites; a dataflow pass — real
 per-function CFG plus a worklist taint engine — promotes a sink to `tainted-*`
 only when a parameter actually reaches it, telling `cur.execute("... " + uid)`
-apart from `cur.execute("SELECT 1")`. On Django that clears a third of the
-heuristic sinks as static (256 → 171). The engine is policy-free: sources,
+apart from `cur.execute("SELECT 1")`. On Django that clears nearly half the
+heuristic sinks as static (256 → 138). The engine is policy-free: sources,
 sanitizers and sinks come from the probe.
 
 Two corpora, and the honest one is the second:
 
 | corpus | cases | result |
 |---|---:|---|
-| intra-procedural | 19 | 1.00 precision / 1.00 recall |
-| **inter-procedural** | **45** | **0.57 precision / 0.84 recall** |
+| intra-procedural | 22 | 1.00 precision / 1.00 recall |
+| **inter-procedural** | **45** | **0.58 precision / 0.84 recall** |
 
 Recall on the second is high *by accident* — every parameter is currently treated
 as attacker-controlled, so the engine flags any function whose parameter reaches

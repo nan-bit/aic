@@ -35,7 +35,7 @@ from pathlib import Path
 import pytest
 
 from aic import analyze, cpg, query
-from aic.probes.security import _SecurityTaint, _functions
+from aic.probes.security import DANGEROUS_MODULES, _SecurityTaint, _functions
 from aic.store import Store
 
 FIXTURES = Path(__file__).parent / "fixtures" / "interproc"
@@ -71,11 +71,19 @@ CASES = load_cases()
 # --- running the current engine ----------------------------------------
 
 def findings_for(case):
-    """(qualified_function, sink_kind) pairs the engine reports today."""
+    """(qualified_function, sink_kind) pairs the engine reports today.
+
+    The policy is rebuilt per module, the way SecurityProbe.inspect builds it:
+    whether a bare sink name is credible depends on what *that* file imported.
+    A single shared policy would report `sqlite3.connect().cursor().execute()`
+    as unreachable, because the receiver is a call rather than a dotted name and
+    the only remaining evidence is the module's own imports.
+    """
     out = set()
-    policy = _SecurityTaint()
     for module in case.modules:
-        tree = ast.parse(module.read_text(encoding="utf-8"))
+        source = module.read_text(encoding="utf-8")
+        tree, facts = analyze.extract(str(module), source)
+        policy = _SecurityTaint(bool(facts.imported_roots & DANGEROUS_MODULES))
         prefix = module.stem
         for fn in _functions(tree):
             for kind, _call, _desc in cpg.analyze_function(fn, policy):

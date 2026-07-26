@@ -119,13 +119,13 @@ Deliberately not doing that, for four reasons:
 
 **Measured, not assumed** ([bench/SURFACES.md](bench/SURFACES.md)). Asking the same
 question of the same graph, over the real transport, with both surfaces installed as
-console scripts: the resident process removes a fixed ~64ms of process overhead per
-question and repays its own ~270ms startup after about 4-5 questions. Below that,
+console scripts: the resident process removes a fixed ~60ms of process overhead per
+question and repays its own ~300ms startup after roughly 5-7 questions. Below that,
 shelling out to the CLI is genuinely cheaper.
 
-The speedup is 8.6x on `requests` and 1.6x on Django, and the reason is worth recording:
+The speedup is 7.9x on `requests` and 1.5x on Django, and the reason is worth recording:
 on a small repo the process overhead *is* the cost, while on Django the query itself
-(73ms) and the stat-diff (44ms) dominate and the surface barely matters. **The next
+(78ms) and the stat-diff (44ms) dominate and the surface barely matters. **The next
 optimisation is therefore not the transport.** It is `analyze.marker_reachable`, which
 recomputes reachability across the whole call graph on every query and is the obvious
 candidate for caching against the dirty set -- the graph already knows what changed.
@@ -196,13 +196,13 @@ Full distributions for five pinned packages: [bench/RESULTS.md](bench/RESULTS.md
 
 One related finding worth keeping: naive name-based call resolution saturated at **64%** of
 functions and made every probe return the same answer. Constraining calls to import-visible
-targets brought `security` to 8.6%. Precision there is load-bearing, not a refinement.
+targets brought `security` to 4.4%. Precision there is load-bearing, not a refinement.
 
 ### 3.2 Taint: two corpora
 
-**Intra-procedural** (`tests/fixtures/taint_cases.py`, 19 cases): 1.00 precision / 1.00
-recall, false negatives gated to zero in CI. On Django the dataflow pass clears 33% of
-heuristic sinks as static (256 → 171). Cost: cold index +72% (1.5s → 2.6s), paid once;
+**Intra-procedural** (`tests/fixtures/taint_cases.py`, 22 cases): 1.00 precision / 1.00
+recall, false negatives gated to zero in CI. On Django the dataflow pass clears 46% of
+heuristic sinks as static (256 → 138). Cost: cold index +72% (1.5s → 2.6s), paid once;
 incremental unchanged, since taint runs only on reparsed files.
 
 **Inter-procedural** (`tests/fixtures/interproc/`, 45 cases in 9 categories, 25 tainted /
@@ -212,7 +212,7 @@ SecuriBench Micro's discipline of annotating benign flows, which are what actual
 discriminate between analyzers. Baseline:
 
 ```
-TP=21 FN=4 FP=16 TN=4  precision=0.57 recall=0.84
+TP=21 FN=4 FP=15 TN=5  precision=0.58 recall=0.84
 call-graph ceiling: 24/25 flows (96%) have a resolvable call path
 ```
 
@@ -220,7 +220,7 @@ call-graph ceiling: 24/25 flows (96%) have a resolvable call path
 inter-procedurally — it does not work inter-procedurally at all. The current policy treats
 *every parameter* as attacker-controlled, so it flags any function whose parameter reaches
 a sink regardless of what is ever passed. That accidentally satisfies most tainted cases
-while failing 16 of 20 safe ones. The blindness shows up as **over-approximation, not
+while failing 15 of 20 safe ones. The blindness shows up as **over-approximation, not
 omission**, which inverts the earlier assumption that stage 4 would buy *coverage*: its job
 on this corpus is **precision**, holding recall.
 
@@ -381,7 +381,7 @@ This is the biggest unresolved question in the design.
 |---|---|
 | Facts + graphs | decorators, module assignments, annotated signatures, line numbers throughout |
 | Dirty propagation | `status` is read, deleted files evicted, one-file edit reparses one file |
-| Probe seam | three probes at 8.6% / 83.6% / 0.3% selectivity on Django |
+| Probe seam | three probes at 4.4% / 83.6% / 0.3% selectivity on Django |
 | Benchmarks | five pinned PyPI packages, blast radius for every file |
 | Incremental path | `touch` skips the walk; mtime+size pre-filter took warm re-index 87ms → 50ms |
 | CPG stages 1–3 | per-function CFG + worklist taint engine, policy supplied by the probe |
@@ -416,7 +416,7 @@ derivation question has an answer.
 **Deliberately not doing.** A filesystem watcher: the stat-diff is taken on demand instead,
 because ~50ms per tool call is cheaper than a daemon thread and a debounce policy for a cost
 that was never binding -- and the surface benchmark since confirmed it is the smaller half of
-the per-call cost anyway (44ms refresh against a 73ms query on Django). Caching reachability
+the per-call cost anyway (44ms refresh against a 78ms query on Django). Caching reachability
 against the dirty set would buy more than a watcher, for less machinery. A Go rewrite: revisit when multi-language support forces
 tree-sitter ([§6.2](#62-language-choice)).
 
@@ -469,8 +469,11 @@ Kept so the deltas are traceable.
 
 - Cold vs. warm index was **1432ms vs 87ms** on Django before the taint pass and the mtime
   pre-filter. Now **2.6s vs ~50ms**.
-- The security probe was reported at **4.4%** selectivity in prose that predated the taint
-  pass; adding `tainted-*` markers roughly doubled the reachable set. The real figure is
-  **8.6%**, and `bench/RESULTS.md` — being generated — had been right all along.
+- The security probe's selectivity went **4.4% → 8.6% → 4.4%**. The first figure predated
+  the taint pass. The taint pass doubled the reachable set, and the prose was corrected to
+  8.6% to match the generated benchmarks. That 8.6% turned out to be inflated by a bug: the
+  dataflow pass judged sinks on the bare name, so every `json.loads` counted as a
+  deserialization sink. With that fixed it is **4.4%** again, arrived at honestly. Twice now
+  the generated numbers were right before the prose was.
 - Stage 4 was framed as buying *coverage*. The corpus baseline says it buys *precision*;
   see [§3.2](#32-taint-two-corpora).

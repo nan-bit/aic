@@ -85,19 +85,32 @@ async def measure_mcp(pkg_dir, rel):
     from mcp.client.stdio import stdio_client
 
     params = StdioServerParameters(command=str(AIC_MCP), args=[str(pkg_dir)])
-    t0 = time.perf_counter()
-    async with stdio_client(params) as (r, w):
-        async with ClientSession(r, w) as session:
-            await session.initialize()
-            startup = time.perf_counter() - t0
-            res = await session.call_tool("aic_impact", {"file": rel})   # warm-up
-            payload = len(res.content[0].text)
-            samples = []
-            for _ in range(ROUNDS):
-                t = time.perf_counter()
-                await session.call_tool("aic_impact", {"file": rel})
-                samples.append(time.perf_counter() - t)
-    return startup, samples, payload
+
+    async def spawn_once(measure_calls):
+        t0 = time.perf_counter()
+        async with stdio_client(params) as (r, w):
+            async with ClientSession(r, w) as session:
+                await session.initialize()
+                start = time.perf_counter() - t0
+                if not measure_calls:
+                    return start, [], 0
+                res = await session.call_tool("aic_impact", {"file": rel})  # warm-up
+                size = len(res.content[0].text)
+                calls = []
+                for _ in range(ROUNDS):
+                    t = time.perf_counter()
+                    await session.call_tool("aic_impact", {"file": rel})
+                    calls.append(time.perf_counter() - t)
+                return start, calls, size
+
+    # Startup is the median of three spawns after a throwaway. The very first
+    # spawn on a cold import/filesystem cache runs ~2x the steady state, which
+    # made whichever package happened to be measured first look like an outlier.
+    await spawn_once(False)
+    starts = [(await spawn_once(False))[0] for _ in range(2)]
+    startup, samples, payload = await spawn_once(True)
+    starts.append(startup)
+    return statistics.median(starts), samples, payload
 
 
 def measure(name, version, subdir):

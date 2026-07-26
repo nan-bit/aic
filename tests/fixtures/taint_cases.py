@@ -10,6 +10,7 @@ are the cases that separate a real dataflow analysis from grep.
 """
 
 import os
+import json
 import pickle
 import shlex
 import sqlite3
@@ -80,7 +81,24 @@ def sql_after_loop(cursor, rows):
     cursor.execute(q)
 
 
+def deserialize_pickle(blob):
+    """TAINTED deserialization -- pickle.loads executes whatever it is handed."""
+    return pickle.loads(blob)
+
+
 # --- SAFE: no attacker data reaches the sink ---------------------------
+
+
+def deserialize_json(blob):
+    """SAFE -- json.loads parses, it does not execute. Same bare name as
+    pickle.loads, which is why the module has to be consulted."""
+    return json.loads(blob)
+
+
+def read_json_file(path):
+    """SAFE -- json.load likewise. `load` is a sink name only for pickle-likes."""
+    with open(path) as fh:
+        return json.load(fh)
 
 def sql_constant(cursor):
     """SAFE sql -- fully static query."""
