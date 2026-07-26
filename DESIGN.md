@@ -130,6 +130,14 @@ optimisation is therefore not the transport.** It is `analyze.marker_reachable`,
 recomputes reachability across the whole call graph on every query and is the obvious
 candidate for caching against the dirty set -- the graph already knows what changed.
 
+Both surfaces take `--db`, and both honour `AIC_DB_DIR`. The default of
+`<repo>/.aic/graph.db` keeps state beside what it describes, which is convenient
+until the tree is one you cannot write to -- a read-only export, a CI checkout, a
+vendored dependency, a store path. That used to surface as an uncaught
+PermissionError from `mkdir`; it is now a typed `GraphUnwritable` naming both
+overrides. Relocating also moves the MCP call log, so an analysed tree stays
+untouched.
+
 `bench/run.py` times `query.refresh` directly rather than the CLI — benchmarking through a
 printer meant redirecting stdout, and made the numbers depend on a presentation layer.
 Nothing outside `surfaces/` and its tests depends on either surface now, which is the

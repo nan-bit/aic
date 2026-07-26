@@ -36,7 +36,6 @@ from mcp.types import ToolAnnotations  # noqa: E402
 from typing_extensions import TypedDict  # noqa: E402
 
 from .. import probes, query  # noqa: E402
-from ..store import Store  # noqa: E402
 
 DEFAULT_LIMIT = 20
 READ_ONLY = ToolAnnotations(readOnlyHint=True, openWorldHint=False)
@@ -50,8 +49,9 @@ mcp = FastMCP(
     ),
 )
 
-# Set by main(); the repo this server answers for.
+# Set by main(); the repo this server answers for, and where its graph lives.
 _REPO = Path(".")
+_DB = None
 # Files reparsed since the server started. After a refresh a reparsed file is
 # CLEAN (it is up to date) and only its dependents carry DIRTY, so without this
 # `review` would answer "what your edits reached" and omit the edits themselves.
@@ -120,7 +120,7 @@ def _store():
     cost that mattered -- the ~110 ms interpreter start the CLI paid on every
     invocation -- is already gone by virtue of this process being resident.
     """
-    return Store(query.db_for(_REPO))
+    return query.create_store(_REPO, _DB)
 
 
 def _refresh(st):
@@ -174,7 +174,7 @@ def _elided(showing, total):
 def _log(tool, args, result, elapsed_ms):
     """One JSON line per call, so dogfooding produces data and not just vibes."""
     try:
-        path = Path(_REPO) / ".aic" / "mcp-calls.jsonl"
+        path = query.db_for(_REPO, _DB).parent / "mcp-calls.jsonl"
         path.parent.mkdir(parents=True, exist_ok=True)
         with open(path, "a", encoding="utf-8") as fh:
             fh.write(json.dumps({
@@ -326,19 +326,29 @@ def aic_overview() -> OverviewResult:
 # --- entry point -------------------------------------------------------
 
 def main(argv=None):
-    global _REPO
+    global _REPO, _DB
     ap = argparse.ArgumentParser(
         prog="aic-mcp", description="Serve aic's impact analysis over MCP (stdio).")
     ap.add_argument("repo", nargs="?", default=".",
                     help="repository root to analyze (default: cwd)")
+    ap.add_argument("--db", metavar="PATH",
+                    help="where to keep the graph (default <repo>/.aic/graph.db). "
+                         "Use this, or AIC_DB_DIR=DIR, to analyze a tree you "
+                         "cannot write to")
     args = ap.parse_args(argv)
 
     repo = Path(args.repo).resolve()
     if not repo.is_dir():
         sys.exit(f"{args.repo!r} is not a directory")
     _REPO = repo
+    _DB = args.db
 
-    print(f"aic-mcp serving {repo}", file=sys.stderr)
+    try:
+        query.create_store(repo, _DB).close()
+    except query.GraphUnwritable as exc:
+        sys.exit(f"aic-mcp: {exc}")
+
+    print(f"aic-mcp serving {repo} (graph at {query.db_for(repo, _DB)})", file=sys.stderr)
     mcp.run(transport="stdio")
 
 
