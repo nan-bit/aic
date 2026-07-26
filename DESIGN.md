@@ -200,7 +200,7 @@ targets brought `security` to 4.4%. Precision there is load-bearing, not a refin
 
 ### 3.2 Taint: two corpora
 
-**Intra-procedural** (`tests/fixtures/taint_cases.py`, 22 cases): 1.00 precision / 1.00
+**Intra-procedural** (`tests/fixtures/taint_cases.py`, 26 cases): 1.00 precision / 1.00
 recall, false negatives gated to zero in CI. On Django the dataflow pass clears 46% of
 heuristic sinks as static (256 → 138). Cost: cold index +72% (1.5s → 2.6s), paid once;
 incremental unchanged, since taint runs only on reparsed files.

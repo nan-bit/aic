@@ -34,12 +34,45 @@ SINK_ARG = {
     "execute": 0, "executescript": 0, "executemany": 0, "raw": 0,
 }
 
-# Calls that neutralize taint. Narrow on purpose -- a wrong entry here creates a
-# false negative, which is the expensive kind of mistake.
+# Calls that neutralize taint, and *what they neutralize it for*. Sanitizing is
+# sink-specific: shlex.quote makes a string safe to hand to a shell and does
+# exactly nothing for SQL. A flat set of names cannot express that, and treating
+# one as global turns a real injection into a false negative -- the expensive
+# kind of mistake.
+#
+# Names alone are also not enough to identify the callable. `quote` is
+# shlex.quote, urllib.parse.quote and html-ish escapers depending on the import;
+# only the first sanitizes anything here. So a bare name is credible only if the
+# file imported a module that actually provides it, which mirrors how sinks are
+# resolved.
 SANITIZERS = {
-    "quote", "shlex_quote", "escape", "escape_string", "quote_ident",
-    "quote_identifier", "sql_escape", "literal", "mogrify",
+    "quote": frozenset({"command-exec"}),         # shlex.quote
+    "shlex_quote": frozenset({"command-exec"}),
+    "escape_string": frozenset({"sql"}),          # MySQLdb / pymysql
+    "quote_ident": frozenset({"sql"}),            # psycopg2 identifiers
+    "quote_identifier": frozenset({"sql"}),
+    "sql_escape": frozenset({"sql"}),
+    "literal": frozenset({"sql"}),
+    "mogrify": frozenset({"sql"}),                # psycopg2 cursor
 }
+
+# Modules that genuinely provide a sanitizer, and for which sink kind.
+SANITIZER_MODULES = {
+    "shlex": frozenset({"command-exec"}),
+    "psycopg2": frozenset({"sql"}),
+    "pymysql": frozenset({"sql"}),
+    "MySQLdb": frozenset({"sql"}),
+}
+
+# Driver methods reached through a connection or cursor rather than a module,
+# so the receiver is never a resolvable name. Distinctive enough to accept by
+# convention, the same argument SQLISH makes for sinks.
+SQL_SANITIZER_METHODS = frozenset({
+    "escape_string", "quote_ident", "quote_identifier", "sql_escape",
+    "literal", "mogrify",
+})
+
+ALL_SINK_KINDS = frozenset(SINKS.values())
 
 DANGEROUS_MODULES = {
     "subprocess", "os", "pickle", "yaml", "marshal", "shelve", "dill",
@@ -83,7 +116,7 @@ class SecurityProbe(Probe):
         # and "builds SQL from an argument", and it is where the CPG earns its
         # keep -- the sink markers above over-report; these do not.
         if tree is not None:
-            policy = _SecurityTaint(risky_import)
+            policy = _SecurityTaint(risky_import, roots)
             for fn in _functions(tree):
                 for kind, call, desc in cpg.analyze_function(fn, policy):
                     yield Marker(
@@ -162,8 +195,9 @@ class _SecurityTaint(cpg.TaintPolicy):
     judged on the bare name and could not tell `json.loads` from `pickle.loads`.
     """
 
-    def __init__(self, risky_import=False):
+    def __init__(self, risky_import=False, roots=frozenset()):
         self.risky_import = risky_import
+        self.roots = frozenset(roots)
 
     def seed_names(self, fn_node):
         a = fn_node.args
@@ -178,8 +212,32 @@ class _SecurityTaint(cpg.TaintPolicy):
             names.add(a.kwarg.arg)
         return names
 
-    def is_sanitizer_call(self, call):
-        return _call_simple(call) in SANITIZERS
+    def all_kinds(self):
+        return ALL_SINK_KINDS
+
+    def sanitizer_kinds(self, call):
+        """What this call actually neutralizes, if anything.
+
+        `html.escape(x)` used to clear taint outright, because the check was on
+        the bare name. It escapes markup; it protects no sink in this list.
+        """
+        simple, dotted = analyze.call_name(call.func)
+        covers = SANITIZERS.get(simple)
+        if not covers:
+            return frozenset()
+        if dotted and "." in dotted:
+            root = dotted.split(".")[0]
+            if root in SANITIZER_MODULES:
+                return covers & SANITIZER_MODULES[root]
+            # A method on a cursor/connection we cannot name.
+            return covers if simple in SQL_SANITIZER_METHODS else frozenset()
+        # Bare name: only as credible as the file's imports make it.
+        provided = frozenset()
+        for root in self.roots & set(SANITIZER_MODULES):
+            provided |= SANITIZER_MODULES[root]
+        if simple in SQL_SANITIZER_METHODS:
+            provided |= frozenset({"sql"})
+        return covers & provided
 
     def is_source_call(self, call):
         # Intra-procedural: parameters are the only source for now. Cross-file
