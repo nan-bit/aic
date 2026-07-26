@@ -31,7 +31,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
 from aic import analyze                      # noqa: E402
-from aic.cli import cmd_index                # noqa: E402
+from aic import query                        # noqa: E402
 from aic.store import Store                  # noqa: E402
 
 BENCH = Path(__file__).resolve().parent
@@ -77,20 +77,16 @@ def fetch(name, version):
     return dest
 
 
-class _Args:
-    def __init__(self, repo):
-        self.repo = repo
+def timed_index(pkg_dir):
+    """Run a full index pass, return elapsed ms.
 
-
-def timed_index(pkg_dir, quiet=True):
-    """Run a full index pass, return elapsed ms."""
+    Times the query layer directly rather than the CLI. Benchmarking through a
+    printer meant redirecting stdout to keep the output clean, and it made the
+    numbers depend on a presentation layer that has nothing to do with them.
+    """
     t0 = time.time()
-    if quiet:
-        import io, contextlib
-        with contextlib.redirect_stdout(io.StringIO()):
-            cmd_index(_Args(str(pkg_dir)))
-    else:
-        cmd_index(_Args(str(pkg_dir)))
+    with Store(query.db_for(pkg_dir)) as st:
+        query.refresh(st, pkg_dir)
     return (time.time() - t0) * 1000
 
 

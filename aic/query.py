@@ -1,9 +1,9 @@
 """Pure query layer -- computes, never prints.
 
-`cli.py` renders these results for a terminal; `aic/mcp.py` serves them to an
-agent. Nothing in this module writes to stdout, and that is not a style
-preference: under the MCP stdio transport stdout carries JSON-RPC, so a stray
-`print` corrupts the protocol.
+`surfaces/cli.py` renders these results for a terminal; `surfaces/mcp.py` serves
+them to an agent. Nothing in this module writes to stdout, and that is not a
+style preference: under the MCP stdio transport stdout carries JSON-RPC, so a
+stray `print` corrupts the protocol.
 
 The split also keeps the protocol adapter disposable. MCP ships a breaking
 revision on 2026-07-28 (stateless core, no initialize handshake) and the Python
