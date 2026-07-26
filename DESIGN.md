@@ -254,7 +254,7 @@ This is the biggest unresolved question in the design.
 2. ~~Dirty propagation.~~ `status` is queried, deleted files are evicted, and a
    one-file edit reparses one file. The paper's mechanism is live.
 3. ~~Probe seam.~~ Three probes (`security`, `api`, `tests`) with measurably
-   different selectivity: on Django 4.4% / 83.6% / 0.3% of functions reachable.
+   different selectivity: on Django 8.6% / 83.6% / 0.3% of functions reachable.
 4. ~~Benchmarks.~~ Five pinned PyPI packages; blast-radius distribution computed for
    every file. See `bench/RESULTS.md`.
 
@@ -268,7 +268,7 @@ This is the biggest unresolved question in the design.
   produces, because it predicts per-repo payoff before deployment.
 - Naive name-based call resolution saturated at ~64% of functions and made every probe
   return the same answer. Constraining calls to import-visible targets brought
-  `security` to 4.4%. Precision is load-bearing, not a refinement.
+  `security` to 8.6%. Precision is load-bearing, not a refinement.
 
 **Also done:**
 

@@ -96,7 +96,7 @@ is not a security feature.
 | `tests` | test functions | what do I have to re-run? |
 
 They select very differently, which is how you know the seam is real — on
-Django, `security` reaches 4.4% of functions, `api` reaches 83.6%, `tests`
+Django, `security` reaches 8.6% of functions, `api` reaches 83.6%, `tests`
 reaches 0.3%.
 
 The `security` probe runs two passes. A cheap heuristic pass marks every
@@ -183,7 +183,7 @@ Stated plainly, because they bound what the numbers mean.
   this over-approximates — the safe direction for a filter, which may flag too
   much but never too little. Without the import constraint the closure saturates
   at ~64% of all functions and every probe returns the same answer; with it,
-  `security` lands at 4.4%. Closing the remaining gap needs real type inference.
+  `security` lands at 8.6%. Closing the remaining gap needs real type inference.
 - **Blast radius is file-granular.** Reducing it to function granularity is the
   same work as inter-procedural taint, and would most help files inside a large
   import cycle — exactly where the current approach is weakest.
