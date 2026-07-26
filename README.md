@@ -86,6 +86,20 @@ core/cache/backends/filebased.py:38  [tainted-deserialization]  zlib.decompress(
 
 ~3.8 kB for the worst file in the repo, against a 25k-token cap.
 
+**Is the server actually faster?** Measured against the installed console scripts
+over the real transport, asking the same question of the same graph:
+
+| package | `aic index` + `impact` | MCP call | speedup |
+|---|---:|---:|---:|
+| requests | 71 ms | **8 ms** | 8.6× |
+| django | 180 ms | **116 ms** | 1.6× |
+
+A resident process removes ~64 ms of fixed process overhead per question, and
+repays its own ~270 ms startup after about **4–5 questions**. The speedup shrinks
+on large repos because the query itself starts to dominate — which says the next
+optimization is the reachability computation, not the transport. Full tables and
+the per-call breakdown: [bench/SURFACES.md](bench/SURFACES.md).
+
 **It works on agents that were not told about it.** In three headless sessions
 the agent found and called the tools off their descriptions alone, chose probes
 deliberately, and separated pre-existing findings from ones its own diff caused.

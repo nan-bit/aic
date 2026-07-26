@@ -18,6 +18,7 @@ dist/
 .aic/
 bench/.cache/
 bench/results.json
+bench/surfaces.json
 
 # System
 .DS_Store

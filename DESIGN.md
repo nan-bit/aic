@@ -117,6 +117,19 @@ Deliberately not doing that, for four reasons:
    and the MCP work was set up so "would the CLI have been enough?" could come back *yes*.
    Removing the comparison arm to tidy the surface would decide that by fiat.
 
+**Measured, not assumed** ([bench/SURFACES.md](bench/SURFACES.md)). Asking the same
+question of the same graph, over the real transport, with both surfaces installed as
+console scripts: the resident process removes a fixed ~64ms of process overhead per
+question and repays its own ~270ms startup after about 4-5 questions. Below that,
+shelling out to the CLI is genuinely cheaper.
+
+The speedup is 8.6x on `requests` and 1.6x on Django, and the reason is worth recording:
+on a small repo the process overhead *is* the cost, while on Django the query itself
+(73ms) and the stat-diff (44ms) dominate and the surface barely matters. **The next
+optimisation is therefore not the transport.** It is `analyze.marker_reachable`, which
+recomputes reachability across the whole call graph on every query and is the obvious
+candidate for caching against the dirty set -- the graph already knows what changed.
+
 `bench/run.py` times `query.refresh` directly rather than the CLI — benchmarking through a
 printer meant redirecting stdout, and made the numbers depend on a presentation layer.
 Nothing outside `surfaces/` and its tests depends on either surface now, which is the
@@ -402,7 +415,9 @@ derivation question has an answer.
 
 **Deliberately not doing.** A filesystem watcher: the stat-diff is taken on demand instead,
 because ~50ms per tool call is cheaper than a daemon thread and a debounce policy for a cost
-that was never binding. A Go rewrite: revisit when multi-language support forces
+that was never binding -- and the surface benchmark since confirmed it is the smaller half of
+the per-call cost anyway (44ms refresh against a 73ms query on Django). Caching reachability
+against the dirty set would buy more than a watcher, for less machinery. A Go rewrite: revisit when multi-language support forces
 tree-sitter ([§6.2](#62-language-choice)).
 
 ---
