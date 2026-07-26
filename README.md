@@ -192,8 +192,12 @@ aic status path/to/repo --probe security --top 5
 aic touch  path/to/repo src/models.py    # invalidate one file, no repo walk
 ```
 
-`index` twice is the thirty-second version of the whole argument. The graph lives
-in `<repo>/.aic/graph.db`.
+`index` twice is the thirty-second version of the whole argument.
+
+The graph lives in `<repo>/.aic/graph.db` by default, which is right for your own
+checkout and wrong for a tree you do not own. `--db PATH` puts it anywhere;
+`AIC_DB_DIR=DIR` keeps one file per repository outside the tree entirely, so a
+read-only export or CI checkout can be analysed without being written to.
 
 ## How it works
 

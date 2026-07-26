@@ -208,3 +208,51 @@ def test_rank_puts_dataflow_confirmed_first_then_blast_radius():
 def test_open_store_raises_before_any_index(tmp_path):
     with pytest.raises(query.GraphMissing):
         query.open_store(tmp_path)
+
+
+# --- where the graph lives ---------------------------------------------
+
+def test_graph_defaults_to_beside_the_repo(tmp_path):
+    assert query.db_for(tmp_path) == tmp_path / ".aic" / "graph.db"
+
+
+def test_explicit_db_path_wins(tmp_path, monkeypatch):
+    monkeypatch.setenv("AIC_DB_DIR", str(tmp_path / "shared"))
+    assert query.db_for(tmp_path, tmp_path / "explicit.db") == tmp_path / "explicit.db"
+
+
+def test_db_dir_keeps_graphs_outside_the_tree(tmp_path, monkeypatch):
+    shared = tmp_path / "graphs"
+    monkeypatch.setenv("AIC_DB_DIR", str(shared))
+    one, two = tmp_path / "proj-a", tmp_path / "proj-b"
+    one.mkdir(), two.mkdir()
+    a, b = query.db_for(one), query.db_for(two)
+    assert a.parent == b.parent == shared
+    assert a != b, "two repos must not share one graph"
+    assert query.db_for(one) == a, "the path must be stable across calls"
+
+
+def test_unwritable_location_is_an_actionable_error(tmp_path):
+    """A read-only checkout is a normal thing to be handed, not a crash."""
+    ro = tmp_path / "ro"
+    ro.mkdir()
+    ro.chmod(0o500)
+    try:
+        with pytest.raises(query.GraphUnwritable) as exc:
+            query.create_store(ro)
+        assert "--db" in str(exc.value) and "AIC_DB_DIR" in str(exc.value)
+    finally:
+        ro.chmod(0o700)
+
+
+def test_read_only_repo_indexes_when_the_graph_lives_elsewhere(tmp_path):
+    src = tmp_path / "src"
+    write(src, "m.py", "import os\n\ndef f(p):\n    os.system('ls ' + p)\n")
+    src.chmod(0o500)
+    try:
+        with query.create_store(src, tmp_path / "elsewhere.db") as store:
+            r = query.refresh(store, src)
+        assert r["reparsed"] == ["m.py"]
+        assert not (src / ".aic").exists(), "must not write into the analysed tree"
+    finally:
+        src.chmod(0o700)

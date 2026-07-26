@@ -20,21 +20,26 @@ from pathlib import Path
 
 from .. import probes, query
 from ..query import db_for  # noqa: F401  -- re-exported; callers import it from here
-from ..store import Store
 
 
-def _open(repo):
+def _open(args):
     try:
-        return query.open_store(repo)
+        return query.open_store(args.repo, getattr(args, "db", None))
     except query.GraphMissing:
         sys.exit("no graph yet -- run `index` first")
+    except query.GraphUnwritable as exc:
+        sys.exit(f"aic: {exc}")
 
 
 # --- commands ----------------------------------------------------------
 
 def cmd_index(args):
     repo = Path(args.repo).resolve()
-    with Store(db_for(repo)) as st:
+    try:
+        st = query.create_store(repo, getattr(args, "db", None))
+    except query.GraphUnwritable as exc:
+        sys.exit(f"aic: {exc}")
+    with st:
         r = query.refresh(st, repo, rehash=getattr(args, "rehash", False))
 
     print(f"mode                      {r['mode']}")
@@ -57,7 +62,7 @@ def cmd_index(args):
 
 def cmd_touch(args):
     repo = Path(args.repo).resolve()
-    with _open(repo) as st:
+    with _open(args) as st:
         try:
             r = query.touch(st, repo, args.files)
         except query.UnknownFile as exc:
@@ -76,7 +81,7 @@ def cmd_touch(args):
 
 def cmd_status(args):
     probe = probes.get(args.probe).name
-    with _open(args.repo) as st:
+    with _open(args) as st:
         r = query.status(st, probe)
         counts = r["counts"]
         print(f"files                     {counts['files']}")
@@ -101,7 +106,7 @@ def cmd_status(args):
 
 def cmd_impact(args):
     probe = probes.get(args.probe).name
-    with _open(args.repo) as st:
+    with _open(args) as st:
         try:
             r = query.impact(st, args.file, probe)
         except query.UnknownFile:
@@ -124,7 +129,7 @@ def cmd_impact(args):
 
 
 def cmd_fanout(args):
-    with _open(args.repo) as st:
+    with _open(args) as st:
         r = query.fanout_stats(st)
 
     counts = r["counts"]
@@ -181,6 +186,12 @@ def main(argv=None):
     p = sub.add_parser("fanout", help="blast-radius distribution across the repo")
     p.add_argument("repo")
     p.set_defaults(fn=cmd_fanout)
+
+    for sub_parser in sub.choices.values():
+        sub_parser.add_argument(
+            "--db", metavar="PATH",
+            help="where to keep the graph (default <repo>/.aic/graph.db); "
+                 "AIC_DB_DIR=DIR keeps one file per repo outside the tree")
 
     args = ap.parse_args(argv)
     args.fn(args)

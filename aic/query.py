@@ -11,6 +11,8 @@ SDK's v2 rewrite lands with it. With the analysis logic here, migrating means
 rewriting one file that contains none of it.
 """
 
+import hashlib
+import os
 import time
 from pathlib import Path
 
@@ -30,19 +32,60 @@ class GraphMissing(Exception):
     """No graph has been built for this repo yet."""
 
 
+class GraphUnwritable(Exception):
+    """The graph cannot be created where it was asked to go."""
+
+
 class UnknownFile(Exception):
     """Path is neither on disk nor in the graph."""
 
 
-def db_for(repo):
+def db_for(repo, db=None):
+    """Where the graph for `repo` lives.
+
+    Precedence: an explicit path, then AIC_DB_DIR, then `<repo>/.aic/graph.db`.
+
+    The default keeps the graph beside the thing it describes, which is right
+    for your own checkout and wrong for anything you do not own -- a read-only
+    export, a CI checkout, a vendored tree, a store path. AIC_DB_DIR names a
+    directory and derives one file per repository, keyed by the resolved path so
+    two checkouts of the same project cannot collide.
+    """
+    if db:
+        return Path(db)
+    shared = os.environ.get("AIC_DB_DIR")
+    if shared:
+        root = Path(repo).resolve()
+        digest = hashlib.sha256(str(root).encode("utf-8")).hexdigest()[:12]
+        return Path(shared).expanduser() / f"{root.name}-{digest}.db"
     return Path(repo) / ".aic" / "graph.db"
 
 
-def open_store(repo):
-    path = db_for(repo)
+RELOCATE_HINT = (
+    "point it somewhere writable with --db PATH, or set AIC_DB_DIR to a "
+    "directory to keep graphs outside the tree entirely"
+)
+
+
+def create_store(repo, db=None):
+    """Open the graph for writing, creating it if needed."""
+    path = db_for(repo, db)
+    try:
+        return Store(path)
+    except OSError as exc:
+        raise GraphUnwritable(f"cannot write the graph to {path} ({exc.strerror or exc}); "
+                              f"{RELOCATE_HINT}") from exc
+
+
+def open_store(repo, db=None):
+    path = db_for(repo, db)
     if not path.exists():
         raise GraphMissing(str(path))
-    return Store(path)
+    try:
+        return Store(path)
+    except OSError as exc:
+        raise GraphUnwritable(f"cannot open the graph at {path} ({exc.strerror or exc}); "
+                              f"{RELOCATE_HINT}") from exc
 
 
 # --- shared internals --------------------------------------------------
