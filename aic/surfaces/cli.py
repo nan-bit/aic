@@ -18,9 +18,9 @@ import argparse
 import sys
 from pathlib import Path
 
-from . import probes, query
-from .query import db_for  # noqa: F401  -- re-exported; callers import it from here
-from .store import Store
+from .. import probes, query
+from ..query import db_for  # noqa: F401  -- re-exported; callers import it from here
+from ..store import Store
 
 
 def _open(repo):

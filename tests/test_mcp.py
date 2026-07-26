@@ -14,7 +14,7 @@ import pytest
 
 pytest.importorskip("mcp", reason="MCP SDK is an optional extra (aic[mcp])")
 
-from aic import mcp as M  # noqa: E402
+from aic.surfaces import mcp as M  # noqa: E402
 
 
 def write(root, rel, body):

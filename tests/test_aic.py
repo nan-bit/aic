@@ -3,7 +3,7 @@ import textwrap
 import pytest
 
 from aic import analyze, probes
-from aic.cli import cmd_index, cmd_touch, db_for
+from aic.surfaces.cli import cmd_index, cmd_touch, db_for
 from aic.store import Store
 
 

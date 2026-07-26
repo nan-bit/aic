@@ -35,8 +35,8 @@ from mcp.server.fastmcp import FastMCP  # noqa: E402
 from mcp.types import ToolAnnotations  # noqa: E402
 from typing_extensions import TypedDict  # noqa: E402
 
-from . import probes, query  # noqa: E402
-from .store import Store  # noqa: E402
+from .. import probes, query  # noqa: E402
+from ..store import Store  # noqa: E402
 
 DEFAULT_LIMIT = 20
 READ_ONLY = ToolAnnotations(readOnlyHint=True, openWorldHint=False)
