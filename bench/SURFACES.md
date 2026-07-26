@@ -10,11 +10,11 @@ typical edit rather than the worst case.
 
 | package | files | `aic impact` | `aic index` + `impact` | MCP call | speedup |
 |---|---:|---:|---:|---:|---:|
-| requests 2.32.3 | 18 | 36 ms | 71 ms | **8 ms** | 8.6× |
-| flask 3.0.3 | 24 | 37 ms | 72 ms | **10 ms** | 7.5× |
-| celery 5.4.0 | 158 | 49 ms | 85 ms | **21 ms** | 4.0× |
-| sqlalchemy 2.0.36 | 255 | 95 ms | 134 ms | **78 ms** | 1.7× |
-| django 5.2.16 | 883 | 98 ms | 180 ms | **116 ms** | 1.6× |
+| requests 2.32.3 | 18 | 37 ms | 71 ms | **9 ms** | 7.9× |
+| flask 3.0.3 | 24 | 37 ms | 77 ms | **14 ms** | 5.4× |
+| celery 5.4.0 | 158 | 55 ms | 95 ms | **25 ms** | 3.8× |
+| sqlalchemy 2.0.36 | 255 | 107 ms | 134 ms | **85 ms** | 1.6× |
+| django 5.2.16 | 883 | 102 ms | 185 ms | **124 ms** | 1.5× |
 
 `aic impact` answers from whatever the graph last knew. The middle column is a
 *current* answer the CLI way -- index, then ask -- which is the like-for-like
@@ -24,11 +24,11 @@ comparison, because the MCP tool stat-diffs the tree before every answer.
 
 | package | server startup | saved per question | break-even |
 |---|---:|---:|---:|
-| requests 2.32.3 | 276 ms | 63 ms | 4.4 questions |
-| flask 3.0.3 | 272 ms | 63 ms | 4.3 questions |
-| celery 5.4.0 | 270 ms | 64 ms | 4.2 questions |
-| sqlalchemy 2.0.36 | 278 ms | 56 ms | 5.0 questions |
-| django 5.2.16 | 271 ms | 64 ms | 4.2 questions |
+| requests 2.32.3 | 355 ms | 62 ms | 5.7 questions |
+| flask 3.0.3 | 463 ms | 63 ms | 7.4 questions |
+| celery 5.4.0 | 327 ms | 70 ms | 4.7 questions |
+| sqlalchemy 2.0.36 | 276 ms | 49 ms | 5.6 questions |
+| django 5.2.16 | 278 ms | 61 ms | 4.6 questions |
 
 Startup is paid once per session; the client spawns the server and keeps it.
 Break-even is how many questions it takes to repay that -- below it, shelling out
@@ -39,11 +39,11 @@ is the right answer.
 
 | package | stat-diff refresh | impact query | process overhead removed |
 |---|---:|---:|---:|
-| requests 2.32.3 | 0 ms | 1 ms | 63 ms |
+| requests 2.32.3 | 0 ms | 1 ms | 62 ms |
 | flask 3.0.3 | 0 ms | 2 ms | 63 ms |
-| celery 5.4.0 | 1 ms | 14 ms | 64 ms |
-| sqlalchemy 2.0.36 | 2 ms | 61 ms | 56 ms |
-| django 5.2.16 | 44 ms | 73 ms | 64 ms |
+| celery 5.4.0 | 1 ms | 15 ms | 70 ms |
+| sqlalchemy 2.0.36 | 2 ms | 60 ms | 49 ms |
+| django 5.2.16 | 44 ms | 78 ms | 61 ms |
 
 Neither of the first two columns is transport -- both surfaces pay them. What a
 resident process removes is the third: a fixed cost of process starts, roughly
@@ -61,9 +61,9 @@ the dirty set.
 | package | target file | dependents | MCP response |
 |---|---|---:|---:|
 | requests 2.32.3 | `status_codes.py` | 6 | 0.4 kB |
-| flask 3.0.3 | `json/provider.py` | 22 | 3.0 kB |
+| flask 3.0.3 | `json/provider.py` | 22 | 1.6 kB |
 | celery 5.4.0 | `worker/consumer/mingle.py` | 7 | 0.5 kB |
-| sqlalchemy 2.0.36 | `testing/entities.py` | 40 | 4.6 kB |
+| sqlalchemy 2.0.36 | `testing/entities.py` | 40 | 4.7 kB |
 | django 5.2.16 | `core/management/templates.py` | 3 | 0.5 kB |
 
 Responses are ranked and truncated to a default of 20 findings, so size tracks
