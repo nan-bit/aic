@@ -9,9 +9,15 @@ dependencies = []
 
 [project.scripts]
 aic = "aic.cli:main"
+aic-mcp = "aic.mcp:main"
 
 [project.optional-dependencies]
 test = ["pytest"]
+# The MCP SDK pulls ~13 transitive dependencies and needs 3.10+, so it stays
+# optional -- `aic` itself remains dependency-free and runs on 3.9.
+# Pinned below 2.0 on purpose: SDK v2 tracks the 2026-07-28 stateless spec and
+# replaces the server core. Move to it once clients negotiate that revision.
+mcp = ["mcp>=1.26,<2; python_version>='3.10'"]
 
 [build-system]
 requires = ["setuptools>=61.0"]
