@@ -137,11 +137,16 @@ apart from `cur.execute("SELECT 1")`. On Django that clears nearly half the
 heuristic sinks as static (256 → 138). The engine is policy-free: sources,
 sanitizers and sinks come from the probe.
 
+Taint is tracked *per sink kind* rather than as one bit, because sanitizing is
+kind-specific: `shlex.quote` makes a value safe to hand to a shell and does
+nothing at all for SQL. A value is "still dangerous for {sql}", not simply
+"tainted".
+
 Two corpora, and the honest one is the second:
 
 | corpus | cases | result |
 |---|---:|---|
-| intra-procedural | 22 | 1.00 precision / 1.00 recall |
+| intra-procedural | 26 | 1.00 precision / 1.00 recall |
 | **inter-procedural** | **45** | **0.58 precision / 0.84 recall** |
 
 Recall on the second is high *by accident* — every parameter is currently treated

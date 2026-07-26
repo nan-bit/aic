@@ -10,6 +10,7 @@ are the cases that separate a real dataflow analysis from grep.
 """
 
 import os
+import html
 import json
 import pickle
 import shlex
@@ -86,6 +87,27 @@ def deserialize_pickle(blob):
     return pickle.loads(blob)
 
 
+def sql_wrong_context_sanitizer(cursor, name):
+    """TAINTED sql -- shlex.quote is a *shell* sanitizer.
+
+    It quotes for POSIX word-splitting and does nothing to make a value safe to
+    concatenate into SQL. This case was asserted SAFE until the analysis learned
+    that sanitizing is sink-specific; the fixture was wrong, not the engine.
+    """
+    safe_for_a_shell = shlex.quote(name)
+    cursor.execute("SELECT * FROM t WHERE name = " + safe_for_a_shell)
+
+
+def cmd_wrong_context_sanitizer(cursor, path):
+    """TAINTED command-exec -- a SQL escaper protects nothing at a shell sink."""
+    os.system("ls " + cursor.mogrify(path))
+
+
+def sql_html_escape_is_not_a_sanitizer(cursor, name):
+    """TAINTED sql -- html.escape covers markup, not SQL or shells."""
+    cursor.execute("SELECT * FROM t WHERE name = '" + html.escape(name) + "'")
+
+
 # --- SAFE: no attacker data reaches the sink ---------------------------
 
 
@@ -118,9 +140,13 @@ def sql_reassigned_clean(cursor, uid):
 
 
 def sql_sanitized(cursor, name):
-    """SAFE sql -- parameter passed through a sanitizer first."""
-    safe = shlex.quote(name)
-    cursor.execute("SELECT * FROM t WHERE name = " + safe)
+    """SAFE sql -- neutralised by a sanitizer that actually covers SQL."""
+    cursor.execute("SELECT * FROM t WHERE name = " + cursor.mogrify(name))
+
+
+def cmd_sanitized(path):
+    """SAFE command-exec -- shlex.quote is the right tool for a shell sink."""
+    os.system("ls " + shlex.quote(path))
 
 
 def cmd_constant():
