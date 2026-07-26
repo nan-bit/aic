@@ -205,7 +205,7 @@ def aic_review(probe: str = "security", limit: int = DEFAULT_LIMIT) -> ReviewRes
     probe = _probe(probe)
     with _store() as st:
         refreshed = _refresh(st)
-        r = query.review(st, probe, extra_files=_TOUCHED)
+        r = query.review(st, probe, seeds=_TOUCHED)
         findings, total = _findings(st, probe, r["recheck_fns"], r["scope"], limit)
 
     changed = len(_TOUCHED)

@@ -133,13 +133,42 @@ def test_review_scope_covers_edits_and_their_dependents(repo, st):
         encoding="utf-8",
     )
     r = query.refresh(st, repo)
-    rev = query.review(st, "security", extra_files=r["reparsed"])
+    rev = query.review(st, "security", seeds=r["reparsed"])
     # The edited file is CLEAN (just reparsed); its dependent is DIRTY. Both belong.
     assert set(rev["scope"]) == {"db.py", "svc.py"}
 
 
 def test_review_is_empty_when_nothing_moved(st):
     assert query.review(st, "security")["scope"] == []
+
+
+def test_review_survives_a_no_op_refresh(repo, st):
+    """Regression: a resident server refreshes on every call.
+
+    `refresh` clears DIRTY each time, so a review that read the stored flag saw
+    the second, no-op refresh erase the dependents of the first edit and
+    reported that the change reached nothing. Found by an agent calling
+    aic_review three times in a row with different probes.
+    """
+    (repo / "db.py").write_text("def query(uid):\n    pass\n", encoding="utf-8")
+    seeds = query.refresh(st, repo)["reparsed"]
+    assert set(query.review(st, "security", seeds)["scope"]) == {"db.py", "svc.py"}
+
+    query.refresh(st, repo)          # second tool call, nothing changed on disk
+    assert set(query.review(st, "security", seeds)["scope"]) == {"db.py", "svc.py"}
+
+
+def test_review_accumulates_across_separate_edits(repo, st):
+    """Two edits in one session must both stay in scope."""
+    seeds = set()
+    (repo / "db.py").write_text("def query(uid):\n    pass\n", encoding="utf-8")
+    seeds.update(query.refresh(st, repo)["reparsed"])
+    (repo / "lonely.py").write_text("def unrelated(a):\n    return a\n", encoding="utf-8")
+    seeds.update(query.refresh(st, repo)["reparsed"])
+
+    scope = set(query.review(st, "security", seeds)["scope"])
+    assert scope == {"db.py", "svc.py", "lonely.py"}, \
+        "the first edit's dependents must survive the second edit"
 
 
 # --- markers -----------------------------------------------------------

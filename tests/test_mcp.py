@@ -110,6 +110,29 @@ def test_unknown_probe_is_an_actionable_error(served):
         M.aic_review(probe="nonsense")
 
 
+def test_repeated_reviews_agree_with_each_other(served):
+    """Regression: consecutive reviews must not contradict one another.
+
+    A live agent called aic_review three times with different probes; the first
+    reported findings and the rest reported none, because each call's refresh
+    cleared the DIRTY flag the previous one had relied on.
+    """
+    M.aic_review()  # baseline
+    (served / "db.py").write_text(
+        'import sqlite3\n\ndef query(uid):\n'
+        '    sqlite3.connect(":memory:").cursor().execute("SELECT " + uid)\n',
+        encoding="utf-8",
+    )
+    first = M.aic_review(probe="api")
+    second = M.aic_review(probe="api")
+    third = M.aic_review(probe="security")
+
+    assert first["dependent_files"] == second["dependent_files"]
+    assert first["findings"] == second["findings"]
+    assert third["changed_files"] == first["changed_files"] == 1
+    assert third["findings"], "the sql sink is downstream of the edit and must appear"
+
+
 # --- impact ------------------------------------------------------------
 
 def test_impact_reports_dependents_as_a_count_not_a_list(served):

@@ -234,16 +234,24 @@ def impact(st, path, probe):
     }
 
 
-def review(st, probe, extra_files=()):
-    """Everything currently invalidated, intersected with what `probe` marks.
+def review(st, probe, seeds=()):
+    """Everything `seeds` reaches, intersected with what `probe` marks.
 
-    After a refresh the reparsed files are CLEAN (they are up to date) and only
-    their dependents carry DIRTY. `extra_files` lets a caller add the files it
-    just reparsed, which is what makes this answer "everything I have touched
-    this session" rather than "everything downstream of it".
+    Scope is recomputed from the seed files rather than read off the stored
+    DIRTY flag, and that is deliberate. DIRTY means "dependents of the most
+    recent change set" -- correct for a one-shot CLI invocation, wrong for a
+    resident server, because `refresh` clears it on every call. A server that
+    refreshed twice would see the second (no-op) refresh wipe the dependents of
+    the first edit, and answer that a change reached nothing. Propagating from
+    the caller's own seeds accumulates correctly across any number of edits and
+    any number of refreshes.
     """
     t0 = time.time()
-    scope = st.dirty() | set(extra_files)
+    seeds = set(seeds) & set(st.all_paths())
+    scope = (
+        analyze.propagate(seeds, analyze.reverse(st.import_edges()))
+        if seeds else set()
+    )
     reachable = _reachable(st, probe)
     recheck_fns = {n for n in reachable if n[0] in scope}
     recheck_files = {p for p, _ in recheck_fns} | (st.marked_files(probe) & scope)
