@@ -10,8 +10,8 @@ from pathlib import Path
 
 import pytest
 
-from aic import cpg
-from aic.probes.security import _SecurityTaint
+from aic import analyze, cpg
+from aic.probes.security import DANGEROUS_MODULES, _SecurityTaint
 
 FIXTURE = Path(__file__).parent / "fixtures" / "taint_cases.py"
 
@@ -34,8 +34,14 @@ def load_cases():
 CASES = load_cases()
 
 
+# Built the way SecurityProbe.inspect builds it: whether a bare sink name is
+# credible depends on what the file imported.
+_, _FACTS = analyze.extract(str(FIXTURE), FIXTURE.read_text(encoding="utf-8"))
+POLICY = _SecurityTaint(bool(_FACTS.imported_roots & DANGEROUS_MODULES))
+
+
 def run(node):
-    return cpg.analyze_function(node, _SecurityTaint())
+    return cpg.analyze_function(node, POLICY)
 
 
 @pytest.mark.parametrize("name,node,verdict,kind", CASES, ids=[c[0] for c in CASES])

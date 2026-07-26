@@ -123,7 +123,7 @@ class _Visitor(ast.NodeVisitor):
 
         for sub in ast.walk(node):
             if isinstance(sub, ast.Call):
-                simple, dotted = _call_name(sub.func)
+                simple, dotted = call_name(sub.func)
                 if simple:
                     self.f.calls.append(
                         CallFact(qual, simple, dotted, getattr(sub, "lineno", node.lineno))
@@ -153,7 +153,7 @@ def _args(a):
     return out
 
 
-def _call_name(func):
+def call_name(func):
     if isinstance(func, ast.Name):
         return func.id, func.id
     if isinstance(func, ast.Attribute):

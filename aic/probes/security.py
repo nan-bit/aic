@@ -8,7 +8,7 @@ quarter of the codebase is not a filter.
 import ast
 import re
 
-from .. import cpg
+from .. import analyze, cpg
 from .base import Marker, Probe
 
 SINKS = {
@@ -66,7 +66,7 @@ class SecurityProbe(Probe):
 
         for call in facts.calls:
             kind = SINKS.get(call.simple)
-            if kind and self._binds_dangerously(call, roots, risky_import):
+            if kind and binds_dangerously(call.simple, call.dotted, risky_import):
                 yield Marker(call.caller, kind, call.dotted or call.simple, call.line)
 
         for name, line, literal in facts.assignments:
@@ -83,7 +83,7 @@ class SecurityProbe(Probe):
         # and "builds SQL from an argument", and it is where the CPG earns its
         # keep -- the sink markers above over-report; these do not.
         if tree is not None:
-            policy = _SecurityTaint()
+            policy = _SecurityTaint(risky_import)
             for fn in _functions(tree):
                 for kind, call, desc in cpg.analyze_function(fn, policy):
                     yield Marker(
@@ -92,17 +92,30 @@ class SecurityProbe(Probe):
                         getattr(call, "lineno", fn.lineno),
                     )
 
-    @staticmethod
-    def _binds_dangerously(call, roots, risky_import):
-        if call.simple in ("eval", "exec"):
+
+def binds_dangerously(simple, dotted, risky_import):
+    """Could this call plausibly bind to a dangerous implementation?
+
+    The bare name is not enough to decide. `loads` is the motivating case:
+    `pickle.loads` executes arbitrary code and `json.loads` does not, and both
+    are spelled `loads`. Judging on the name alone flagged every `json.loads` in
+    the world as a deserialization sink -- on starlette that was 100% of the
+    findings, and they ranked first, because dataflow-confirmed findings outrank
+    heuristic ones.
+
+    Both passes must ask this same question, which is why it lives here rather
+    than inside either one.
+    """
+    if simple in ("eval", "exec"):
+        return True
+    if dotted and "." in dotted:
+        if dotted.split(".")[0] in DANGEROUS_MODULES:
             return True
-        if call.dotted and "." in call.dotted:
-            if call.dotted.split(".")[0] in DANGEROUS_MODULES:
-                return True
-            # cursor.execute(...) / conn.executemany(...) -- SQL by convention.
-            return call.simple in SQLISH
-        # Bare call; only credible if the file imported something dangerous.
-        return risky_import
+        # cursor.execute(...) / conn.executemany(...) -- SQL by convention.
+        return simple in SQLISH
+    # A bare name, or a receiver we cannot resolve (`connect().cursor().execute`).
+    # Only credible if the file imported something dangerous at all.
+    return risky_import
 
 
 def _call_simple(call):
@@ -142,7 +155,15 @@ def _functions(tree):
 
 
 class _SecurityTaint(cpg.TaintPolicy):
-    """Parameters are attacker-controlled; SINKS are dangerous; SANITIZERS clear."""
+    """Parameters are attacker-controlled; SINKS are dangerous; SANITIZERS clear.
+
+    `risky_import` carries the file's context, because whether a sink name binds
+    to anything dangerous depends on what the file imported. Without it this pass
+    judged on the bare name and could not tell `json.loads` from `pickle.loads`.
+    """
+
+    def __init__(self, risky_import=False):
+        self.risky_import = risky_import
 
     def seed_names(self, fn_node):
         a = fn_node.args
@@ -166,8 +187,10 @@ class _SecurityTaint(cpg.TaintPolicy):
         return False
 
     def sink_for(self, call):
-        simple = _call_simple(call)
+        simple, dotted = analyze.call_name(call.func)
         kind = SINKS.get(simple)
         if kind is None:
+            return None
+        if not binds_dangerously(simple, dotted, self.risky_import):
             return None
         return kind, [SINK_ARG.get(simple, 0)]
