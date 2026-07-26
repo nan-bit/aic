@@ -54,8 +54,18 @@ def cmd_os_system(path):
 
 
 def cmd_subprocess(user_arg):
-    """TAINTED command-exec -- parameter into subprocess."""
-    subprocess.run("cat " + user_arg)
+    """TAINTED command-exec -- shell=True hands the string to a shell."""
+    subprocess.run("cat " + user_arg, shell=True)
+
+
+def cmd_subprocess_sh_c(user_arg):
+    """TAINTED command-exec -- argv form, but the program it launches is a shell."""
+    subprocess.run(["sh", "-c", "cat " + user_arg])
+
+
+def cmd_subprocess_shell_unknown(user_arg, flag):
+    """TAINTED command-exec -- shell= is not a literal, so assume the worst."""
+    subprocess.run("cat " + user_arg, shell=flag)
 
 
 def code_eval(expr):
@@ -147,6 +157,25 @@ def sql_sanitized(cursor, name):
 def cmd_sanitized(path):
     """SAFE command-exec -- shlex.quote is the right tool for a shell sink."""
     os.system("ls " + shlex.quote(path))
+
+
+def cmd_subprocess_argv(user_arg):
+    """SAFE command-exec -- argv vector with shell=False, so nothing parses it.
+
+    This is the form written specifically to avoid injection, and flagging it was
+    noise on the pattern we want. `user_arg` still controls an argument to `cat`,
+    which is its own (lesser) problem; it is not command execution.
+    """
+    subprocess.run(["cat", user_arg])
+
+
+def cmd_subprocess_bare_string(user_arg):
+    """SAFE command-exec -- shell=False means the string is a program name.
+
+    Python hands it straight to exec, so this is a broken call rather than an
+    injection: there is no shell to interpret the metacharacters.
+    """
+    subprocess.run("cat " + user_arg)
 
 
 def cmd_constant():

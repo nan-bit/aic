@@ -81,6 +81,14 @@ DANGEROUS_MODULES = {
 
 SQLISH = {"execute", "executescript", "executemany", "raw"}
 
+# subprocess entry points, where "does a shell see this?" is decidable from the
+# call itself rather than needing type inference.
+SUBPROCESS_SINKS = frozenset({"run", "Popen", "call", "check_call", "check_output"})
+
+# Programs that interpret their argument as a command line, so an argv vector
+# naming one is every bit as dangerous as shell=True.
+SHELL_PROGRAMS = frozenset({"sh", "bash", "zsh", "ksh", "dash", "csh", "tcsh", "fish"})
+
 SECRET_NAME = re.compile(
     r"(SECRET|PASSWORD|PASSWD|TOKEN|API_?KEY|PRIVATE_?KEY|CREDENTIAL|ACCESS_?KEY)",
     re.I,
@@ -149,6 +157,39 @@ def binds_dangerously(simple, dotted, risky_import):
     # A bare name, or a receiver we cannot resolve (`connect().cursor().execute`).
     # Only credible if the file imported something dangerous at all.
     return risky_import
+
+
+def reaches_a_shell(call):
+    """Does this subprocess call hand its argument to a shell?
+
+    `subprocess.run(["ls", user])` does not: with shell=False, which is the
+    default, the first argument is an argv vector and no shell parses it. That
+    is the form security-conscious code uses on purpose, and flagging it was
+    noise on exactly the pattern we want people to write.
+
+    Undecidable cases resolve to True. A non-literal `shell=` value or an argv
+    whose program is not a constant could be anything, and a false negative here
+    is worth more than a false positive.
+    """
+    for kw in call.keywords:
+        if kw.arg == "shell":
+            value = kw.value
+            return bool(value.value) if isinstance(value, ast.Constant) else True
+        if kw.arg is None:
+            return True                      # run(**opts) -- shell may be in there
+    if not call.args:
+        return False
+    first = call.args[0]
+    if isinstance(first, (ast.List, ast.Tuple)):
+        if not first.elts:
+            return False
+        program = first.elts[0]
+        if isinstance(program, ast.Constant) and isinstance(program.value, str):
+            return program.value.rsplit("/", 1)[-1] in SHELL_PROGRAMS
+        return True                          # cannot tell what is being launched
+    # A bare string with shell=False is a program *name*, not a command line;
+    # Python hands it to exec directly. Broken, perhaps, but not an injection.
+    return False
 
 
 def _call_simple(call):
@@ -250,5 +291,9 @@ class _SecurityTaint(cpg.TaintPolicy):
         if kind is None:
             return None
         if not binds_dangerously(simple, dotted, self.risky_import):
+            return None
+        # os.system and os.popen always go through a shell. The subprocess
+        # family only does when the call says so -- see reaches_a_shell.
+        if simple in SUBPROCESS_SINKS and not reaches_a_shell(call):
             return None
         return kind, [SINK_ARG.get(simple, 0)]

@@ -146,7 +146,7 @@ Two corpora, and the honest one is the second:
 
 | corpus | cases | result |
 |---|---:|---|
-| intra-procedural | 26 | 1.00 precision / 1.00 recall |
+| intra-procedural | 30 | 1.00 precision / 1.00 recall |
 | **inter-procedural** | **45** | **0.58 precision / 0.84 recall** |
 
 Recall on the second is high *by accident* — every parameter is currently treated
