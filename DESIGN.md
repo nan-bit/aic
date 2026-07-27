@@ -9,7 +9,7 @@ Organised by topic; the historical record is at the back in §6.
 | [2. Architecture](#2-architecture) | representation, engine, surfaces, and the probe seam |
 | [3. What is measured](#3-what-is-measured) | blast radius, two taint corpora, dogfooding |
 | [4. Positioning](#4-positioning) | why diff-time wins, and what agents can actually do |
-| [5. Roadmap and gates](#5-roadmap-and-gates) | what is done, what is next, what unlocks it |
+| [5. Roadmap and gates](#5-roadmap-and-gates) | what is done, and the open fork on what comes next |
 | [6. Record](#6-record) | v1's defects, language choice, superseded numbers |
 
 ---
@@ -210,7 +210,7 @@ targets brought `security` to 4.4%. Precision there is load-bearing, not a refin
 
 **Intra-procedural** (`tests/fixtures/taint_cases.py`, 30 cases): 1.00 precision / 1.00
 recall, false negatives gated to zero in CI. On Django the dataflow pass clears 46% of
-heuristic sinks as static (256 → 138). Cost: cold index +72% (1.5s → 2.6s), paid once;
+heuristic sinks as static (256 → 135). Cost: cold index +72% (1.5s → 2.6s), paid once;
 incremental unchanged, since taint runs only on reparsed files.
 
 **Inter-procedural** (`tests/fixtures/interproc/`, 45 cases in 9 categories, 25 tainted /
@@ -396,11 +396,25 @@ This is the biggest unresolved question in the design.
 | MCP server | three read-only tools, lazy stat-diff, ranked and truncated output |
 | Inter-procedural corpus | 45 cases, baseline recorded ([§3.2](#32-taint-two-corpora)) |
 
-**Next: inter-procedural summaries (stage 4).** The corpus gate is cleared. Order of work:
+**Next: unresolved — summaries or call resolution?** The corpus gate is cleared, and the
+obvious read is "stage 4, inter-procedural summaries." That was the plan for a while. It is
+recorded here as an open fork instead, because the two candidates interact badly enough that
+the order is a real decision rather than a formality.
+
+**The interaction.** Summaries ride on the call graph. Call resolution is name-based
+([§2.1](#21-representation)), so the graph carries false edges. Running precise taint along
+a false edge does not merely cap recall — the ceiling framing in `analyze.resolved_calls`
+undersells it. It manufactures *cleaner* false positives: findings with a full
+inter-procedural derivation behind them, every step of which is sound except the edge that
+was never real. Those are harder to dismiss than the current crude ones, and they would make
+the corpus numbers improve while the tool got less trustworthy. Precision measured against a
+graph that is itself imprecise is measuring the wrong thing.
+
+**The case for summaries first.**
 
 1. **Real sources** — `request.GET`, `os.environ`, `sys.argv`, `input()`. Cheap, independent
-   of the fixpoint, and it addresses all four genuine false negatives. Do this first and let
-   the corpus say how much of the gap it closes alone.
+   of the fixpoint, and it addresses all four genuine false negatives. Whatever else happens,
+   this is first; let the corpus say how much of the gap it closes alone.
 2. **A generic summary framework** — `SummaryPolicy`, per [§2.4](#24-keeping-the-platform-probe-agnostic).
    Fixpoint over the SCC condensation, reusing `analyze.strongly_connected`; re-analyze only
    functions whose callees' summaries changed, as Pysa does. Summaries persist in a new
@@ -408,7 +422,30 @@ This is the biggest unresolved question in the design.
    finally gives dirty propagation something to invalidate besides a status flag.
 3. **The taint instantiation**, measured against the corpus *and* the call-graph ceiling.
 
-Invalidation should follow **Reviser** (Arzt & Bodden, ICSE 2014): clear-and-propagate,
+The corpus says the current failure is *precision* ([§3.2](#32-taint-two-corpora)), and
+summaries are what address it. Call-graph precision, past the import-visibility constraint
+already applied, needs type inference — which is the expensive part commercial reachability
+engines sell, and not obviously affordable here. This path also builds the machinery that
+[§2.4](#24-keeping-the-platform-probe-agnostic) argues generalizes beyond taint.
+
+**The case for call resolution first.** The graph bounds everything built on it, so a summary
+framework developed against false edges is validated against a moving target — and every
+number it produces has to be re-earned once the graph changes underneath it. It is also the
+cheaper falsification: the 96% ceiling on the corpus is measured on minimal fixtures and
+PyCG reports ~69.9% on real packages with better resolution than this. If the real-world
+ceiling is nearer PyCG's, summaries are being built on a graph that misses a third of the
+flows, and that is worth knowing before rather than after.
+
+**What would settle it.** Neither argument is decisive from the armchair, and one measurement
+would help more than more reasoning: the false-edge *rate* in the current call graph, not
+just the unresolved-call rate. The corpus records what the graph cannot resolve; it does not
+record what the graph resolves wrongly. That number is not in this repo, and it is the one
+that says whether summaries would be building on sand.
+
+*Current lean:* real sources first regardless, then measure the false-edge rate, then decide.
+Stated as a lean and not a plan on purpose.
+
+Whichever order, invalidation should follow **Reviser** (Arzt & Bodden, ICSE 2014): clear-and-propagate,
 where affected nodes are those transitively reachable from changed nodes in the updated
 graph. Their two findings that matter here — over-approximating the affected set is always
 *safe*, and computing a precise affected set can cost more than recomputing — plus the
@@ -418,8 +455,9 @@ That is the closest published analogue to what this project claims.
 *Exit gate:* precision/recall reported alongside the ceiling. Do not ship a stage-4 number
 without the corpus behind it.
 
-**Then: contracts** ([§4.2](#42-contracts)) — only after stage 4, and only if [§4.3](#43-open-risk)'s
-derivation question has an answer.
+**Then: contracts** ([§4.2](#42-contracts)) — only after the inter-procedural work above,
+however it gets sequenced, and only if [§4.3](#43-open-risk)'s derivation question has an
+answer.
 
 **Deliberately not doing.** A filesystem watcher: the stat-diff is taken on demand instead,
 because ~50ms per tool call is cheaper than a daemon thread and a debounce policy for a cost
