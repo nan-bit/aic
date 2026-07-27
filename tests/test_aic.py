@@ -231,6 +231,51 @@ def test_deleted_files_are_evicted(repo):
     assert rows == 0
 
 
+# --- traversal ---------------------------------------------------------
+
+def test_hidden_and_vendored_directories_are_not_indexed(tmp_path):
+    """Third-party code under a repo must never enter the graph.
+
+    Not cosmetic: vendored sources fabricate import edges and inflate fanout,
+    which is the number the tool is judged on. `bench/.cache` is the case that
+    motivated this -- written by this repo's own benchmark script, and missed by
+    a denylist that named every *other* cache.
+    """
+    root = tmp_path / "proj"
+    write(root, "app.py", "X = 1\n")
+
+    for junk in (".cache/django/models.py", ".git/hooks/thing.py",
+                 ".tox/py311/lib/mod.py", ".venv/lib/site-packages/dep.py",
+                 "node_modules/pkg/index.py", "build/lib/copy.py",
+                 "__pycache__/stale.py", ".aic/leftover.py"):
+        write(root, junk, "Y = 2\n")
+
+    assert set(analyze.scan_repo(root)) == {"app.py"}
+
+
+def test_nested_vendored_directories_are_pruned_at_any_depth(tmp_path):
+    """Skipping is per-directory-name, so depth does not matter."""
+    root = tmp_path / "proj"
+    write(root, "pkg/__init__.py", "")
+    write(root, "pkg/real.py", "X = 1\n")
+    write(root, "pkg/.cache/vendor.py", "Y = 2\n")
+    write(root, "pkg/sub/node_modules/dep.py", "Z = 3\n")
+
+    assert set(analyze.scan_repo(root)) == {"pkg/__init__.py", "pkg/real.py"}
+
+
+def test_dotted_source_files_are_still_indexed(tmp_path):
+    """The rule skips hidden *directories*, not hidden files or dotted names."""
+    root = tmp_path / "proj"
+    write(root, "app.py", "X = 1\n")
+    write(root, "my.config.py", "Y = 2\n")
+    write(root, "pkg.utils/mod.py", "Z = 3\n")   # a dot mid-name, not a hidden dir
+
+    assert set(analyze.scan_repo(root)) == {
+        "app.py", "my.config.py", "pkg.utils/mod.py",
+    }
+
+
 # --- graph -------------------------------------------------------------
 
 def test_import_resolution_is_exact_not_suffix_matched(tmp_path):

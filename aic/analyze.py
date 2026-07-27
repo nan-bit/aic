@@ -14,10 +14,28 @@ import os
 import sys
 from collections import deque
 
+# Directories that hold code, but not *this repo's* code. Getting this wrong is
+# not cosmetic: vendored or cached third-party sources fabricate import edges and
+# inflate fanout, which corrupts the one number the whole tool is judged on.
+#
+# Named entries are the ones that do not start with a dot. Everything hidden is
+# skipped by rule instead of by name -- a denylist is always one name behind
+# whatever generates junk next, and this list was in fact one name behind
+# `bench/.cache`, which is written by this repo's own benchmark script.
 SKIP_DIRS = {
-    ".git", ".venv", "venv", "__pycache__", "node_modules", ".tox", ".mypy_cache",
-    ".pytest_cache", "build", "dist", ".eggs", "site-packages", ".aic",
+    "venv", "__pycache__", "node_modules", "build", "dist", "site-packages",
 }
+
+
+def skip_dir(name):
+    """Directories `scan_repo` will not descend into.
+
+    Hidden directories are skipped wholesale. In a repo root a dotted directory
+    is conventionally generated or configuration -- `.git`, `.venv`, `.tox`,
+    `.mypy_cache`, `.pytest_cache`, `.eggs`, `.aic`, `.cache` -- and source
+    living under one is rare enough that skipping is the right default.
+    """
+    return name.startswith(".") or name in SKIP_DIRS
 
 
 def file_hash(text):
@@ -197,7 +215,7 @@ def scan_repo(root):
         for e in entries:
             try:
                 if e.is_dir(follow_symlinks=False):
-                    if e.name not in SKIP_DIRS:
+                    if not skip_dir(e.name):
                         stack.append(e.path)
                 elif e.name.endswith(".py"):
                     # scandir caches stat on most platforms, so this is free.
@@ -215,13 +233,6 @@ def read_file(root, rel):
             return fh.read()
     except (OSError, UnicodeDecodeError):
         return None
-
-
-def walk_repo(root):
-    for rel in scan_repo(root):
-        src = read_file(root, rel)
-        if src is not None:
-            yield rel, src
 
 
 def module_key(rel):
