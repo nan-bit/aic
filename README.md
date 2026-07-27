@@ -20,17 +20,22 @@ the surfaces never see one. Runs on Python 3.9+ with no dependencies.
 
 ```bash
 pip install -e .
-aic index  path/to/repo      # build the graph
-aic index  path/to/repo      # ...and again
+
+aic index .        # first run:  parses everything
+aic index .        # second run: stat-diffs, finds nothing changed
 ```
 
-Two runs, thirty seconds, and you have the whole argument: **2.6 s, then 51 ms.**
+On this repo — 74 files — that is **99 ms, then 2 ms**. The second run is the
+whole argument, and the ratio is what travels: on Django's 883 files it is 2.6 s,
+then 51 ms.
+
+Everything else, runnable against this repo as written:
 
 ```bash
-aic impact path/to/repo src/models.py    # what a change here implicates
-aic fanout path/to/repo                  # blast-radius distribution
-aic status path/to/repo --probe security --top 5
-aic touch  path/to/repo src/models.py    # invalidate one file, no repo walk
+aic impact . aic/query.py                # what a change here implicates
+aic fanout .                             # blast-radius distribution
+aic status . --probe security --top 5    # what the graph holds
+aic touch  . aic/query.py                # invalidate one file, no repo walk
 ```
 
 The graph lives in `<repo>/.aic/graph.db`. Use `--db PATH`, or `AIC_DB_DIR=DIR`
