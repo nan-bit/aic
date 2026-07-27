@@ -300,6 +300,63 @@ def test_import_resolution_is_exact_not_suffix_matched(tmp_path):
     assert not any(t.startswith("contrib/") for t in targets)
 
 
+def test_repo_root_does_not_strip_its_own_directory_name(tmp_path):
+    """`aic index .` on a checkout named after its package must still resolve.
+
+    The default pkg_root used to be the directory name, so a repo `aic/`
+    containing a package `aic/` stripped `aic.` off every absolute self-import
+    and matched nothing -- understating its own blast radius by two thirds.
+    """
+    root = tmp_path / "aic"                      # repo name == package name
+    write(root, "aic/__init__.py", "")
+    write(root, "aic/query.py", "X = 1\n")
+    write(root, "aic/cli.py", "from aic import query\n")
+
+    cmd_index(Args(root))
+    with Store(db_for(root)) as st:
+        # Importing from a package runs its __init__, so both are genuine edges.
+        assert st.import_edges().get("aic/cli.py") == {
+            "aic/query.py", "aic/__init__.py",
+        }
+
+
+def test_package_directory_still_strips_its_own_name(tmp_path):
+    """The sdist layout the benchmarks use must keep working.
+
+    Pointed at `django-5.2.16/django`, `django.db.models` names `db/models.py`,
+    so the prefix does have to come off. `__init__.py` is what distinguishes
+    this from the case above.
+    """
+    root = tmp_path / "django"
+    write(root, "__init__.py", "")                # root is itself a package
+    write(root, "db/__init__.py", "")
+    write(root, "db/models.py", "X = 1\n")
+    write(root, "app.py", "from django.db import models\n")
+
+    cmd_index(Args(root))
+    with Store(db_for(root)) as st:
+        assert st.import_edges().get("app.py") == {"db/models.py", "db/__init__.py"}
+
+
+def test_touch_reuses_the_stored_pkg_root(tmp_path):
+    """An empty pkg_root has to survive the round trip through meta."""
+    root = tmp_path / "aic"
+    write(root, "aic/__init__.py", "")
+    write(root, "aic/query.py", "X = 1\n")
+    write(root, "aic/cli.py", "from aic import query\n")
+
+    cmd_index(Args(root))
+    write(root, "aic/cli.py", "from aic import query\nY = 2\n")
+    cmd_touch(Args(root, files=["aic/cli.py"]))
+
+    with Store(db_for(root)) as st:
+        assert st.get_meta("pkg_root") == ""
+        # Importing from a package runs its __init__, so both are genuine edges.
+        assert st.import_edges().get("aic/cli.py") == {
+            "aic/query.py", "aic/__init__.py",
+        }
+
+
 def test_fanout_matches_explicit_propagation(repo):
     with index(repo) as st:
         paths, edges = st.all_paths(), st.import_edges()

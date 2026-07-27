@@ -13,6 +13,7 @@ import hashlib
 import os
 import sys
 from collections import deque
+from pathlib import Path
 
 # Directories that hold code, but not *this repo's* code. Getting this wrong is
 # not cosmetic: vendored or cached third-party sources fabricate import edges and
@@ -238,6 +239,34 @@ def read_file(root, rel):
 def module_key(rel):
     mod = rel[:-3].replace(os.sep, ".")
     return mod[: -len(".__init__")] if mod.endswith(".__init__") else mod
+
+
+def default_pkg_root(root):
+    """The import prefix to strip for a tree, or "" if there is none.
+
+    Absolute imports are written from the *project* root, so resolution has to
+    know which of two things it was handed.
+
+    A **package directory** -- what an sdist unpacks to, and what the benchmarks
+    point at -- carries its own name as a prefix its files do not: given
+    `django-5.2.16/django`, the import `django.db.models` names the file
+    `db/models.py`, so `django.` must come off.
+
+    A **repo root** does not. Given a checkout containing `aic/`, the import
+    `aic.query` names `aic/query.py` and the prefix is already part of the key.
+    Stripping the directory name there deletes a real path component, and every
+    absolute self-import silently fails to resolve.
+
+    `__init__.py` is what separates them, which is the same test Python uses.
+    Guessing from the directory name instead meant a repo whose name matched its
+    top-level package -- the usual layout -- resolved 20 of its own 48 import
+    edges, and `aic index .` understated this repo's blast radius by two thirds.
+
+    Namespace packages (PEP 420) have no `__init__.py` and so read as repo roots;
+    pass `pkg_root` explicitly for those.
+    """
+    root = Path(root)
+    return root.name if (root / "__init__.py").exists() else ""
 
 
 def resolve_imports(rel, imports, by_module, pkg_root):
