@@ -142,7 +142,10 @@ def refresh(st, root, pkg_root=None, rehash=False):
     a hint, never truth: a moved timestamp still forces a hash.
     """
     root = Path(root)
-    pkg_root = pkg_root or root.name
+    # "" is a meaningful pkg_root (a repo root strips nothing), so this cannot
+    # be an `or` -- that would silently re-guess the directory name.
+    if pkg_root is None:
+        pkg_root = analyze.default_pkg_root(root)
     t0 = time.time()
 
     stats = analyze.scan_repo(root)
@@ -198,7 +201,8 @@ def touch(st, root, files, pkg_root=None):
     graph rather than the filesystem.
     """
     root = Path(root)
-    pkg_root = pkg_root or st.get_meta("pkg_root", root.name)
+    if pkg_root is None:
+        pkg_root = st.get_meta("pkg_root", analyze.default_pkg_root(root))
     t0 = time.time()
 
     known = set(st.all_paths())
