@@ -228,9 +228,11 @@ def _log(tool, args, result, elapsed_ms):
 def aic_review(probe: str = "security", limit: int = DEFAULT_LIMIT) -> ReviewResult:
     """What the edits made so far put at risk. Call this before declaring work done.
 
-    Covers every file changed since this session started plus everything
-    downstream of those changes, intersected with what the probe marks as
-    interesting. Probes: security (dangerous sinks, hardcoded credentials, and
+    Covers every file changed since the baseline plus everything downstream of
+    those changes, intersected with what the probe marks as interesting. The
+    baseline is recorded the first time this repo is indexed and does not move
+    on its own, so it spans restarts and covers edits made before this server
+    started. Probes: security (dangerous sinks, hardcoded credentials, and
     dataflow-confirmed tainted sinks), api (public surface a caller can break
     against), tests (what a change forces you to re-run).
     """
