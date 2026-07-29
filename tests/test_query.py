@@ -256,3 +256,86 @@ def test_read_only_repo_indexes_when_the_graph_lives_elsewhere(tmp_path):
         assert not (src / ".aic").exists(), "must not write into the analysed tree"
     finally:
         src.chmod(0o700)
+
+
+# --- baseline ----------------------------------------------------------
+#
+# What `review` measures from. These pin the four properties the old
+# in-memory version could not have: it survives the process, it cannot be
+# moved by a refresh, a reverted edit stops counting, and a deleted file
+# still drags its dependents into scope.
+
+
+def test_refresh_establishes_a_baseline_when_there_is_none(st):
+    assert st.baseline_info() is not None
+    seeds, info = query.changed_since(st)
+    assert seeds == set(), "a fresh index is the starting point, not a change"
+
+
+def test_baseline_survives_the_process_that_made_it(repo):
+    """The limitation this replaced: edits before the server started were invisible."""
+    with Store(query.db_for(repo)) as first:
+        query.refresh(first, repo)
+        recorded = first.baseline_info()
+
+    # A whole new Store, as a new process would open. The edit happens while
+    # nothing is running at all.
+    write(repo, "db.py", "import os\n\ndef query(uid):\n    os.system(uid)\n")
+
+    with Store(query.db_for(repo)) as second:
+        r = query.refresh(second, repo)
+        assert not r["baseline_established"], "an existing baseline must not be replaced"
+        assert second.baseline_info() == recorded
+        seeds, _ = query.changed_since(second)
+    assert seeds == {"db.py"}
+
+
+def test_refresh_never_moves_an_existing_baseline(st, repo):
+    write(repo, "db.py", "import os\n\ndef query(uid):\n    os.system(uid)\n")
+    seen = []
+    for _ in range(4):
+        query.refresh(st, repo)
+        seeds, _ = query.changed_since(st)
+        seen.append(seeds)
+    assert seen == [{"db.py"}] * 4, (
+        "repeated refreshes must not erode the change set -- the failure that "
+        "made a resident server report a hub-file edit as reaching nothing"
+    )
+
+
+def test_a_reverted_edit_stops_counting_as_a_change(st, repo):
+    before = (repo / "db.py").read_text(encoding="utf-8")
+    write(repo, "db.py", "import os\n\ndef query(uid):\n    os.system(uid)\n")
+    query.refresh(st, repo)
+    assert query.changed_since(st)[0] == {"db.py"}
+
+    (repo / "db.py").write_text(before, encoding="utf-8")
+    query.refresh(st, repo)
+    assert query.changed_since(st)[0] == set(), (
+        "a diff against a baseline forgets; a running tally of what was "
+        "reparsed does not"
+    )
+
+
+def test_dependents_of_a_deleted_file_stay_in_scope(st, repo):
+    """svc.py imports db.py. Deleting db.py is exactly when svc.py needs looking at."""
+    (repo / "db.py").unlink()
+    query.refresh(st, repo)
+    seeds, _ = query.changed_since(st)
+    assert "db.py" in seeds
+
+    r = query.review(st, "api", seeds=seeds)
+    assert "svc.py" in r["scope"], (
+        "a deleted seed is not in the graph; filtering seeds before propagating "
+        "would drop its dependents with it"
+    )
+    assert "db.py" not in r["scope"], "scope is reported in terms of files that exist"
+
+
+def test_record_baseline_moves_the_measuring_point(st, repo):
+    write(repo, "db.py", "import os\n\ndef query(uid):\n    os.system(uid)\n")
+    query.refresh(st, repo)
+    assert query.changed_since(st)[0] == {"db.py"}
+
+    query.record_baseline(st)
+    assert query.changed_since(st)[0] == set()

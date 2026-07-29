@@ -1,12 +1,20 @@
 """MCP server -- the agent-facing surface.
 
 Deliberately a thin adapter: schema declarations, ranking, truncation, and
-calls into aic/query.py. No analysis logic lives here. That is a hedge, not an
-aesthetic -- MCP ships a breaking revision on 2026-07-28 (stateless core, no
-initialize handshake) and the Python SDK's v2 rewrite lands with it, so this
-file is expected to be rewritten. Nothing in it should be expensive to lose.
+calls into aic/query.py. No analysis logic lives here. That was a hedge against
+MCP's 2026-07-28 revision (stateless core, no initialize handshake) and the
+Python SDK v2 rewrite that shipped with it, and it paid: the port touched
+imports, two field names and a constructor argument. Nothing analytical moved.
 
-Two properties matter more than anything else here:
+What did have to move went *down*, not sideways. `review` needs a point to
+measure changes from, and this file used to keep it in a module-level set of
+everything reparsed since the process started. A stateless protocol has nowhere
+to put that, which was the right pressure: the baseline was analysis state
+sitting in a protocol adapter. It now lives in the graph (`query.changed_since`),
+so it survives restarts, cannot drift across refreshes, and is reachable from
+the CLI -- which finally has a `review` of its own.
+
+Two properties still matter more than anything else here:
 
   * **Nothing may write to stdout.** Under stdio transport stdout carries
     JSON-RPC; a stray print corrupts the protocol. Diagnostics go to stderr.
@@ -31,31 +39,45 @@ import json  # noqa: E402
 import time  # noqa: E402
 from pathlib import Path  # noqa: E402
 
-from mcp.server.fastmcp import FastMCP  # noqa: E402
-from mcp.types import ToolAnnotations  # noqa: E402
-from typing_extensions import TypedDict  # noqa: E402
+from mcp.server.caching import CacheHint  # noqa: E402
+from mcp.server.mcpserver import MCPServer  # noqa: E402
+from mcp_types import ToolAnnotations  # noqa: E402
+from typing_extensions import TypedDict  # noqa: E402  -- pydantic cannot resolve
+                                         # typing.TypedDict below 3.12
 
 from .. import probes, query  # noqa: E402
 
 DEFAULT_LIMIT = 20
-READ_ONLY = ToolAnnotations(readOnlyHint=True, openWorldHint=False)
+READ_ONLY = ToolAnnotations(read_only_hint=True, open_world_hint=False)
 
-mcp = FastMCP(
+# The tool list is three tools declared at import time: no auth, no per-caller
+# filtering, nothing repo-dependent, so it is byte-identical for every caller of
+# a given aic version -- which is what "public" means. An hour bounds how long a
+# client can keep serving the old list after `pip install -U aic`.
+#
+# This is a correctness declaration, not an optimisation. A stdio client fetches
+# tools/list once per session; the benchmark will show it as noise. Saying so
+# here so nobody later reads it as a performance claim and goes looking for the
+# measurement that would have to back one.
+TOOL_LIST_CACHE = CacheHint(ttl_ms=3_600_000, scope="public")
+
+mcp = MCPServer(
     "aic",
     instructions=(
         "Incremental impact analysis. Call aic_review after making edits to find "
         "out what those edits put at risk; call aic_impact to ask about one "
         "specific file. The graph refreshes itself -- there is nothing to index."
     ),
+    cache_hints={"tools/list": TOOL_LIST_CACHE},
 )
 
-# Set by main(); the repo this server answers for, and where its graph lives.
+# Written once by main() before run(), read-only thereafter -- which is why they
+# survive the stateless core while `_TOUCHED` did not. The distinction is
+# configuration versus accumulated state, not "holds no variables": these are
+# argv, identical on every restart, so any number of servers started the same
+# way agree. A per-session set was reconstructible from nothing.
 _REPO = Path(".")
 _DB = None
-# Files reparsed since the server started. After a refresh a reparsed file is
-# CLEAN (it is up to date) and only its dependents carry DIRTY, so without this
-# `review` would answer "what your edits reached" and omit the edits themselves.
-_TOUCHED = set()
 
 
 # --- result shapes -----------------------------------------------------
@@ -71,6 +93,7 @@ class Finding(TypedDict):
 class ReviewResult(TypedDict):
     summary: str
     probe: str
+    baseline: str
     changed_files: int
     dependent_files: int
     files_to_recheck: int
@@ -119,6 +142,11 @@ def _store():
     Sub-millisecond, and it sidesteps SQLite's same-thread rule entirely. The
     cost that mattered -- the ~110 ms interpreter start the CLI paid on every
     invocation -- is already gone by virtue of this process being resident.
+
+    Chosen for that reason, and load-bearing for another one since: SDK v2 runs
+    sync handlers on worker threads, and sqlite3 connections default to
+    `check_same_thread=True`. A shared connection would have started raising the
+    moment two tool calls overlapped.
     """
     return query.create_store(_REPO, _DB)
 
@@ -129,15 +157,13 @@ def _refresh(st):
     A stat-diff over the tree (~50 ms on Django, 2 ms on a small repo). Cheaper
     and more reliable than asking the agent to remember to tell us what it
     changed, and it means a missing graph is simply built on first call.
+
+    No session bookkeeping here any more. `refresh` establishes a baseline if
+    the graph has none and never moves one that exists, so the change set stays
+    a diff rather than a tally -- there is no state for a second refresh to
+    erase, which is what went wrong when this tracked reparses by hand.
     """
-    r = query.refresh(st, _REPO)
-    # A cold index reparses everything; that is the baseline being established,
-    # not evidence the agent edited the whole repo. Only incremental reparses
-    # count as session changes.
-    if r["mode"] != "cold":
-        _TOUCHED.update(r["reparsed"])
-    _TOUCHED.difference_update(r["evicted"])
-    return r
+    return query.refresh(st, _REPO)
 
 
 def _probe(name):
@@ -172,7 +198,14 @@ def _elided(showing, total):
 
 
 def _log(tool, args, result, elapsed_ms):
-    """One JSON line per call, so dogfooding produces data and not just vibes."""
+    """One JSON line per call, so dogfooding produces data and not just vibes.
+
+    No lock, deliberately, now that v2 can run two handlers at once: each call
+    opens its own handle, writes one ~150-byte line and closes. A sub-PIPE_BUF
+    write to an O_APPEND fd is atomic, which covers concurrent threads and
+    concurrent processes alike -- the latter being the case a lock would not
+    have helped with anyway.
+    """
     try:
         path = query.db_for(_REPO, _DB).parent / "mcp-calls.jsonl"
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -205,22 +238,44 @@ def aic_review(probe: str = "security", limit: int = DEFAULT_LIMIT) -> ReviewRes
     probe = _probe(probe)
     with _store() as st:
         refreshed = _refresh(st)
-        r = query.review(st, probe, seeds=_TOUCHED)
+        seeds, info = query.changed_since(st)
+        r = query.review(st, probe, seeds=seeds)
         findings, total = _findings(st, probe, r["recheck_fns"], r["scope"], limit)
 
-    changed = len(_TOUCHED)
-    dependents = len(r["scope"]) - changed
-    if not changed and not r["recheck_fns"]:
-        summary = "Nothing changed since this server started; nothing to re-check."
+    changed = len(r["seeds"])
+    dependents = len(set(r["scope"]) - set(r["seeds"]))
+    at, n = info
+    baseline = f"{at} ({n} files)"
+    if refreshed["baseline_established"]:
+        # This call created the baseline, so everything in the graph is the
+        # starting point rather than something the agent did. Distinct from
+        # "nothing changed", and the difference matters: one says your edits
+        # were safe, the other says nothing was measured. Conflating them is how
+        # the old message read as reassurance. Name the tool that still works,
+        # because an agent that hits this needs somewhere to go.
+        summary = (
+            f"No baseline existed -- this call indexed {refreshed['files_on_disk']} "
+            "file(s) and recorded them as the starting point, so edits made "
+            "before now are invisible to review. Ask aic_impact about a specific "
+            "file for an answer that does not need a baseline; call this again "
+            "after your next edit."
+        )
+    elif not changed:
+        summary = (
+            f"Nothing has changed since the baseline recorded {at}; "
+            "nothing to re-check."
+        )
     else:
         summary = (
-            f"{changed} file(s) changed this session, reaching {max(dependents, 0)} "
-            f"dependent file(s). {len(r['recheck_fns'])} function(s) match the "
-            f"{probe} probe and are worth re-checking."
+            f"{changed} file(s) changed since the baseline recorded {at}, "
+            f"reaching {dependents} dependent file(s). "
+            f"{len(r['recheck_fns'])} function(s) match the {probe} probe "
+            "and are worth re-checking."
         )
     out = ReviewResult(
         summary=summary + _elided(len(findings), total),
         probe=probe,
+        baseline=baseline,
         changed_files=changed,
         dependent_files=max(dependents, 0),
         files_to_recheck=len(r["recheck_files"]),

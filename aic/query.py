@@ -5,12 +5,19 @@ them to an agent. Nothing in this module writes to stdout, and that is not a
 style preference: under the MCP stdio transport stdout carries JSON-RPC, so a
 stray `print` corrupts the protocol.
 
-The split also keeps the protocol adapter disposable. MCP ships a breaking
-revision on 2026-07-28 (stateless core, no initialize handshake) and the Python
-SDK's v2 rewrite lands with it. With the analysis logic here, migrating means
-rewriting one file that contains none of it.
+The split also kept the protocol adapter disposable, which was the point of it.
+MCP's 2026-07-28 revision shipped a stateless core with no initialize handshake,
+and the Python SDK's v2 rewrite landed with it; migrating meant rewriting one
+file that contained no analysis logic, and nothing here had to move.
+
+One thing moved the other way. The protocol going stateless left `review` with
+nowhere to keep its baseline, so the baseline came down here -- which is where
+it should have been anyway, since it is analysis state and not protocol state.
+The CLI got a `review` command out of it, having previously been unable to ask
+the one question that needed a session.
 """
 
+import datetime as dt
 import hashlib
 import os
 import time
@@ -131,6 +138,46 @@ def _propagate_dirty(st, seeds, reparsed):
     return affected
 
 
+# --- baseline ----------------------------------------------------------
+#
+# `review` asks "what have I changed, and what did it reach?" -- which needs a
+# point to measure from. That used to be a set in the MCP server's memory,
+# holding whatever it had reparsed since the process started. Three things were
+# wrong with that: it died with the process, so edits made before the server
+# started were invisible; it could not be reached from the CLI, so `review` was
+# the one question you could not ask without a protocol in the way; and it was
+# accumulated rather than derived, so it could drift.
+#
+# Storing the baseline instead makes the change set a diff between two hash sets
+# rather than a running tally. Nothing accumulates, so nothing can drift, and an
+# edit that gets reverted correctly stops counting as a change.
+
+def record_baseline(st, at=None):
+    """Mark the current state of the graph as the point `review` measures from."""
+    at = at or dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    st.set_baseline(st.hashes(), at)
+    st.commit()
+    return at
+
+
+def changed_since(st):
+    """(seeds, info) -- files differing from the baseline, and its provenance.
+
+    `info` is None when there is no usable baseline, which is not the same as
+    "nothing changed" and must not be reported as it. Callers say so.
+
+    Deletions are included: a path in the baseline that the graph no longer has
+    is a change, and its dependents are exactly what needs rechecking. `review`
+    propagates before filtering to the graph so they survive.
+    """
+    info = st.baseline_info()
+    if info is None:
+        return set(), None
+    before, now = st.baseline(), st.hashes()
+    changed = {p for p, h in now.items() if before.get(p) != h}
+    return changed | (set(before) - set(now)), info
+
+
 # --- write paths -------------------------------------------------------
 
 def refresh(st, root, pkg_root=None, rehash=False):
@@ -177,8 +224,18 @@ def refresh(st, root, pkg_root=None, rehash=False):
     st.set_meta("pkg_root", pkg_root)
     st.commit()
 
+    # Establish a baseline if there isn't one; never move one that exists. The
+    # rule is "if absent", not "if this was a cold index", because a graph built
+    # by an older aic has no baseline either and should get one rather than
+    # answer `review` with nothing forever. Refresh moving an existing baseline
+    # is the drift this design exists to rule out, so it doesn't.
+    baselined = st.baseline_info() is None
+    if baselined:
+        record_baseline(st)
+
     return {
         "mode": "cold" if not known else "incremental",
+        "baseline_established": baselined,
         "files_on_disk": len(stats),
         "stat_changed": len(suspect),
         "reparsed": sorted(changed),
@@ -294,9 +351,15 @@ def review(st, probe, seeds=()):
     any number of refreshes.
     """
     t0 = time.time()
-    seeds = set(seeds) & set(st.all_paths())
+    seeds = set(seeds)
+    # Propagate from every seed, then filter -- not the other way round. A
+    # deleted file is a seed that is no longer in the graph, and dropping it
+    # first would drop its dependents with it, which is precisely the files that
+    # most need rechecking. `_propagate_dirty` has always seeded with
+    # `changed | deleted` for the same reason.
+    known = set(st.all_paths())
     scope = (
-        analyze.propagate(seeds, analyze.reverse(st.import_edges()))
+        analyze.propagate(seeds, analyze.reverse(st.import_edges())) & known
         if seeds else set()
     )
     reachable = _reachable(st, probe)
@@ -305,6 +368,10 @@ def review(st, probe, seeds=()):
 
     return {
         "probe": probe,
+        # Reported separately so a caller can say how far the change travelled
+        # without subtracting a seed count that may include files the graph
+        # never had -- a deletion is a change with no node to point at.
+        "seeds": sorted(seeds),
         "scope": sorted(scope),
         "recheck_fns": sorted(recheck_fns),
         "recheck_files": sorted(recheck_files),
