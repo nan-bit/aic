@@ -179,6 +179,34 @@ def render(rows):
         "The question is `impact` on a median-blast-radius file: representative of a",
         "typical edit rather than the worst case.",
         "",
+    ]
+
+    missing = [t[0] for t in TARGETS if not any(r["package"].startswith(t[0]) for r in rows)]
+    if missing:
+        out += [
+            f"**Not measured in this run: {', '.join(missing)}.** The sdist could not be",
+            "fetched or built here. The rows are omitted rather than carried over from a",
+            "previous run, because a stale row in a table labelled current is worse than a",
+            "short table.",
+            "",
+        ]
+
+    out += [
+        "**Two things to know before comparing these numbers to an earlier run.**",
+        "",
+        "*Startup means spawn to first usable answer, minus one warm call.* It used to mean",
+        "spawn until the `initialize` handshake returned, which the 2026-07-28 revision",
+        "deleted. Keeping that definition would have shown startup collapsing to nearly",
+        "nothing while the server still paid its full import cost before answering — a win",
+        "manufactured by moving the goalposts. Subtracting one warm call leaves process",
+        "start plus imports, which is what the handshake-completion point stood in for.",
+        "",
+        "*Absolute numbers are machine-dependent; only within-run comparisons are sound.*",
+        "The CLI columns are the control — that code has not changed — so if they have moved",
+        "since the run you are comparing against, the hardware moved too and the startup",
+        "column cannot be read as a like-for-like delta. For the SDK's own contribution,",
+        "measure `python -X importtime` on both versions on one machine.",
+        "",
         "## Cost of one answer",
         "",
         "| package | files | `aic impact` | `aic index` + `impact` | MCP call | speedup |",

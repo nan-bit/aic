@@ -123,16 +123,41 @@ Deliberately not doing that, for four reasons:
 
 **Measured, not assumed** ([bench/SURFACES.md](bench/SURFACES.md)). Asking the same
 question of the same graph, over the real transport, with both surfaces installed as
-console scripts: the resident process removes a fixed ~60ms of process overhead per
-question and repays its own ~300ms startup after roughly 5-7 questions. Below that,
+console scripts: the resident process removes a fixed cost of process starts per question
+and repays its own startup after roughly **9 questions** on the current run. Below that,
 shelling out to the CLI is genuinely cheaper.
 
-The speedup is 7.9x on `requests` and 1.5x on Django, and the reason is worth recording:
+**That number got worse, and it is worth being exact about why.** It was 4.6-7.4 questions
+before the SDK v2 migration. Two things changed at once and they have to be separated:
+
+- *SDK v2 costs more to import.* Measured on one machine, `mcp.server.fastmcp.FastMCP`
+  took **549ms** and `mcp.server.mcpserver.MCPServer` takes **971ms** — +422ms, from
+  opentelemetry, pyjwt, starlette, uvicorn, httpx2 and jsonschema. Startup *is* import
+  time, so this lands directly on break-even. Notably the dependency *count* barely moved
+  (28 → 27); the thing that got worse is not the thing the [§2.3](#23-two-surfaces-one-query-layer)
+  table has always reported.
+- *The run is on different hardware.* The CLI columns are the control, since that code did
+  not change, and they moved too — `aic impact` on `requests` went 37ms → 60ms. So the raw
+  278-463ms → 1025-1149ms startup shift is not a like-for-like SDK delta.
+
+Subtracting the measured +422ms from this run's ~1050ms startup gives ~630ms, and ~630ms
+against ~120ms saved per question is ~5.3 questions — inside the old 4.6-7.4 band. The
+decomposition is consistent, which is the check worth doing before believing either half
+of it.
+
+Recorded rather than absorbed, because [reason 4](#23-two-surfaces-one-query-layer) set
+this work up so "would the CLI have been enough?" could come back *yes*. A break-even near
+9 questions is that question getting a partial answer, not a result to bury: for a session
+asking two or three questions, the CLI is now clearly the better surface.
+
+The speedup is 18.8x on `requests` and 1.7x on Django, and the reason is worth recording:
 on a small repo the process overhead *is* the cost, while on Django the query itself
-(78ms) and the stat-diff (44ms) dominate and the surface barely matters. **The next
+(210ms) and the stat-diff (28ms) dominate and the surface barely matters. **The next
 optimisation is therefore not the transport.** It is `analyze.marker_reachable`, which
 recomputes reachability across the whole call graph on every query and is the obvious
 candidate for caching against the dirty set -- the graph already knows what changed.
+The gap between those two figures is the same shape on any hardware, which is why the
+ratio is the part worth quoting and the milliseconds are not.
 
 Both surfaces take `--db`, and both honour `AIC_DB_DIR`. The default of
 `<repo>/.aic/graph.db` keeps state beside what it describes, which is convenient
@@ -568,3 +593,13 @@ Kept so the deltas are traceable.
   the generated numbers were right before the prose was.
 - Stage 4 was framed as buying *coverage*. The corpus baseline says it buys *precision*;
   see [§3.2](#32-taint-two-corpora).
+- **Server startup used to mean "spawn until `initialize` returned"**, and was 276-463ms
+  with a 4.6-7.4 question break-even on MCP SDK v1. The 2026-07-28 revision deleted the
+  handshake, so that definition stopped measuring anything: it would have reported startup
+  collapsing to near zero while the process still paid its whole import cost before it
+  could answer. It now means spawn to first usable answer minus one warm call, which is
+  comparable to what the old point stood in for. See [§2.3](#23-two-surfaces-one-query-layer)
+  for the decomposition of the new figure into SDK cost and hardware.
+- **The MCP extra's dependency count was reported as "~13 transitive."** Measured properly
+  during the v2 migration it was **28** on v1 and **27** on v2. The prose had been wrong
+  in the flattering direction for both versions.

@@ -25,7 +25,7 @@ aic index .        # first run:  parses everything
 aic index .        # second run: stat-diffs, finds nothing changed
 ```
 
-On this repo — 74 files — that is **99 ms, then 2 ms**. The second run is the
+On this repo — 75 files — that is **99 ms, then 2 ms**. The second run is the
 whole argument, and the ratio is what travels: on Django's 883 files it is 2.6 s,
 then 51 ms.
 
