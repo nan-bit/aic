@@ -41,8 +41,10 @@ def served(tmp_path, monkeypatch):
         def handle(uid):
             return query(uid)
     """)
+    # No session state left to reset: the baseline lives in the graph, and
+    # tmp_path gives each test its own. Isolation used to need arranging; it is
+    # now a property of where the state is kept.
     monkeypatch.setattr(M, "_REPO", root)
-    monkeypatch.setattr(M, "_TOUCHED", set())
     return root
 
 
@@ -54,10 +56,23 @@ def test_tools_are_registered_read_only(served):
     by_name = {t.name: t for t in tools}
     assert set(by_name) == {"aic_review", "aic_impact", "aic_overview"}
     for tool in tools:
-        assert tool.annotations.readOnlyHint is True
-        assert tool.annotations.openWorldHint is False
+        assert tool.annotations.read_only_hint is True
+        assert tool.annotations.open_world_hint is False
         assert tool.description, f"{tool.name} needs a description; agents select on it"
-        assert tool.outputSchema, f"{tool.name} should declare structured output"
+        assert tool.output_schema, f"{tool.name} should declare structured output"
+
+
+def test_tool_schemas_serialize_camel_case_on_the_wire(served):
+    """SDK v2 renamed the fields in Python, not in the protocol.
+
+    Worth pinning: an agent that stops seeing outputSchema stops getting
+    structured results and says nothing about it.
+    """
+    import asyncio
+    tools = asyncio.run(M.mcp.list_tools())
+    wire = tools[0].model_dump(by_alias=True, exclude_none=True)
+    assert "outputSchema" in wire and "inputSchema" in wire
+    assert wire["annotations"]["readOnlyHint"] is True
 
 
 def test_tool_surface_stays_small(served):
@@ -69,11 +84,27 @@ def test_tool_surface_stays_small(served):
 
 # --- review ------------------------------------------------------------
 
-def test_review_is_quiet_when_nothing_changed(served):
+def test_first_review_says_it_has_no_baseline_rather_than_all_clear(served):
+    """The two must not read alike.
+
+    "Nothing changed" on a first call was reassurance about a question that had
+    not been asked yet. An agent acting on it skips a check it never ran.
+    """
     r = M.aic_review()
     assert r["changed_files"] == 0
     assert r["findings"] == []
-    assert "Nothing changed" in r["summary"]
+    assert "No baseline" in r["summary"]
+    assert "aic_impact" in r["summary"], "an agent stuck here needs a way forward"
+    assert "Nothing has changed" not in r["summary"]
+
+
+def test_review_is_quiet_when_nothing_changed(served):
+    M.aic_review()  # establishes the baseline
+    r = M.aic_review()
+    assert r["changed_files"] == 0
+    assert r["findings"] == []
+    assert "Nothing has changed since the baseline" in r["summary"]
+    assert r["baseline"] != "none"
 
 
 def test_review_reports_edits_and_dependents(served):
@@ -156,6 +187,35 @@ def test_impact_truncates_and_says_so(served):
     assert r["total_findings"] > 5
     assert "Showing 5 of" in r["summary"]
     assert len(r["findings"]) == 5
+
+
+def test_review_response_stays_small(served):
+    """review now carries a baseline string too; the budget is unchanged."""
+    M.aic_review()  # baseline
+    body = "import sqlite3\n\n" + "".join(
+        f'def q{i}(uid):\n'
+        f'    sqlite3.connect(":memory:").cursor().execute("SELECT " + uid)\n\n'
+        for i in range(200)
+    )
+    (served / "db.py").write_text(body, encoding="utf-8")
+    r = M.aic_review()
+    assert r["changed_files"] == 1
+    assert len(json.dumps(r)) < 20_000
+
+
+def test_no_back_channel_deprecation_warnings(served):
+    """Roots, sampling and logging are deprecated at 2026-07-28 and raise on
+    servers with no back-channel. aic uses none of them -- pin that rather than
+    assume it, since the failure would be a client-side error we never see.
+    """
+    import warnings
+    with warnings.catch_warnings(record=True) as caught:
+        warnings.simplefilter("always")
+        M.aic_review()
+        M.aic_impact("db.py")
+        M.aic_overview()
+    names = [type(w.message).__name__ for w in caught]
+    assert not [n for n in names if "Deprecation" in n], names
 
 
 def test_impact_response_stays_small(served):

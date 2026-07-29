@@ -3,6 +3,7 @@
     aic index  <repo>                  build or update the graph
     aic status <repo> [--probe P]      what the graph holds
     aic impact <repo> <file> [--probe P]   what a change to <file> implicates
+    aic review <repo> [--probe P]      what everything you changed implicates
     aic touch  <repo> <file>...        invalidate named files, no repo walk
     aic fanout <repo>                  distribution of blast radius across the repo
 
@@ -128,6 +129,47 @@ def cmd_impact(args):
     print(f"query time                {r['elapsed_ms']:.0f} ms")
 
 
+def cmd_review(args):
+    """What everything changed since the baseline implicates.
+
+    The one read command that writes: it refreshes before answering, because
+    the change set is a diff between the graph and the baseline, and a stale
+    graph still matches its own baseline exactly. Skipping the refresh here
+    would report "nothing changed" for a tree that had just been edited --
+    which is the false negative this whole mechanism exists to avoid.
+    """
+    probe = probes.get(args.probe).name
+    repo = Path(args.repo).resolve()
+    with _open(args) as st:
+        refreshed = query.refresh(st, repo)
+        if args.reset:
+            at = query.record_baseline(st)
+            print(f"baseline                  reset to now ({at})")
+            print(f"files                     {len(st.hashes())}")
+            return
+        seeds, info = query.changed_since(st)
+        r = query.review(st, probe, seeds=seeds)
+        markers = st.sample_markers(probe, args.top) if args.top else []
+
+    counts = r["counts"]
+    at, n = info
+    print(f"baseline                  {at} ({n} files)")
+    if refreshed["baseline_established"]:
+        print("                          just recorded -- everything is baseline, "
+              "not change")
+    print(f"probe                     {probe}")
+    print(f"changed files             {len(r['seeds'])}")
+    print(f"dependent files           {len(set(r['scope']) - set(r['seeds']))}")
+    print(f"files needing recheck     {len(r['recheck_files'])}")
+    print(f"functions needing recheck {len(r['recheck_fns'])}  "
+          f"of {counts['functions']}")
+    print(f"query time                {r['elapsed_ms']:.0f} ms")
+    if markers:
+        print(f"\nsample markers ({args.top}):")
+        for p, q, kind, detail, ln in markers:
+            print(f"  {p}:{ln}  {q or '<module>'}  [{kind}]  {detail}")
+
+
 def cmd_fanout(args):
     with _open(args) as st:
         r = query.fanout_stats(st)
@@ -182,6 +224,14 @@ def main(argv=None):
     p.add_argument("file")
     p.add_argument("--probe", default=probes.DEFAULT)
     p.set_defaults(fn=cmd_impact)
+
+    p = sub.add_parser("review", help="what everything you changed implicates")
+    p.add_argument("repo")
+    p.add_argument("--probe", default=probes.DEFAULT)
+    p.add_argument("--top", type=int, default=0)
+    p.add_argument("--reset", action="store_true",
+                   help="record the tree as it stands now as the new baseline")
+    p.set_defaults(fn=cmd_review)
 
     p = sub.add_parser("fanout", help="blast-radius distribution across the repo")
     p.add_argument("repo")

@@ -96,7 +96,7 @@ analysis logic, which is what lets them differ as much as they do:
 |---|---|---|
 | caller | a human evaluating or debugging | a coding agent mid-task |
 | cost per call | ~110ms interpreter start | amortised; the process is resident |
-| dependencies | none, Python 3.9+ | ~13 transitive, Python 3.10+ |
+| dependencies | none, Python 3.9+ | 27 transitive, Python 3.10+ |
 | output | formatted for a terminal | ranked, truncated, token-budgeted |
 
 Once the MCP server landed, the obvious tidy-up was to delete the CLI and have one way in.
@@ -106,12 +106,16 @@ Deliberately not doing that, for four reasons:
    thirty-second version of the entire argument, and it needs no agent, no client and no
    protocol. Someone assessing whether this is worth their time should not have to stand
    up an MCP client to find out.
-2. **Dropping it would make the dependency story worse.** The MCP SDK pulls ~13 transitive
+2. **Dropping it would make the dependency story worse.** The MCP SDK pulls 27 transitive
    dependencies and needs 3.10+. CLI-less means the only way to ask about import edges
-   drags in pydantic, starlette and uvicorn.
+   drags in pydantic, starlette and uvicorn. SDK v2 barely moved the count (28 → 27) and
+   nearly doubled the import cost, which is the part that is actually felt.
 3. **It is the debugging surface.** When the server misbehaves you need to ask the same
    question with no protocol in the way. That is exactly how the [§3.3](#33-dogfooding-the-mcp-server)
-   bug was confirmed — reproduced against `query.py` directly, in six lines.
+   bug was confirmed — reproduced against `query.py` directly, in six lines. That argument
+   used to have a hole in it: `review` was the one question the CLI could not ask, because
+   its baseline lived in the server process — so the tool that actually had the bug was the
+   tool with no protocol-free way to reproduce it. `aic review` closes that.
 4. **Deleting it would pre-answer an open question.** [§2.4](#24-keeping-the-platform-probe-agnostic)
    notes the guidance that a CLI beats an MCP server for known, deterministic operations,
    and the MCP work was set up so "would the CLI have been enough?" could come back *yes*.
@@ -291,13 +295,32 @@ Worth stating plainly: **the bug was unreachable from the CLI, invisible to 70 p
 tests, and took one live agent loop to surface.** No amount of taint precision would have
 mattered while the server answered "nothing to re-check" for a change to a hub file.
 
-#### Known limitation
+#### Known limitation — closed
 
-`aic_review` reports nothing on a cold start. If no graph exists when the server begins, the
-first call indexes the whole repo and everything is baseline rather than change — correct,
-but it means edits made *before* the server started are invisible to `review`. Run 1 hit
-this and fell back to `aic_impact`. Worth a warmer message than "Nothing changed since this
-server started", which reads as reassurance when it should read as "I have no baseline".
+*Was:* `aic_review` reported nothing on a cold start. If no graph existed when the server
+began, the first call indexed the whole repo and everything was baseline rather than change
+— correct, but it meant edits made *before* the server started were invisible to `review`.
+Run 1 hit this and fell back to `aic_impact`.
+
+The cause was where the baseline lived. `review`'s scope came from a set in the server
+process holding everything it had reparsed since starting, so "before the server started"
+was definitionally invisible and there was nothing else to ask.
+
+MCP's 2026-07-28 revision removed the protocol session, which left that set with nowhere to
+live and forced the question of where it should have been all along. It is now a hash
+snapshot in the graph ([§5](#5-roadmap-and-gates)), so it outlives the process: every
+session after a repo's *first ever* index has a baseline, and edits made while nothing was
+running are ordinary changes. What remains is the genuinely first index of a new repo, where
+there is no earlier state to compare against and no amount of engineering produces one — so
+it now says so, and names `aic_impact` as the tool that answers without needing a baseline.
+That is the warmer message this section asked for, arrived at by removing the condition
+rather than by rewording it.
+
+Two things fell out that the in-memory version could not have done. A reverted edit stops
+counting as a change, because a diff forgets and a running tally does not. And the CLI got
+`aic review`, having previously been unable to ask the one question that needed a session —
+which restores reason 3 of [§2.3](#23-two-surfaces-one-query-layer) for the tool that
+actually had the bug.
 
 ---
 
@@ -393,7 +416,8 @@ This is the biggest unresolved question in the design.
 | Benchmarks | five pinned PyPI packages, blast radius for every file |
 | Incremental path | `touch` skips the walk; mtime+size pre-filter took warm re-index 87ms → 50ms |
 | CPG stages 1–3 | per-function CFG + worklist taint engine, policy supplied by the probe |
-| MCP server | three read-only tools, lazy stat-diff, ranked and truncated output |
+| MCP server | three read-only tools, lazy stat-diff, ranked and truncated output; stateless 2026-07-28 core |
+| Durable baseline | `review`'s measuring point lives in the graph, not the server process |
 | Inter-procedural corpus | 45 cases, baseline recorded ([§3.2](#32-taint-two-corpora)) |
 
 **Next: unresolved — summaries or call resolution?** The corpus gate is cleared, and the
@@ -465,6 +489,27 @@ that was never binding -- and the surface benchmark since confirmed it is the sm
 the per-call cost anyway (44ms refresh against a 78ms query on Django). Caching reachability
 against the dirty set would buy more than a watcher, for less machinery. A Go rewrite: revisit when multi-language support forces
 tree-sitter ([§6.2](#62-language-choice)).
+
+**Deliberately not doing, from the stateless migration.** Four rejections, recorded because
+each looks like the obvious answer from some angle:
+
+- **Anchoring the baseline to git** (`git diff --name-only HEAD`) rather than to a stored
+  snapshot. Tempting — it needs no new schema and rolls at the natural unit of work — but
+  `query.db_for` goes out of its way to support trees that are not git checkouts: read-only
+  exports, CI checkouts, vendored dependencies, store paths. It would also need path
+  re-relativization against `git rev-parse --show-toplevel`, since the analysis root is
+  routinely a subdirectory (the benchmarks point at `django-5.2.16/django`), and getting that
+  subtly wrong produces a quiet wrong answer rather than an error.
+- **Letting the client carry the change list.** The stateless spec's own idiom, and it would
+  work. It also reverses a decision already made and stated in `surfaces/mcp.py`: the
+  stat-diff is cheaper and more reliable than asking an agent to remember what it edited. An
+  agent that forgets a file gets a false negative, which is the expensive direction.
+- **An HTTP transport** (`stateless_http=True`). The install story is one process, one repo,
+  over stdio; multiple instances would need a repo-routing story that nothing has asked for.
+  Worth noting the payoff is real but latent: with the baseline in the graph the server is
+  now stateless *in fact* rather than only in protocol, so this became possible at the same
+  moment it stopped being necessary.
+- **MRTR.** All three tools are one-shot reads with nothing to elicit.
 
 ---
 
