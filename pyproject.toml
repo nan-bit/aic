@@ -13,11 +13,17 @@ aic-mcp = "aic.surfaces.mcp:main"
 
 [project.optional-dependencies]
 test = ["pytest"]
-# The MCP SDK pulls ~13 transitive dependencies and needs 3.10+, so it stays
+# The MCP SDK pulls 27 transitive dependencies and needs 3.10+, so it stays
 # optional -- `aic` itself remains dependency-free and runs on 3.9.
-# Pinned below 2.0 on purpose: SDK v2 tracks the 2026-07-28 stateless spec and
-# replaces the server core. Move to it once clients negotiate that revision.
-mcp = ["mcp>=1.26,<2; python_version>='3.10'"]
+#
+# On v2, which tracks the 2026-07-28 stateless spec. No v1 compatibility branch:
+# supporting both majors would roughly double the branches in a file written to
+# be cheap to throw away, which would trade the property that made this port
+# a one-file change for the ability to run against clients that have moved on.
+#
+# The count barely moved (28 -> 27). Import time did: 549ms -> 971ms for the
+# server module, and startup is import time. See bench/SURFACES.md.
+mcp = ["mcp>=2,<3; python_version>='3.10'"]
 
 [build-system]
 requires = ["setuptools>=61.0"]

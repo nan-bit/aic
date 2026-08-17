@@ -25,7 +25,7 @@ aic index .        # first run:  parses everything
 aic index .        # second run: stat-diffs, finds nothing changed
 ```
 
-On this repo — 74 files — that is **99 ms, then 2 ms**. The second run is the
+On this repo — 75 files — that is **99 ms, then 2 ms**. The second run is the
 whole argument, and the ratio is what travels: on Django's 883 files it is 2.6 s,
 then 51 ms.
 
@@ -33,6 +33,7 @@ Everything else, runnable against this repo as written:
 
 ```bash
 aic impact . aic/query.py                # what a change here implicates
+aic review . --probe security            # what everything you changed implicates
 aic fanout .                             # blast-radius distribution
 aic status . --probe security --top 5    # what the graph holds
 aic touch  . aic/query.py                # invalidate one file, no repo walk
@@ -182,12 +183,23 @@ claude mcp add aic -- aic-mcp /path/to/repo
 
 | tool | answers |
 |---|---|
-| `aic_review` | what the edits so far put at risk — the checkpoint call before declaring work done |
+| `aic_review` | what everything changed since the baseline put at risk — the checkpoint call before declaring work done |
 | `aic_impact` | the same question for one named file |
 | `aic_overview` | how far changes travel in this repo, and where they stop being cheap |
 
 All read-only. Every call stat-diffs the tree first (~50 ms on Django) and
-reparses only what moved, so there is no index step and no hook to install.
+reparses only what moved, so there is no index step and no hook to install —
+and since the baseline `review` measures from lives in the graph rather than in
+the server, that holds *across* sessions too, not just within one.
+
+**On MCP going stateless.** The 2026-07-28 revision dropped the initialize
+handshake and the protocol session, which sounds like an argument against the
+paragraph at the top of this file. It is the opposite, and the distinction is
+the point: MCP dropped *protocol* state, which for a read-only analyzer was
+ceremony that cost routing flexibility and bought nothing. AIC keeps *derived*
+state, which is the expensive thing and already lived in a file rather than in a
+connection. Derived state can be rebuilt instead of shared — and how cheap
+rebuilding is, is the measurement this whole repo is about.
 
 The binding constraint turned out to be response size, not speed: Django's
 `db/models/query.py` reaches 571 files, which is useless to return. The count

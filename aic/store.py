@@ -1,9 +1,14 @@
 """SQLite-backed incremental graph store.
 
-Holds three things: file hashes (so we know what changed), the import graph (so
-we know what a change reaches), and probe markers (so we know what is worth
-rechecking). `status` is CLEAN or DIRTY and is actually queried -- dirty
-propagation is the engine, not a decoration.
+Holds four things: file hashes (so we know what changed), the import graph (so
+we know what a change reaches), probe markers (so we know what is worth
+rechecking), and one baseline (so we know what "changed" is measured against).
+`status` is CLEAN or DIRTY and is actually queried -- dirty propagation is the
+engine, not a decoration.
+
+The baseline is the odd one out, and the reason `_check_version` has an
+exception in it: everything else here is derived from the tree and can be
+rebuilt from it, and the baseline cannot.
 """
 
 import sqlite3
@@ -11,8 +16,15 @@ from pathlib import Path
 
 # Bump when the schema changes shape. A mismatch drops and rebuilds rather than
 # migrating -- the graph is a derived artifact, always cheaper to regenerate
-# than to migrate correctly.
-SCHEMA_VERSION = 2
+# than to migrate correctly. `baseline` is exempt; see _check_version.
+SCHEMA_VERSION = 3
+
+# A second writer gets SQLITE_BUSY immediately at the default of 0, and every
+# MCP tool call writes (refresh commits once, at the end). `refresh` holds the
+# write lock for essentially the whole of a cold index -- 2.6s on Django -- so
+# this has to cover one of those. Much longer and a stuck lock reads as a hang
+# rather than an error, which is worse.
+BUSY_TIMEOUT_MS = 5000
 
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS files (
@@ -52,7 +64,18 @@ CREATE INDEX IF NOT EXISTS idx_fn_path       ON functions(path);
 CREATE INDEX IF NOT EXISTS idx_markers_probe ON markers(probe);
 CREATE INDEX IF NOT EXISTS idx_markers_path  ON markers(path);
 CREATE TABLE IF NOT EXISTS meta (key TEXT PRIMARY KEY, value TEXT);
+CREATE TABLE IF NOT EXISTS baseline (
+    path TEXT PRIMARY KEY,
+    hash TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS baseline_meta (key TEXT PRIMARY KEY, value TEXT);
 """
+
+# Dropped on a schema-version mismatch. The two `baseline` tables are
+# deliberately absent, and `baseline_meta` exists separately from `meta` for
+# exactly that reason: provenance dropped along with the graph could not say
+# whether what survived was still trustworthy. See _check_version.
+DERIVED_TABLES = ("files", "functions", "markers", "calls", "imports", "meta")
 
 
 class Store:
@@ -60,6 +83,11 @@ class Store:
         self.path = Path(db_path)
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.conn = sqlite3.connect(self.path)
+        # First, before anything else touches the file. Setting journal_mode
+        # takes a lock and `CREATE TABLE IF NOT EXISTS` is a write, so opening a
+        # Store already contends -- a timeout installed further down would not
+        # cover the two statements most likely to meet a concurrent indexer.
+        self.conn.execute(f"PRAGMA busy_timeout={BUSY_TIMEOUT_MS}")
         self.conn.execute("PRAGMA journal_mode=WAL")
         self.conn.execute("PRAGMA synchronous=NORMAL")
         self.conn.executescript(SCHEMA)
@@ -73,7 +101,15 @@ class Store:
         if row and int(row[0]) == SCHEMA_VERSION:
             return
         if row:
-            for table in ("files", "functions", "markers", "calls", "imports", "meta"):
+            # `baseline` survives. Every other table is derived from the tree
+            # and is cheaper to rebuild than to migrate, which is what makes
+            # drop-and-rebuild right for them; a baseline is the one thing here
+            # that cannot be recomputed from anything, only re-recorded, and
+            # re-recording silently answers a different question than the one
+            # that was asked. It carries the version it was written under
+            # instead, so a stale one reads as absent rather than as wrong --
+            # see baseline_info.
+            for table in DERIVED_TABLES:
                 self.conn.execute(f"DROP TABLE IF EXISTS {table}")
             self.conn.executescript(SCHEMA)
         self.conn.execute(
@@ -169,6 +205,49 @@ class Store:
     def get_meta(self, key, default=None):
         row = self.conn.execute("SELECT value FROM meta WHERE key=?", (key,)).fetchone()
         return row[0] if row else default
+
+    # --- baseline ------------------------------------------------------
+    #
+    # What "changed" is measured against. Written only when asked; never by a
+    # refresh. That is the whole design: refresh writes `files`, so no sequence
+    # of refreshes can move the thing the change set is computed from, which is
+    # the failure that made a resident server report a hub-file edit as
+    # reaching nothing.
+
+    def set_baseline(self, hashes, recorded_at):
+        self.conn.execute("DELETE FROM baseline")
+        self.conn.executemany(
+            "INSERT INTO baseline(path, hash) VALUES(?,?)", sorted(hashes.items())
+        )
+        for key, value in (
+            ("recorded_at", recorded_at),
+            ("schema_version", SCHEMA_VERSION),
+        ):
+            self.conn.execute(
+                "INSERT INTO baseline_meta(key,value) VALUES(?,?) "
+                "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (key, str(value))
+            )
+
+    def baseline(self):
+        """path -> hash as of the baseline. Empty when there isn't a usable one."""
+        if not self.baseline_info():
+            return {}
+        return dict(self.conn.execute("SELECT path, hash FROM baseline"))
+
+    def baseline_info(self):
+        """(recorded_at, n_files), or None if there is no baseline to trust.
+
+        A baseline written under an older schema is reported absent rather than
+        used. It survives the drop-and-rebuild so that upgrading does not
+        silently discard it, but if the graph it described was rebuilt under
+        different rules its hashes may no longer mean the same thing -- and a
+        wrong baseline is worse than none, because it answers confidently.
+        """
+        rows = dict(self.conn.execute("SELECT key, value FROM baseline_meta"))
+        if not rows or rows.get("schema_version") != str(SCHEMA_VERSION):
+            return None
+        n = self.conn.execute("SELECT count(*) FROM baseline").fetchone()[0]
+        return rows["recorded_at"], n
 
     # --- queries -------------------------------------------------------
 
