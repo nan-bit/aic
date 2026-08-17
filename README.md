@@ -19,8 +19,14 @@ the surfaces never see one. Runs on Python 3.9+ with no dependencies.
 ## Quickstart
 
 ```bash
-pip install -e .
+pip install "aic-graph @ git+https://github.com/nan-bit/aic.git"
+```
 
+The distribution is `aic-graph` because `aic` was already taken on PyPI by an
+unrelated project; everything you type is still `aic`. To hack on it instead,
+clone and `pip install -e .`. No dependencies, Python 3.9+.
+
+```bash
 aic index .        # first run:  parses everything
 aic index .        # second run: stat-diffs, finds nothing changed
 ```
@@ -216,9 +222,14 @@ The CLI pays ~110 ms of interpreter startup per invocation, more than the
 analysis itself, so the agent-facing surface is a resident MCP server.
 
 ```bash
-pip install -e ".[mcp]"
+pip install "aic-graph[mcp] @ git+https://github.com/nan-bit/aic.git"
 aic-mcp /path/to/repo        # speaks MCP over stdio
 ```
+
+The `mcp` extra needs Python 3.10+ and pulls 27 transitive dependencies, which
+is why it is an extra — `aic` itself has none. The server is pinned to v2 of the
+SDK, but that is a build-time pin, not a wire one: an SDK v1 client connects
+fine and negotiates an older protocol revision.
 
 Point any MCP client at that command:
 

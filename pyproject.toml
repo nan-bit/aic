@@ -1,6 +1,8 @@
 [project]
-name = "aic"
-version = "0.2.0"
+# Distribution name only. The import package, both console scripts and the repo
+# are all still `aic`; `aic` alone was taken on PyPI by an unrelated project.
+name = "aic-graph"
+version = "0.3.0"
 description = "Incremental impact analysis: what does this change actually put at risk?"
 readme = "README.md"
 license = {text = "MIT"}

@@ -47,11 +47,11 @@ try:
                                              # resolve typing.TypedDict below 3.12
 except ImportError as exc:  # pragma: no cover -- exercised by packaging, not tests
     # The SDK is an optional extra, so this is the expected state after a plain
-    # `pip install aic`, not a broken install. Say which command fixes it rather
+    # `pip install aic-graph`, not a broken install. Say which command fixes it
     # than letting a traceback for an unfamiliar module name stand as the answer.
     sys.exit(
         f"aic-mcp needs the MCP SDK, which is not installed ({exc}).\n"
-        'Install it with:  pip install "aic[mcp]"\n'
+        'Install it with:  pip install "aic-graph[mcp]"\n'
         "The `aic` CLI works without it and answers the same questions."
     )
 
@@ -63,7 +63,7 @@ READ_ONLY = ToolAnnotations(read_only_hint=True, open_world_hint=False)
 # The tool list is three tools declared at import time: no auth, no per-caller
 # filtering, nothing repo-dependent, so it is byte-identical for every caller of
 # a given aic version -- which is what "public" means. An hour bounds how long a
-# client can keep serving the old list after `pip install -U aic`.
+# client can keep serving the old list after `pip install -U aic-graph`.
 #
 # This is a correctness declaration, not an optimisation. A stdio client fetches
 # tools/list once per session; the benchmark will show it as noise. Saying so
