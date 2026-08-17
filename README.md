@@ -96,6 +96,12 @@ It is also a scheduling input. When verification costs money and latency, this
 says which edits deserve the expensive pass. Full results and the flask outlier:
 [bench/RESULTS.md](bench/RESULTS.md) (`python bench/run.py` to reproduce).
 
+**Click it instead of reading it.** [`viz/blast-radius.html`](viz/blast-radius.html)
+is the same five graphs as one page: every file is a square, and clicking one
+lights up the files a change to it would reach, in waves, one wave per import
+hop. Self-contained — no server, no build step, no network. Regenerate with
+`python viz/export.py`.
+
 ## Probes
 
 *The seam that keeps this general.* **A probe decides what is _interesting_; the
