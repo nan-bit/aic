@@ -39,11 +39,21 @@ import json  # noqa: E402
 import time  # noqa: E402
 from pathlib import Path  # noqa: E402
 
-from mcp.server.caching import CacheHint  # noqa: E402
-from mcp.server.mcpserver import MCPServer  # noqa: E402
-from mcp_types import ToolAnnotations  # noqa: E402
-from typing_extensions import TypedDict  # noqa: E402  -- pydantic cannot resolve
-                                         # typing.TypedDict below 3.12
+try:
+    from mcp.server.caching import CacheHint  # noqa: E402
+    from mcp.server.mcpserver import MCPServer  # noqa: E402
+    from mcp_types import ToolAnnotations  # noqa: E402
+    from typing_extensions import TypedDict  # noqa: E402  -- pydantic cannot
+                                             # resolve typing.TypedDict below 3.12
+except ImportError as exc:  # pragma: no cover -- exercised by packaging, not tests
+    # The SDK is an optional extra, so this is the expected state after a plain
+    # `pip install aic`, not a broken install. Say which command fixes it rather
+    # than letting a traceback for an unfamiliar module name stand as the answer.
+    sys.exit(
+        f"aic-mcp needs the MCP SDK, which is not installed ({exc}).\n"
+        'Install it with:  pip install "aic[mcp]"\n'
+        "The `aic` CLI works without it and answers the same questions."
+    )
 
 from .. import probes, query  # noqa: E402
 
