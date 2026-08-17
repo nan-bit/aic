@@ -72,7 +72,8 @@ needs a graph.
 same analyzer and got **over 70%** fix rates versus near-zero, because a diff is
 *attributable* to whoever caused it. A coding agent mid-task is a smaller unit
 with that same property — but only if re-verifying it is cheap. That is the
-result this is chasing. ([Evidence and sources](DESIGN.md#41-the-evidence).)
+result this is chasing.
+([Distefano et al., CACM 2019](https://cacm.acm.org/research/scaling-static-analyses-at-facebook/).)
 
 ## Blast radius predicts payoff before you deploy
 
@@ -97,7 +98,7 @@ says which edits deserve the expensive pass. Full results and the flask outlier:
 
 ## Probes
 
-*Why this isn't a security tool.* **A probe decides what is _interesting_; the
+*The seam that keeps this general.* **A probe decides what is _interesting_; the
 engine decides what is _affected_.** Everything downstream of a probe —
 reachability, dirty propagation, blast radius — is probe-agnostic.
 
@@ -107,10 +108,32 @@ reachability, dirty propagation, blast radius — is probe-agnostic.
 | `api` | public functions and methods | whose contract might I have broken? | 83.6% |
 | `tests` | test functions | what do I have to re-run? | 0.3% |
 
-They select very differently, which is how you know the seam is real rather than
-a security tool wearing a platform costume. Adding one means implementing a
+They select very differently, which is how you know the seam is real rather
+than one question wearing a general-purpose costume. Adding one means implementing a
 single `inspect()` method and registering it in `aic/probes/__init__.py`. There
-is deliberately no plugin discovery and no config DSL.
+is deliberately no plugin discovery and no config DSL — generalize on the fourth
+probe, not the second.
+
+The seam is also where this stops being about any one question. The expensive
+machinery a probe would want next is *a per-function fact, computed once,
+invalidated by dirty propagation, composed along call edges to a fixpoint.*
+Taint is one instantiation of that; it is not the only one:
+
+| instantiation | fact per function | answers |
+|---|---|---|
+| taint | does a parameter reach a sink | what did I put at risk |
+| test reachability | which tests transitively exercise this | what must I re-run |
+| API propagation | does a signature change reach a public entry point | whose contract did I break |
+| effects | does this do IO, mutate global state, block | is this safe to call from here |
+
+Fixpoint, cycle condensation, persistence and invalidation are shared; only the
+lattice and the transfer functions differ.
+
+**The honest cost.** The platform claim is thinner than that table suggests.
+`security` is the only probe with dataflow behind it; `api` and `tests` mark
+nodes and stop. Test selection is the obvious second consumer, and arguably the
+better first one: its ground truth is objective and free — run the suite, see
+what fails — and it *falsifies* the seam rather than asserting it.
 
 ## Where it's soft
 
@@ -144,8 +167,12 @@ see through its imports. So the call graph carries false edges. Unconstrained it
 is far worse — the closure saturates at 64% of functions and every probe returns
 the same answer — but constrained is not the same as correct.
 
-Both err in the safe direction for a filter. Neither is production.
-[Baseline and categories](DESIGN.md#32-taint-two-corpora).
+Both err in the safe direction for a filter. Neither is production. The corpus
+itself — source, expected JSON and a description per case — is in
+[`tests/fixtures/interproc/`](tests/fixtures/interproc/); its structure follows
+[PyCG](https://arxiv.org/abs/2103.00587)'s micro-benchmark suite and
+SecuriBench Micro's discipline of annotating benign flows, which are what
+actually discriminate between analyzers.
 
 ## The open question
 
@@ -167,9 +194,15 @@ settles it:
   real sources plus summaries address all four genuine false negatives directly.
   Call-graph precision needs type inference, which is the expensive part.
 
-If this were real, which would you do first? That is the call I'd want an
-engineer's read on. My current lean and the case for each side:
-[DESIGN.md §5](DESIGN.md#5-roadmap-and-gates).
+One measurement would settle it faster than more reasoning: the false-edge
+*rate* in the current call graph, not just the unresolved-call rate. The corpus
+records what the graph cannot resolve; it does not record what the graph
+resolves wrongly. That number is not in this repo, and it is the one that says
+whether summaries would be building on sand.
+
+Current lean: real sources first regardless — `os.environ`, `sys.argv`,
+`input()` — since they are cheap, independent of the fixpoint, and address all
+four genuine false negatives. Then measure the false-edge rate. Then decide.
 
 ## Use it with an agent
 
@@ -178,7 +211,13 @@ analysis itself, so the agent-facing surface is a resident MCP server.
 
 ```bash
 pip install -e ".[mcp]"
-claude mcp add aic -- aic-mcp /path/to/repo
+aic-mcp /path/to/repo        # speaks MCP over stdio
+```
+
+Point any MCP client at that command:
+
+```json
+{ "mcpServers": { "aic": { "command": "aic-mcp", "args": ["/path/to/repo"] } } }
 ```
 
 | tool | answers |
@@ -208,12 +247,26 @@ probe marks — 20 findings and 4.0 kB for the worst file in the repo, against a
 25k-token cap. Surface benchmarks: [bench/SURFACES.md](bench/SURFACES.md).
 
 **It works on agents that were not told about it.** In three headless sessions
-the agent found and called the tools off their descriptions alone, chose probes
-deliberately, and separated pre-existing findings from ones its own diff caused.
-One session also exposed a bug that 70 passing tests did not — a resident server
-erasing its own review scope, unreachable from a CLI where every invocation is a
-fresh process doing one thing.
-[Write-up](DESIGN.md#33-dogfooding-the-mcp-server).
+against a purpose-built 9-file sandbox, the agent found and called the tools off
+their descriptions alone — the prompt never mentioned impact analysis, it asked
+for a code change and ended with "tell me what else in this repo my change could
+have put at risk." The agent picked probes deliberately (`api` to check a rename
+had not broken callers, `tests` for what to re-run), and separated pre-existing
+findings from ones its own diff caused. Its reasoning was visibly grounded in
+the output: *"models.py is imported by 7 of 9 files, so it has the widest blast
+radius in the repo."*
+
+One session also exposed a bug that 70 passing tests did not. `aic_review` was
+called three times with different probes; the first returned 14 findings and the
+next two returned **zero**, while `aic_impact` on the same file returned 7. Two
+tools, same scope, contradictory answers. Cause: `refresh` called
+`mark_clean_all()` on every invocation, so DIRTY meant "dependents of the most
+recent change set" — correct for a one-shot CLI run, wrong for a resident server
+where the second call's no-op refresh erased what the first established. Scope
+collapsed from 7 files to 1, and the server reported that a change to a hub
+module reached nothing: a false negative, the expensive kind. The bug was
+unreachable from the CLI, invisible to the whole suite, and took one live agent
+loop to surface.
 
 ## How it works
 
@@ -234,7 +287,7 @@ the analysis direction. That is the arrow the subtitle is about; see
 ## Limits
 
 ~2,500 lines across thirteen modules, of which only `surfaces/mcp.py` has a
-dependency. A working argument about a cost model, not a security product.
+dependency. A working argument about a cost model, not a finished product.
 
 Beyond the two over-approximations above:
 
@@ -243,9 +296,49 @@ Beyond the two over-approximations above:
 - **Blast radius is file-granular.** Function granularity is the same work as
   inter-procedural taint.
 
-Not a SAST engine — the sink list is short by design — and not a reachability
-product, since file-granular is coarse next to function-level. The transferable
-parts are the incremental engine, the probe seam, and the measurement discipline.
+The sink list is short by design and blast radius is coarse next to
+function-level. The transferable parts are the incremental engine, the probe
+seam, and the measurement discipline — not the analysis.
+
+## Record
+
+Kept because the deltas are the interesting part.
+
+**What the first version got wrong.** v1 produced a lossy skeleton for *reading*
+— a symbol table, not a compiler — and `mark_dirty()` wrote `status='DIRTY'` that
+nothing ever read. The disqualifying part was that the representation could not
+distinguish a problem from its fix. These two inputs produced byte-identical
+output, because decorators were dropped entirely:
+
+```python
+@requires_admin
+def delete_all():        vs        def delete_all():
+    db.drop()                          db.drop()
+```
+
+Which also makes `@login_required` and `@app.route("/admin")` invisible.
+Module-level assignments were never visited; signatures lost annotations,
+defaults, `*args` and `**kwargs`; deleted files were never evicted; and nothing
+carried a line number, so no finding could cite a location. v2 keeps the engine
+and changes what a node's payload is. What was *not* a problem, measured so
+effort did not go there: compression was real (87%) and performance was fine.
+
+**Numbers that moved.** Cold vs. warm index was 1432 ms vs. 87 ms on Django
+before the taint pass and the mtime pre-filter; now 2.6 s vs. ~50 ms. The
+security probe's selectivity went 4.4% → 8.6% → 4.4%: the taint pass doubled the
+reachable set and the prose was corrected upward to match, and that 8.6% turned
+out to be inflated by a bug — the dataflow pass judged sinks on the bare name, so
+every `json.loads` counted as a deserialization sink. With that fixed it is 4.4%
+again, arrived at honestly. Twice now the generated numbers were right before the
+prose was.
+
+**Why it is still Python.** Go is the right answer for a *product* — single
+static binary, tree-sitter bindings, cheap concurrency — and the wrong answer for
+demonstrating an argument, where velocity beats distribution and the cold-index
+cost is nowhere near binding. Revisit when multi-language support forces
+tree-sitter. Fair warning for whenever that happens: tree-sitter parse tables are
+enormous (`tree-sitter-c-sharp`'s `parser.c` is ~32 MB), so ship precompiled
+grammars for a fixed set of languages rather than vendoring the corpus.
 
 <a name="lineage"></a>
 ## Lineage
@@ -260,9 +353,6 @@ That disclosure describes **generation**: a node holds authored intent and is
 "collapsed" into code, with an LLM as the build rule. AIC runs the same machinery
 in the **analysis** direction — nodes hold extracted facts, the fixpoint sought is
 verification rather than generation, and there is no model in the loop at all.
-
-Design notes, every measurement, and the reasoning behind each decision are in
-[DESIGN.md](DESIGN.md).
 
 ## Acknowledgements
 

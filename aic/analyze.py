@@ -339,8 +339,7 @@ def resolved_calls(call_edges, by_name, import_edges=None):
     plus its resolved imports) is a cheap, sound-ish precision fix: a call can
     only bind to something reachable through the import graph. It still
     over-approximates within that set. Closing the remaining gap needs real
-    type inference -- which is precisely the expensive part that commercial
-    reachability engines sell.
+    type inference, which is the expensive part and is not attempted here.
 
     Exposed separately from `marker_reachable` because it bounds anything built
     on top of it: an inter-procedural analysis cannot follow a call this does

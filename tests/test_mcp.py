@@ -226,7 +226,8 @@ def test_impact_response_stays_small(served):
     )
     (served / "db.py").write_text(body, encoding="utf-8")
     r = M.aic_impact("db.py")
-    # Claude Code caps tool responses at 25k tokens; ~4 bytes/token gives 100kB.
+    # Agent clients commonly cap tool responses at 25k tokens; ~4 bytes/token
+    # gives 100kB.
     # A default-limit response should not come close.
     assert len(json.dumps(r)) < 20_000
 
