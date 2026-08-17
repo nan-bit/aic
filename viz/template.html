@@ -1,0 +1,883 @@
+<title>Blast Radius</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+
+<style>
+  /* ---- tokens: light is the base, both dark states override only these ---- */
+  :root {
+    --bg:      #F4F6F8;
+    --panel:   #FFFFFF;
+    --sunken:  #EAEDF1;
+    --line:    #DDE3E9;
+    --fg:      #161B21;
+    --muted:   #5D6874;
+    --faint:   #8C97A3;
+    --dot:     #CDD5DD;
+    --dot-edge:#BAC3CD;
+    --accent:  #C4552B;
+    --src:     #1A1F26;
+    --src-ring:#FFFFFF;
+    --h1: #F2A81E;
+    --h2: #E8863A;
+    --h3: #D9633A;
+    --h4: #BE4630;
+    --h5: #94322A;
+    --shadow: 0 1px 2px rgba(20,28,38,.06), 0 8px 24px rgba(20,28,38,.06);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+    --bg:      #0B0E13;
+    --panel:   #131920;
+    --sunken:  #0F141A;
+    --line:    #222B35;
+    --fg:      #E5EAF0;
+    --muted:   #8A97A5;
+    --faint:   #66727F;
+    --dot:     #2B333D;
+    --dot-edge:#39434F;
+    --accent:  #E8804A;
+    --src:     #FFFFFF;
+    --src-ring:#0B0E13;
+    --h1: #FFD166;
+    --h2: #F5A65B;
+    --h3: #E8804A;
+    --h4: #D25C3A;
+    --h5: #A8412E;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.3);
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg:      #0B0E13;
+    --panel:   #131920;
+    --sunken:  #0F141A;
+    --line:    #222B35;
+    --fg:      #E5EAF0;
+    --muted:   #8A97A5;
+    --faint:   #66727F;
+    --dot:     #2B333D;
+    --dot-edge:#39434F;
+    --accent:  #E8804A;
+    --src:     #FFFFFF;
+    --src-ring:#0B0E13;
+    --h1: #FFD166;
+    --h2: #F5A65B;
+    --h3: #E8804A;
+    --h4: #D25C3A;
+    --h5: #A8412E;
+    --shadow: 0 1px 2px rgba(0,0,0,.4), 0 10px 30px rgba(0,0,0,.3);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: Archivo, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4.5rem) clamp(1rem, 4vw, 2.5rem) 4rem;
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  /* ---- masthead ---- */
+  .eyebrow {
+    font-family: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .72rem;
+    font-weight: 500;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 1.1rem;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800;
+    letter-spacing: -.03em;
+    line-height: 1.02;
+    text-wrap: balance;
+    margin: 0 0 1.1rem;
+  }
+  .lede {
+    max-width: 62ch;
+    font-size: clamp(1.02rem, 1.6vw, 1.14rem);
+    color: var(--muted);
+    margin: 0;
+  }
+  .lede strong { color: var(--fg); font-weight: 600; }
+
+  /* ---- instrument ---- */
+  .instrument {
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+  }
+  .bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: .4rem;
+    padding: .7rem .9rem;
+    border-bottom: 1px solid var(--line);
+    background: var(--sunken);
+  }
+  .bar-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .68rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin-right: .5rem;
+  }
+  .tab {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .78rem;
+    font-weight: 500;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    padding: .3rem .6rem;
+    cursor: pointer;
+    transition: color .12s, background .12s, border-color .12s;
+  }
+  .tab:hover { color: var(--fg); background: var(--panel); }
+  .tab[aria-selected="true"] {
+    color: var(--accent);
+    border-color: var(--line);
+    background: var(--panel);
+  }
+  .tab .n { color: var(--faint); font-size: .72rem; }
+  .tab[aria-selected="true"] .n { color: var(--accent); opacity: .7; }
+
+  .tab.cyc[aria-pressed="true"] {
+    color: var(--accent);
+    border-color: var(--accent);
+    background: var(--panel);
+  }
+  .tab.cyc[aria-pressed="true"] .n { color: var(--accent); opacity: .7; }
+
+  .body { display: grid; grid-template-columns: 1fr 300px; }
+  @media (max-width: 860px) { .body { grid-template-columns: 1fr; } }
+
+  .stage { position: relative; padding: 1.1rem; min-width: 0; }
+  canvas { display: block; width: 100%; cursor: crosshair; }
+  canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  .tip {
+    position: absolute;
+    pointer-events: none;
+    z-index: 5;
+    background: var(--fg);
+    color: var(--bg);
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem;
+    line-height: 1.5;
+    padding: .35rem .5rem;
+    border-radius: 3px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: opacity .1s;
+  }
+  .tip.on { opacity: 1; }
+  .tip b { font-weight: 600; }
+
+  /* ---- readout ---- */
+  .readout {
+    border-left: 1px solid var(--line);
+    padding: 1.4rem 1.2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.3rem;
+  }
+  @media (max-width: 860px) { .readout { border-left: 0; border-top: 1px solid var(--line); } }
+
+  .r-label {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .66rem;
+    letter-spacing: .13em;
+    text-transform: uppercase;
+    color: var(--faint);
+    margin: 0 0 .4rem;
+  }
+  .r-file {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .8rem;
+    color: var(--fg);
+    word-break: break-all;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .r-file.empty { color: var(--faint); }
+
+  .count {
+    font-size: clamp(3rem, 7vw, 4.2rem);
+    font-weight: 800;
+    letter-spacing: -.045em;
+    line-height: .9;
+    font-variant-numeric: tabular-nums;
+    color: var(--accent);
+    margin: 0;
+  }
+  .count.idle { color: var(--faint); }
+  .count-sub { font-size: .84rem; color: var(--muted); margin: .35rem 0 0; }
+
+  .legend { display: flex; flex-direction: column; gap: .35rem; }
+  .legend-row {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    color: var(--muted);
+  }
+  .sw { width: 11px; height: 11px; border-radius: 2px; flex: none; }
+
+  .presets { display: flex; flex-direction: column; gap: .35rem; }
+  .preset {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem;
+    text-align: left;
+    color: var(--muted);
+    background: var(--sunken);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: .45rem .55rem;
+    cursor: pointer;
+    line-height: 1.45;
+    transition: color .12s, border-color .12s;
+  }
+  .preset:hover { color: var(--fg); border-color: var(--faint); }
+  .preset b { color: var(--accent); font-weight: 600; }
+
+  .jump {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .74rem;
+    width: 100%;
+    color: var(--fg);
+    background: var(--sunken);
+    border: 1px solid var(--line);
+    border-radius: 3px;
+    padding: .45rem .55rem;
+  }
+  .jump::placeholder { color: var(--faint); }
+
+  /* ---- distribution ---- */
+  h2 {
+    font-size: clamp(1.3rem, 2.6vw, 1.7rem);
+    font-weight: 700;
+    letter-spacing: -.02em;
+    text-wrap: balance;
+    margin: 0 0 .7rem;
+  }
+  .sec-note { max-width: 62ch; color: var(--muted); margin: 0 0 1.6rem; }
+  .sec-note strong { color: var(--fg); font-weight: 600; }
+
+  .dist { display: flex; flex-direction: column; gap: .1rem; }
+  .dist-head, .dist-row {
+    display: grid;
+    grid-template-columns: 150px 1fr 62px 62px;
+    align-items: center;
+    gap: .8rem;
+    padding: .55rem .2rem;
+  }
+  .dist-head {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .66rem;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--faint);
+    border-bottom: 1px solid var(--line);
+  }
+  .dist-row { border-bottom: 1px solid var(--line); }
+  .dist-row .pkg {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .78rem;
+    color: var(--fg);
+  }
+  .dist-row .pkg span { color: var(--faint); }
+  .dist-row .num {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .82rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+  }
+  .num.med { color: var(--fg); font-weight: 600; }
+  .num.mean { color: var(--accent); font-weight: 600; }
+  .track { position: relative; height: 12px; background: var(--sunken); border-radius: 2px; }
+  .track i {
+    position: absolute; top: 0; bottom: 0; width: 2px; border-radius: 1px;
+  }
+  .track .m-med  { background: var(--fg); }
+  .track .m-mean { background: var(--accent); }
+  .track .m-span {
+    height: 4px; top: 4px; border-radius: 2px;
+    background: linear-gradient(90deg, var(--h1), var(--h5));
+    opacity: .55;
+  }
+  @media (max-width: 640px) {
+    .dist-head, .dist-row { grid-template-columns: 1fr 52px 52px; }
+    .dist-head .track-h, .dist-row .track { display: none; }
+  }
+
+  /* ---- explainer ---- */
+  .cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.6rem 2rem;
+  }
+  .cols h3 {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .7rem;
+    font-weight: 600;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin: 0 0 .5rem;
+  }
+  .cols p { margin: 0; color: var(--muted); font-size: .93rem; }
+  .cols code {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .85em;
+    color: var(--fg);
+  }
+
+  footer {
+    border-top: 1px solid var(--line);
+    padding-top: 1.6rem;
+    color: var(--faint);
+    font-size: .85rem;
+  }
+  footer p { margin: 0 0 .5rem; max-width: 68ch; }
+  a { color: var(--accent); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header>
+    <p class="eyebrow">Static analysis · import graphs · five Python packages</p>
+    <h1>I changed this file.<br>What else do I now need to look at?</h1>
+    <p class="lede">
+      Every square is one file. Click one and watch what a change to it reaches —
+      not the files it imports, but the files that import <em>it</em>, transitively.
+      That set is its <strong>blast radius</strong>, and it is what an analyzer would
+      have to re-check. Colour is distance: <strong>how many import hops away</strong>
+      the damage travelled.
+    </p>
+  </header>
+
+  <section class="instrument">
+    <div class="bar" role="tablist" aria-label="Package">
+      <span class="bar-label">Repo</span>
+      <div id="tabs" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
+      <button class="tab cyc" id="cycBtn" aria-pressed="false"
+              style="margin-left:auto">outline import cycle <span class="n" id="cycN"></span></button>
+    </div>
+
+    <div class="body">
+      <div class="stage">
+        <canvas id="map" tabindex="0" role="img"
+                aria-label="Map of every file in the package, grouped by top-level directory"></canvas>
+        <div class="tip" id="tip"></div>
+      </div>
+
+      <aside class="readout">
+        <div>
+          <p class="r-label">Changed file</p>
+          <p class="r-file empty" id="rFile">nothing selected</p>
+        </div>
+
+        <div aria-live="polite">
+          <p class="r-label">Files to re-check</p>
+          <p class="count idle" id="rCount">—</p>
+          <p class="count-sub" id="rSub">Click any square on the map.</p>
+        </div>
+
+        <div>
+          <p class="r-label">Import hops from the change</p>
+          <div class="legend" id="legend"></div>
+        </div>
+
+        <div>
+          <p class="r-label">Try</p>
+          <div class="presets" id="presets"></div>
+        </div>
+
+        <div>
+          <p class="r-label">Jump to a file</p>
+          <input class="jump" id="jump" list="files" placeholder="type a path…"
+                 aria-label="Jump to a file by path">
+          <datalist id="files"></datalist>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <section>
+    <h2>Most changes are cheap. A minority are catastrophic.</h2>
+    <p class="sec-note">
+      Blast radius computed for <strong>every</strong> file in each package, not two
+      hand-picked ones. The gap between median and mean is the whole finding: the
+      median change touches a handful of files, the mean is dragged upward by a small
+      set of hub modules, and <strong>the average tells you nothing about either</strong>.
+      The expensive minority sit inside the package's largest import cycle.
+    </p>
+    <div class="dist" id="dist"></div>
+  </section>
+
+  <section>
+    <h2>What you are looking at</h2>
+    <div class="cols">
+      <div>
+        <h3>The map</h3>
+        <p>One square per Python file, grouped into blocks by top-level directory and
+        ordered by path. Block size is just file count — this is a census, not a treemap
+        of importance.</p>
+      </div>
+      <div>
+        <h3>The lighting</h3>
+        <p>Clicking a file runs a breadth-first walk over the <em>reverse</em> import
+        edges. Squares light in waves, one wave per hop, which is exactly the order a
+        dirty-propagation pass would visit them in.</p>
+      </div>
+      <div>
+        <h3>Why it matters</h3>
+        <p>A diff is what you changed; blast radius is what your change reached. A
+        one-line edit to a hub module is a one-line diff and a several-hundred-file
+        impact. Only the second needs a graph.</p>
+      </div>
+      <div>
+        <h3>Where the data came from</h3>
+        <p>Pinned source distributions from PyPI, indexed by <code>aic</code> — imports
+        resolved exactly, never by suffix matching. Every number here is generated, none
+        typed in by hand.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p><strong>AIC</strong> keeps this graph on disk and updates it incrementally: index
+    the repo once, then on each change reparse only what moved and re-mark only what the
+    change reached. On Django that is 2.6&nbsp;s once, then 51&nbsp;ms to confirm nothing
+    changed and 14–60&nbsp;ms to absorb an edit — the spread being the blast radius above.</p>
+    <p>The dirty-propagation model comes from
+    <a href="https://www.tdcommons.org/dpubs_series/8241/">Graph-based AI Compiler</a>
+    (Rhodes Floyd Davis Jr., Technical Disclosure Commons, 2025, CC-BY 4.0), which runs the
+    same machinery in the generation direction. Inspired by ideas from
+    <a href="https://github.com/rodydavis">@rodydavis</a>.</p>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var DATA = /*__DATA__*/null;
+  if (!DATA || !DATA.length) return;
+
+  var RAMP = ["--h1", "--h2", "--h3", "--h4", "--h5"];
+  var reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var cv = document.getElementById("map"),
+      ctx = cv.getContext("2d"),
+      tip = document.getElementById("tip"),
+      rFile = document.getElementById("rFile"),
+      rCount = document.getElementById("rCount"),
+      rSub = document.getElementById("rSub"),
+      jump = document.getElementById("jump"),
+      files = document.getElementById("files");
+
+  var pkg = null,      // active package
+      cells = [],      // {x,y,s,i} laid out
+      blocks = [],     // {name,x,y,w,h}
+      depth = [],      // hop distance per file, -1 = untouched
+      shown = -1,      // waves revealed so far
+      src = -1,        // selected file index
+      hover = -1,
+      cycOn = false,
+      inCycle = [],
+      css = getComputedStyle(document.documentElement),
+      timer = null;
+
+  function color(v) { return css.getPropertyValue(v).trim(); }
+
+  /* ---- reverse adjacency: who imports me ---- */
+  function buildAdj(p) {
+    var adj = [], i;
+    for (i = 0; i < p.files.length; i++) adj.push(null);
+    for (i = 0; i < p.edges.length; i++) {
+      var s = p.edges[i][0], d = p.edges[i][1];
+      if (!adj[d]) adj[d] = [];
+      adj[d].push(s);
+    }
+    p._adj = adj;
+  }
+
+  /* ---- BFS over reverse edges, recording hop distance ---- */
+  function reach(p, start) {
+    var dist = new Array(p.files.length).fill(-1);
+    dist[start] = 0;
+    var q = [start], head = 0, max = 0;
+    while (head < q.length) {
+      var n = q[head++], nbrs = p._adj[n];
+      if (!nbrs) continue;
+      for (var k = 0; k < nbrs.length; k++) {
+        var m = nbrs[k];
+        if (dist[m] === -1) { dist[m] = dist[n] + 1; if (dist[m] > max) max = dist[m]; q.push(m); }
+      }
+    }
+    return { dist: dist, count: q.length, hops: max };
+  }
+
+  /* ---- layout: flow one block per top-level directory ---- */
+  function layout() {
+    var W = cv.clientWidth;
+    if (!W || !pkg) return;
+
+    var n = pkg.files.length;
+    var pitch = n > 600 ? 9 : n > 300 ? 11 : n > 100 ? 14 : n > 40 ? 20 : 28;
+    var gap = Math.max(2, Math.round(pitch * .18));
+    var s = pitch - gap;
+
+    // group files, preserving path order inside each group
+    var order = [], map = {};
+    for (var i = 0; i < n; i++) {
+      var g = pkg.files[i].g;
+      if (!map[g]) { map[g] = []; order.push(g); }
+      map[g].push(i);
+    }
+    order.sort(function (a, b) { return map[b].length - map[a].length || (a < b ? -1 : 1); });
+
+    var maxCols = Math.max(4, Math.floor(W / pitch));
+    var pad = 26, blockGap = 18;
+    cells = new Array(n);
+    blocks = [];
+
+    var x = 0, y = 0, rowH = 0;
+    for (var b = 0; b < order.length; b++) {
+      var ids = map[order[b]];
+      var cols = Math.min(maxCols, Math.max(3, Math.ceil(Math.sqrt(ids.length * 1.7))));
+      var rows = Math.ceil(ids.length / cols);
+      var bw = cols * pitch, bh = rows * pitch;
+
+      if (x > 0 && x + bw > W) { x = 0; y += rowH + pad + blockGap; rowH = 0; }
+
+      blocks.push({ name: order[b], x: x, y: y, w: bw, h: bh, count: ids.length });
+      for (var j = 0; j < ids.length; j++) {
+        cells[ids[j]] = {
+          x: x + (j % cols) * pitch,
+          y: y + pad + Math.floor(j / cols) * pitch,
+          s: s
+        };
+      }
+      rowH = Math.max(rowH, bh);
+      x += bw + blockGap;
+    }
+
+    var H = y + rowH + pad + 4;
+    var dpr = window.devicePixelRatio || 1;
+    cv.width = Math.round(W * dpr);
+    cv.height = Math.round(H * dpr);
+    cv.style.height = H + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    draw();
+  }
+
+  function draw() {
+    if (!pkg) return;
+    var W = cv.clientWidth, H = cv.height / (window.devicePixelRatio || 1);
+    ctx.clearRect(0, 0, W, H);
+
+    var quiet = color("--dot"), edge = color("--dot-edge"),
+        srcC = color("--src"), ring = color("--src-ring"), faint = color("--faint");
+    var ramp = RAMP.map(color);
+
+    ctx.font = '500 9px "IBM Plex Mono", ui-monospace, monospace';
+    ctx.textBaseline = "alphabetic";
+    ctx.fillStyle = faint;
+    for (var b = 0; b < blocks.length; b++) {
+      var bl = blocks[b];
+      ctx.fillText(bl.name + "  " + bl.count, bl.x, bl.y + 12);
+    }
+
+    if (cycOn && inCycle.length) {
+      ctx.strokeStyle = color("--accent");
+      ctx.globalAlpha = .55;
+      ctx.lineWidth = 1;
+      for (var q = 0; q < inCycle.length; q++) {
+        var cc = cells[inCycle[q]];
+        if (cc) ctx.strokeRect(cc.x - 1.5, cc.y - 1.5, cc.s + 3, cc.s + 3);
+      }
+      ctx.globalAlpha = 1;
+    }
+
+    for (var i = 0; i < cells.length; i++) {
+      var c = cells[i], d = depth.length ? depth[i] : -1;
+      if (i === src) continue;
+      if (d > 0 && d <= shown) ctx.fillStyle = ramp[Math.min(d - 1, ramp.length - 1)];
+      else ctx.fillStyle = quiet;
+      ctx.fillRect(c.x, c.y, c.s, c.s);
+    }
+
+    if (hover >= 0 && hover !== src) {
+      var h = cells[hover];
+      ctx.strokeStyle = edge;
+      ctx.lineWidth = 1;
+      ctx.strokeRect(h.x - 1.5, h.y - 1.5, h.s + 3, h.s + 3);
+    }
+
+    if (src >= 0 && cells[src]) {
+      var sc = cells[src];
+      ctx.fillStyle = ring;
+      ctx.fillRect(sc.x - 2, sc.y - 2, sc.s + 4, sc.s + 4);
+      ctx.fillStyle = srcC;
+      ctx.fillRect(sc.x - 1, sc.y - 1, sc.s + 2, sc.s + 2);
+    }
+  }
+
+  function hit(px, py) {
+    for (var i = 0; i < cells.length; i++) {
+      var c = cells[i];
+      if (px >= c.x - 1 && px <= c.x + c.s + 1 && py >= c.y - 1 && py <= c.y + c.s + 1) return i;
+    }
+    return -1;
+  }
+
+  /* ---- selection ---- */
+  function select(i) {
+    if (i < 0 || !pkg) return;
+    src = i;
+    var r = reach(pkg, i);
+    depth = r.dist;
+    shown = 0;
+    clearInterval(timer);
+
+    var f = pkg.files[i];
+    rFile.textContent = f.p;
+    rFile.classList.remove("empty");
+    rCount.classList.remove("idle");
+    rSub.textContent = r.count === 1
+      ? "Nothing imports it. A change here stops where it started."
+      : (r.count - 1) + " dependent" + (r.count === 2 ? "" : "s") + " across "
+        + r.hops + " import hop" + (r.hops === 1 ? "" : "s") + ".";
+
+    animateCount(r.count);
+    if (reduced || r.hops === 0) { shown = r.hops; draw(); return; }
+    timer = setInterval(function () {
+      shown++;
+      draw();
+      if (shown >= r.hops) clearInterval(timer);
+    }, Math.max(70, Math.min(180, 420 / Math.max(1, r.hops))));
+  }
+
+  var countTimer = null;
+  function animateCount(target) {
+    clearInterval(countTimer);
+    if (reduced) { rCount.textContent = target; return; }
+    var t0 = performance.now(), dur = 480;
+    countTimer = setInterval(function () {
+      var k = Math.min(1, (performance.now() - t0) / dur);
+      var e = 1 - Math.pow(1 - k, 3);
+      rCount.textContent = Math.round(target * e);
+      if (k >= 1) clearInterval(countTimer);
+    }, 16);
+  }
+
+  function clearSel() {
+    src = -1; depth = []; shown = -1;
+    clearInterval(timer);
+    rFile.textContent = "nothing selected";
+    rFile.classList.add("empty");
+    rCount.textContent = "—";
+    rCount.classList.add("idle");
+    rSub.textContent = "Click any square on the map.";
+    draw();
+  }
+
+  /* ---- events ---- */
+  cv.addEventListener("mousemove", function (e) {
+    var r = cv.getBoundingClientRect();
+    var i = hit(e.clientX - r.left, e.clientY - r.top);
+    if (i !== hover) { hover = i; draw(); }
+    if (i < 0) { tip.classList.remove("on"); cv.style.cursor = "default"; return; }
+    cv.style.cursor = "pointer";
+    var f = pkg.files[i];
+    var d = depth.length ? depth[i] : -1;
+    tip.innerHTML = "<b>" + f.p + "</b><br>reaches " + f.f + " file" + (f.f === 1 ? "" : "s")
+      + (d > 0 ? " · " + d + " hop" + (d === 1 ? "" : "s") + " from the change" : "");
+    tip.classList.add("on");
+    var c = cells[i];
+    var tw = tip.offsetWidth;
+    tip.style.left = Math.max(4, Math.min(cv.clientWidth - tw + 12, c.x + 18)) + "px";
+    tip.style.top = (c.y + 26) + "px";
+  });
+  cv.addEventListener("mouseleave", function () {
+    hover = -1; tip.classList.remove("on"); draw();
+  });
+  cv.addEventListener("click", function (e) {
+    var r = cv.getBoundingClientRect();
+    var i = hit(e.clientX - r.left, e.clientY - r.top);
+    if (i < 0) clearSel(); else select(i);
+  });
+  cv.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") { clearSel(); return; }
+    if (e.key !== "ArrowRight" && e.key !== "ArrowLeft") return;
+    e.preventDefault();
+    var next = src < 0 ? 0 : src + (e.key === "ArrowRight" ? 1 : -1);
+    select(Math.max(0, Math.min(pkg.files.length - 1, next)));
+  });
+
+  jump.addEventListener("change", function () {
+    var v = jump.value.trim();
+    for (var i = 0; i < pkg.files.length; i++) {
+      if (pkg.files[i].p === v) { select(i); return; }
+    }
+  });
+
+  /* ---- chrome ---- */
+  function renderLegend() {
+    var el = document.getElementById("legend");
+    var labels = ["1 hop — imports it directly", "2 hops", "3 hops", "4 hops", "5+ hops"];
+    el.innerHTML = "";
+    var row = document.createElement("div");
+    row.className = "legend-row";
+    row.innerHTML = '<span class="sw" style="background:var(--src);outline:1px solid var(--line)"></span>'
+      + "the file you changed";
+    el.appendChild(row);
+    for (var i = 0; i < RAMP.length; i++) {
+      var r = document.createElement("div");
+      r.className = "legend-row";
+      r.innerHTML = '<span class="sw" style="background:var(' + RAMP[i] + ')"></span>' + labels[i];
+      el.appendChild(r);
+    }
+    var q = document.createElement("div");
+    q.className = "legend-row";
+    q.innerHTML = '<span class="sw" style="background:var(--dot)"></span>untouched — no re-check needed';
+    el.appendChild(q);
+  }
+
+  function renderPresets() {
+    var el = document.getElementById("presets");
+    el.innerHTML = "";
+    var sorted = pkg.files.map(function (f, i) { return { i: i, f: f.f, p: f.p }; })
+      .sort(function (a, b) { return b.f - a.f; });
+    var picks = [sorted[0], sorted[Math.floor(sorted.length / 2)], sorted[sorted.length - 1]];
+    var tags = ["widest", "median", "narrowest"];
+    picks.forEach(function (p, k) {
+      if (!p) return;
+      var btn = document.createElement("button");
+      btn.className = "preset";
+      btn.innerHTML = tags[k] + " · <b>" + p.f + "</b><br>" + p.p;
+      btn.addEventListener("click", function () { select(p.i); });
+      el.appendChild(btn);
+    });
+  }
+
+  function renderFiles() {
+    files.innerHTML = "";
+    pkg.files.forEach(function (f) {
+      var o = document.createElement("option");
+      o.value = f.p;
+      files.appendChild(o);
+    });
+    jump.value = "";
+  }
+
+  function renderDist() {
+    var el = document.getElementById("dist");
+    var top = Math.max.apply(null, DATA.map(function (d) { return d.stats.max; }));
+    el.innerHTML = '<div class="dist-head"><span>Package</span>'
+      + '<span class="track-h">Median &rarr; p90 &rarr; max, on one scale</span>'
+      + '<span style="text-align:right">Median</span><span style="text-align:right">Mean</span></div>';
+    DATA.forEach(function (d) {
+      var s = d.stats;
+      var row = document.createElement("div");
+      row.className = "dist-row";
+      var pc = function (v) { return (100 * v / top) + "%"; };
+      row.innerHTML =
+        '<span class="pkg">' + d.name + ' <span>' + d.version + '</span></span>'
+        + '<span class="track">'
+        +   '<i class="m-span" style="left:' + pc(s.median) + ';width:'
+        +     Math.max(0.6, 100 * (s.max - s.median) / top) + '%"></i>'
+        +   '<i class="m-med" style="left:' + pc(s.median) + '"></i>'
+        +   '<i class="m-mean" style="left:' + pc(s.mean) + '"></i>'
+        + '</span>'
+        + '<span class="num med">' + s.median + '</span>'
+        + '<span class="num mean">' + s.mean + '</span>';
+      el.appendChild(row);
+    });
+  }
+
+  function setPkg(k) {
+    pkg = DATA[k];
+    if (!pkg._adj) buildAdj(pkg);
+    Array.prototype.forEach.call(document.querySelectorAll(".tab"), function (t, i) {
+      t.setAttribute("aria-selected", i === k ? "true" : "false");
+    });
+    inCycle = pkg.cycle || [];
+    var pct = Math.round(100 * inCycle.length / pkg.files.length);
+    document.getElementById("cycN").textContent =
+      inCycle.length ? inCycle.length + " · " + pct + "%" : "none";
+    cycBtn.disabled = !inCycle.length;
+    cycBtn.style.opacity = inCycle.length ? "" : ".45";
+    cv.setAttribute("aria-label",
+      "Map of " + pkg.files.length + " files in " + pkg.name + ", grouped by top-level directory");
+    clearSel();
+    renderPresets();
+    renderFiles();
+    layout();
+  }
+
+  function renderTabs() {
+    var el = document.getElementById("tabs");
+    DATA.forEach(function (d, k) {
+      var b = document.createElement("button");
+      b.className = "tab";
+      b.setAttribute("role", "tab");
+      b.setAttribute("aria-selected", "false");
+      b.innerHTML = d.name + ' <span class="n">' + d.files.length + "</span>";
+      b.addEventListener("click", function () { setPkg(k); });
+      el.appendChild(b);
+    });
+  }
+
+  var cycBtn = document.getElementById("cycBtn");
+  cycBtn.addEventListener("click", function () {
+    cycOn = !cycOn;
+    cycBtn.setAttribute("aria-pressed", cycOn ? "true" : "false");
+    draw();
+  });
+
+  renderTabs();
+  renderLegend();
+  renderDist();
+
+  // open on the biggest package — the one where the finding is most visible
+  var start = 0;
+  DATA.forEach(function (d, k) { if (d.files.length > DATA[start].files.length) start = k; });
+  setPkg(start);
+
+  var ro = new ResizeObserver(function () { layout(); });
+  ro.observe(cv.parentNode);
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+    css = getComputedStyle(document.documentElement);
+    setTimeout(draw, 30);
+  });
+})();
+</script>
