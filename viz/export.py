@@ -5,10 +5,17 @@ engine, and writes a single self-contained HTML page with the graphs inlined.
 Nothing is hand-curated: every number on the page comes out of `aic`.
 
     python viz/export.py            # -> viz/blast-radius.html
+    python viz/export.py --standalone PATH   # also write a full HTML document
 
 The page needs no server, no build step and no network. It is one file.
+
+Two shapes, one source. The default output is body content, which is what an
+embedding host wants. `--standalone` wraps the same bytes in a complete document
+-- doctype included, because a page served without one renders in quirks mode --
+for dropping straight into a static site's public directory.
 """
 
+import argparse
 import json
 import sys
 from pathlib import Path
@@ -72,7 +79,49 @@ def graph_for(name, version, subdir):
     }
 
 
+DOC = """<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Click any file in five real Python packages \
+and watch which files a change to it would force you to re-check.">
+{head}</head>
+<body>
+{body}</body>
+</html>
+"""
+
+# Elements that belong in <head> when this becomes a real document. In the
+# embedded shape they sit at the top of the body, which browsers tolerate; in a
+# standalone document they should be where they belong.
+HEAD_TAGS = ("<title", "<link rel=\"preconnect\"", "<link rel=\"stylesheet\"", "<style>")
+
+
+def split_head(html):
+    """Lift <title>, the font links and the stylesheet out of the body."""
+    head, body, rest = [], [], html
+    while True:
+        starts = [(rest.index(t), t) for t in HEAD_TAGS if t in rest]
+        if not starts:
+            break
+        i, tag = min(starts)
+        close = "</style>" if tag == "<style>" else ("</title>" if tag == "<title" else ">")
+        j = rest.index(close, i) + len(close)
+        body.append(rest[:i])
+        head.append(rest[i:j])
+        rest = rest[j:]
+    body.append(rest)
+    return "\n".join(h.strip() for h in head), "".join(body).strip()
+
+
 def main():
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
+    ap.add_argument("--standalone", metavar="PATH",
+                    help="also write a complete HTML document here "
+                         "(e.g. a static site's public/ directory)")
+    args = ap.parse_args()
+
     graphs = []
     for name, version, subdir in TARGETS:
         try:
@@ -90,6 +139,14 @@ def main():
     html = TEMPLATE.read_text(encoding="utf-8").replace("/*__DATA__*/null", blob)
     OUT.write_text(html, encoding="utf-8")
     print(f"\n{OUT.relative_to(ROOT)}  {len(html) / 1024:.0f} kB")
+
+    if args.standalone:
+        head, body = split_head(html)
+        doc = DOC.format(head=head, body=body)
+        dest = Path(args.standalone).expanduser()
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        dest.write_text(doc, encoding="utf-8")
+        print(f"{dest}  {len(doc) / 1024:.0f} kB  (standalone)")
 
 
 if __name__ == "__main__":

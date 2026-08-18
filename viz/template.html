@@ -367,6 +367,21 @@
   }
 </style>
 
+<script>
+  // When this page is served from a site that owns a light/dark toggle, follow
+  // it: ernan.dev stores the choice in localStorage under `theme`, the same key
+  // its own shell reads. Standalone, nothing is stored and the media query in
+  // the stylesheet decides. Inline and before the markup so there is no flash.
+  (function () {
+    try {
+      var t = localStorage.getItem("theme");
+      if (t === "dark" || t === "light") {
+        document.documentElement.setAttribute("data-theme", t);
+      }
+    } catch (e) { /* privacy mode: fall through to prefers-color-scheme */ }
+  })();
+</script>
+
 <div class="wrap">
 
   <header>
@@ -875,9 +890,25 @@
 
   var ro = new ResizeObserver(function () { layout(); });
   ro.observe(cv.parentNode);
-  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", function () {
+  function rethemed() {
     css = getComputedStyle(document.documentElement);
     setTimeout(draw, 30);
+  }
+  window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", rethemed);
+
+  // The site toggle writes localStorage from another document; `storage` fires
+  // here for cross-tab changes, and MutationObserver catches a same-document
+  // stamp. Both end in the same redraw.
+  window.addEventListener("storage", function (e) {
+    if (e.key !== "theme") return;
+    if (e.newValue === "dark" || e.newValue === "light") {
+      document.documentElement.setAttribute("data-theme", e.newValue);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+    }
+    rethemed();
   });
+  new MutationObserver(rethemed).observe(document.documentElement,
+    { attributes: true, attributeFilter: ["data-theme", "class"] });
 })();
 </script>
