@@ -22,9 +22,12 @@ the surfaces never see one. Runs on Python 3.9+ with no dependencies.
 pip install "aic-graph @ git+https://github.com/nan-bit/aic.git"
 ```
 
-The distribution is `aic-graph` because `aic` was already taken on PyPI by an
-unrelated project; everything you type is still `aic`. To hack on it instead,
-clone and `pip install -e .`. No dependencies, Python 3.9+.
+**Not on PyPI, deliberately.** Install from git or from a clone (`pip install
+-e .`); there is no `pip install aic-graph`. Uploading to an index would promise
+a maintained package, and the [limits](#limits) below are the honest version of
+what this is. `aic-graph` is only the distribution name — `aic` belongs to an
+unrelated project there — and everything you type is still `aic`. No
+dependencies, Python 3.9+.
 
 ```bash
 aic index .        # first run:  parses everything

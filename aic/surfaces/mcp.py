@@ -51,7 +51,9 @@ except ImportError as exc:  # pragma: no cover -- exercised by packaging, not te
     # than letting a traceback for an unfamiliar module name stand as the answer.
     sys.exit(
         f"aic-mcp needs the MCP SDK, which is not installed ({exc}).\n"
-        'Install it with:  pip install "aic-graph[mcp]"\n'
+        "Install it with:\n"
+        '  pip install "aic-graph[mcp] @ git+https://github.com/nan-bit/aic.git"\n'
+        '  (from a clone:  pip install -e ".[mcp]")\n'
         "The `aic` CLI works without it and answers the same questions."
     )
 

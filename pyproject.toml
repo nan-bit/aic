@@ -1,6 +1,8 @@
 [project]
-# Distribution name only. The import package, both console scripts and the repo
-# are all still `aic`; `aic` alone was taken on PyPI by an unrelated project.
+# Distribution name only -- the import package, both console scripts and the repo
+# are all still `aic`. Not published to any index, and named `aic-graph` anyway
+# because `aic` on PyPI is an unrelated project: an unowned name fails loudly if
+# someone types `pip install -U`, where `aic` would quietly fetch a stranger.
 name = "aic-graph"
 version = "0.3.0"
 description = "Incremental impact analysis: what does this change actually put at risk?"
