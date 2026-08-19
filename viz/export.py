@@ -31,6 +31,43 @@ from run import TARGETS, fetch                  # noqa: E402
 OUT = ROOT / "viz" / "blast-radius.html"
 TEMPLATE = ROOT / "viz" / "template.html"
 
+# The shared ernan.dev project chrome -- back link and light/dark toggle.
+# Vendored here by the portfolio's `npm run sync:projects`; the source of truth
+# is portfolio/shared/. Inlined rather than linked because the whole point of
+# this page is that it is one file that needs no server and no network.
+CHROME_CSS = ROOT / "viz" / "project-chrome.css"
+CHROME_JS = ROOT / "viz" / "project-chrome.js"
+
+
+def inline_chrome(html):
+    """Substitute the vendored chrome into the template's two placeholders.
+
+    Missing files are fatal rather than skipped: a page that silently loses its
+    back button and theme toggle looks fine in review and is wrong in
+    production.
+    """
+    for path, marker in ((CHROME_CSS, "/*__CHROME_CSS__*/"),
+                         (CHROME_JS, "/*__CHROME_JS__*/")):
+        if not path.exists():
+            raise SystemExit(
+                f"{path.relative_to(ROOT)} is missing -- run `npm run sync:projects` "
+                "from the portfolio to vendor the shared chrome."
+            )
+        if marker not in html:
+            raise SystemExit(f"template.html has no {marker} placeholder")
+        text = path.read_text(encoding="utf-8")
+        # The HTML tokenizer ends a <script>/<style> element at the first
+        # matching close tag in the raw text -- it does not know about JS
+        # strings or comments. An unescaped one anywhere in these files, even
+        # inside a comment, would terminate the element early and spill the
+        # remainder onto the page as visible text. Escaping the slash is inert
+        # in both languages and stops that for good.
+        text = text.replace("</script", "<\\/script").replace("</style", "<\\/style")
+        # str.replace, not re.sub: a backslash in the replacement would
+        # otherwise be read as a group reference.
+        html = html.replace(marker, text)
+    return html
+
 
 def group_of(rel):
     """Top-level directory, which is the coarsest structure a reader already
@@ -137,6 +174,7 @@ def main():
 
     blob = json.dumps(graphs, separators=(",", ":"))
     html = TEMPLATE.read_text(encoding="utf-8").replace("/*__DATA__*/null", blob)
+    html = inline_chrome(html)
     OUT.write_text(html, encoding="utf-8")
     print(f"\n{OUT.relative_to(ROOT)}  {len(html) / 1024:.0f} kB")
 
