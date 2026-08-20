@@ -17,7 +17,7 @@ aic-mcp = "aic.surfaces.mcp:main"
 
 [project.optional-dependencies]
 test = ["pytest"]
-# The MCP SDK pulls 27 transitive dependencies and needs 3.10+, so it stays
+# The MCP SDK pulls 28 transitive dependencies and needs 3.10+, so it stays
 # optional -- `aic` itself remains dependency-free and runs on 3.9.
 #
 # On v2, which tracks the 2026-07-28 stateless spec. No v1 compatibility branch:

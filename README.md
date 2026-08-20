@@ -173,8 +173,9 @@ suite and see what fails, and it *falsifies* the seam rather than asserting it.
 machinery behind it, a per-function CFG and a worklist taint engine, with taint
 tracked *per sink kind* rather than as one bit, because sanitizing is
 kind-specific (`shlex.quote` makes a value safe for a shell and does nothing at
-all for SQL). On Django that clears nearly half the heuristic sinks as static
-(256 → 135).
+all for SQL). On Django this clears the heuristic sinks the dataflow can prove
+are static. What survives is in [bench/RESULTS.md](bench/RESULTS.md): the
+security probe reaches 4.4% of Django's functions.
 
 It also has **two over-approximations, and they compound.**
 
@@ -196,8 +197,10 @@ vulnerability benchmark. Neither corpus is one.
 
 **2. Call resolution is name-based**, constrained to targets the caller's file can
 see through its imports. So the call graph carries false edges. Unconstrained it
-is far worse, since the closure saturates at 64% of functions and every probe
-returns the same answer, but constrained is not the same as correct.
+is far worse: the closure saturates and every probe returns the same answer. On
+Django that path reached about 64% of all functions when it was tried, which is a
+note in `aic/analyze.py` rather than a number the benchmark reproduces.
+Constrained is not the same as correct.
 
 Both err in the safe direction for a filter. Neither is production. The corpus
 itself, meaning source, expected JSON and a description per case, is in
@@ -238,15 +241,17 @@ four genuine false negatives. Then measure the false-edge rate. Then decide.
 
 ## Use it with an agent
 
-The CLI pays ~110 ms of interpreter startup per invocation, more than the
-analysis itself, so the agent-facing surface is a resident MCP server.
+A CLI invocation pays process startup every time.
+[bench/SURFACES.md](bench/SURFACES.md) measures what a resident process removes:
+113 to 123 ms per call, which on the smaller repos is far more than the analysis
+itself. That is why the agent-facing surface is a resident MCP server.
 
 ```bash
 pip install "aic-graph[mcp] @ git+https://github.com/nan-bit/aic.git"
 aic-mcp /path/to/repo        # speaks MCP over stdio
 ```
 
-The `mcp` extra needs Python 3.10+ and pulls 27 transitive dependencies, which
+The `mcp` extra needs Python 3.10+ and pulls 28 transitive dependencies, which
 is why it is an extra: `aic` itself has none. The server is pinned to v2 of the
 SDK, but that is a build-time pin, not a wire one: an SDK v1 client connects
 fine and negotiates an older protocol revision.
@@ -280,8 +285,11 @@ rebuilding is, is the measurement this whole repo is about.
 The binding constraint turned out to be response size, not speed: Django's
 `db/models/query.py` reaches 571 files, which is useless to return. The count
 goes in the summary and the body carries the ranked intersection with what the
-probe marks: 20 findings and 4.0 kB for the worst file in the repo, against a
-25k-token cap. Surface benchmarks: [bench/SURFACES.md](bench/SURFACES.md).
+probe marks: 20 findings and 4.0 kB for the worst file in the repo. The limit is
+a finding count, `DEFAULT_LIMIT = 20` in `aic/surfaces/mcp.py`, not a token
+budget. Nothing here counts tokens; the cap exists so a response stays small
+enough to be worth returning. Surface benchmarks:
+[bench/SURFACES.md](bench/SURFACES.md).
 
 **It works on agents that were not told about it.** In three headless sessions
 against a purpose-built 9-file sandbox, the agent found and called the tools off
