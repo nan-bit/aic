@@ -328,6 +328,9 @@
     color: var(--faint);
   }
 
+  /* Caption for the map directly below it, not a paragraph in its own right. */
+  .map-intro { margin-bottom: 1.1rem; }
+
   .sec-note { max-width: 62ch; color: var(--muted); margin: 0 0 1.6rem; }
   .sec-note strong { color: var(--fg); font-weight: 600; }
 
@@ -422,19 +425,13 @@
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">Static analysis · import graphs · five Python packages</p>
+    <p class="eyebrow">Incremental analysis · import graphs · blast radius</p>
     <h1>I changed this file.<br>What else do I now need to look at?</h1>
     <p class="lede">
-      Indexing Django's {{django.files}} files takes {{django.cold_s}} s once. Every
-      change after that costs {{django.warm_ms}} ms to confirm nothing moved, or
-      {{django.edit_p50}} ms to absorb an edit. A stateless analyzer pays the first
-      number on every invocation. A stateful graph pays it once.
-    </p>
-    <p class="lede">
-      What a change reaches is a separate question with a lopsided answer. Django's
-      median file reaches {{django.radius_p50}} others, its mean reaches
-      {{django.radius_mean}}, and its worst reaches {{django.radius_max}}. Most changes
-      are cheap to verify, a minority are not, and <strong>the average describes
+      Index Django's {{django.files}} files once, then pay milliseconds per change. A
+      stateless analyzer pays the first cost every time. What a change <em>reaches</em>
+      is a different question: the median file reaches {{django.radius_p50}} others, the
+      worst reaches {{django.radius_max}}, and <strong>the average describes
       neither</strong>.
     </p>
   </header>
@@ -456,27 +453,20 @@
       </div>
     </div>
     <p class="sec-note">
-      Absorbing an edit was timed for all {{django.edit_files_timed}} files, not a
-      sampled one. It ranges from {{django.edit_min}} ms to {{django.edit_p90}} ms at
-      the 90th percentile, and the cheapest is {{django.edit_floor_share}}% of the mean.
-      Most of what an edit costs is the fixed work of finding what changed, so
-      <strong>an edit costs about the same whichever file you touch</strong>. What
-      varies tracks the size of the file you edited, not how far the edit reaches.
+      Timed for all {{django.edit_files_timed}} files, not sampled. The cheapest edit is
+      {{django.edit_floor_share}}% of the mean, so <strong>an edit costs about the same
+      whichever file you touch</strong>.
     </p>
   </section>
 
   <section>
-    <h2>What a change reaches</h2>
-    <p class="sec-note">
-      Every square is one file. Click one and watch what a change to it reaches: not
-      the files it imports, but the files that import <em>it</em>, transitively. That
-      set is its <strong>blast radius</strong>, and it is what an analyzer would have to
-      re-check. Colour is distance, meaning <strong>how many import hops away</strong>
-      the change travelled.
+    <p class="sec-note map-intro">
+      Every square is one file. Click one: the lit squares are its
+      <strong>blast radius</strong>, the files that import it transitively, coloured by
+      how many hops away.
     </p>
-  </section>
 
-  <section class="instrument">
+    <div class="instrument">
     <div class="bar" role="tablist" aria-label="Package">
       <span class="bar-label">Repo</span>
       <div id="tabs" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
@@ -520,6 +510,7 @@
           <datalist id="files"></datalist>
         </div>
       </aside>
+      </div>
     </div>
   </section>
 
