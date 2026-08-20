@@ -17,7 +17,9 @@ dist/
 # AIC generated
 .aic/
 bench/.cache/
-bench/results.json
+# bench/results.json is deliberately tracked: viz/export.py reads it to put
+# the timings on the page. Ignoring it is how the page ended up with
+# hand-typed numbers that drifted from the benchmark.
 bench/surfaces.json
 
 # System

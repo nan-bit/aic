@@ -1,0 +1,163 @@
+[
+  {
+    "package": "requests 2.32.3",
+    "files": 18,
+    "functions": 240,
+    "imports": 55,
+    "markers": {
+      "api": 168
+    },
+    "reachable": {
+      "security": 0,
+      "api": 193,
+      "tests": 0
+    },
+    "cold_ms": 80,
+    "warm_ms": 2,
+    "edit_ms": 6,
+    "edit_file": "status_codes.py",
+    "edit_dirty": 5,
+    "sccs": 18,
+    "core_scc": 1,
+    "fanout": {
+      "min": 1,
+      "p50": 6,
+      "p75": 8,
+      "p90": 9,
+      "p99": 14,
+      "max": 14,
+      "mean": 6,
+      "share_le_10": 94.4
+    }
+  },
+  {
+    "package": "flask 3.0.3",
+    "files": 24,
+    "functions": 353,
+    "imports": 111,
+    "markers": {
+      "api": 249,
+      "security": 7
+    },
+    "reachable": {
+      "security": 5,
+      "api": 294,
+      "tests": 0
+    },
+    "cold_ms": 102,
+    "warm_ms": 2,
+    "edit_ms": 6,
+    "edit_file": "json/provider.py",
+    "edit_dirty": 21,
+    "sccs": 6,
+    "core_scc": 19,
+    "fanout": {
+      "min": 1,
+      "p50": 22,
+      "p75": 22,
+      "p90": 22,
+      "p99": 23,
+      "max": 23,
+      "mean": 19.5,
+      "share_le_10": 12.5
+    }
+  },
+  {
+    "package": "celery 5.4.0",
+    "files": 158,
+    "functions": 2888,
+    "imports": 574,
+    "markers": {
+      "api": 1848,
+      "security": 26
+    },
+    "reachable": {
+      "security": 126,
+      "api": 2300,
+      "tests": 0
+    },
+    "cold_ms": 657,
+    "warm_ms": 2,
+    "edit_ms": 8,
+    "edit_file": "worker/consumer/mingle.py",
+    "edit_dirty": 6,
+    "sccs": 124,
+    "core_scc": 34,
+    "fanout": {
+      "min": 1,
+      "p50": 6,
+      "p75": 78,
+      "p90": 89,
+      "p99": 114,
+      "max": 123,
+      "mean": 41.2,
+      "share_le_10": 51.3
+    }
+  },
+  {
+    "package": "sqlalchemy 2.0.36",
+    "files": 255,
+    "functions": 10413,
+    "imports": 2382,
+    "markers": {
+      "api": 6364,
+      "security": 717,
+      "tests": 436
+    },
+    "reachable": {
+      "security": 3609,
+      "api": 8314,
+      "tests": 436
+    },
+    "cold_ms": 2794,
+    "warm_ms": 3,
+    "edit_ms": 13,
+    "edit_file": "testing/entities.py",
+    "edit_dirty": 39,
+    "sccs": 89,
+    "core_scc": 121,
+    "fanout": {
+      "min": 1,
+      "p50": 40,
+      "p75": 245,
+      "p90": 245,
+      "p99": 246,
+      "max": 248,
+      "mean": 127.1,
+      "share_le_10": 27.1
+    }
+  },
+  {
+    "package": "django 5.2.16",
+    "files": 883,
+    "functions": 9213,
+    "imports": 3295,
+    "markers": {
+      "api": 6454,
+      "security": 395,
+      "tests": 11
+    },
+    "reachable": {
+      "security": 406,
+      "api": 7701,
+      "tests": 26
+    },
+    "cold_ms": 3198,
+    "warm_ms": 71,
+    "edit_ms": 76,
+    "edit_file": "core/management/templates.py",
+    "edit_dirty": 2,
+    "sccs": 669,
+    "core_scc": 162,
+    "fanout": {
+      "min": 1,
+      "p50": 3,
+      "p75": 68,
+      "p90": 571,
+      "p99": 573,
+      "max": 588,
+      "mean": 140.4,
+      "share_le_10": 58.8
+    }
+  }
+]

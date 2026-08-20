@@ -17,6 +17,7 @@ for dropping straight into a static site's public directory.
 
 import argparse
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -37,6 +38,12 @@ TEMPLATE = ROOT / "viz" / "template.html"
 # this page is that it is one file that needs no server and no network.
 CHROME_CSS = ROOT / "viz" / "project-chrome.css"
 CHROME_JS = ROOT / "viz" / "project-chrome.js"
+
+# Committed output of `python bench/run.py --edit-dist`. The page used to carry
+# timings typed into the prose by hand, which is how it came to quote figures
+# matching no run of the benchmark. Nothing here is transcribed.
+BENCH_RESULTS = ROOT / "bench" / "results.json"
+BENCH_EDITS = ROOT / "bench" / "edit-distribution.json"
 
 
 def inline_chrome(html):
@@ -66,6 +73,76 @@ def inline_chrome(html):
         # str.replace, not re.sub: a backslash in the replacement would
         # otherwise be read as a group reference.
         html = html.replace(marker, text)
+    return html
+
+
+def bench_facts():
+    """Flatten the committed benchmark artifacts into {token: value}.
+
+    Keyed by the short package name, so the template writes {{django.warm_ms}}
+    rather than repeating a version string it would then have to keep in step
+    with bench/run.py's TARGETS.
+    """
+    for path in (BENCH_RESULTS, BENCH_EDITS):
+        if not path.exists():
+            raise SystemExit(
+                f"{path.relative_to(ROOT)} is missing -- run "
+                "`python bench/run.py --edit-dist` to generate it."
+            )
+
+    rows = json.loads(BENCH_RESULTS.read_text(encoding="utf-8"))
+    edits = json.loads(BENCH_EDITS.read_text(encoding="utf-8"))
+
+    facts = {}
+    for row in rows:
+        short = row["package"].split()[0]
+        fan = row["fanout"]
+        facts[f"{short}.version"] = row["package"].split()[1]
+        for key in ("files", "functions", "cold_ms", "warm_ms", "edit_ms"):
+            facts[f"{short}.{key}"] = row[key]
+        # Seconds, for the one figure large enough that milliseconds read badly.
+        # Derived rather than written into the prose, so it cannot drift from the
+        # measurement, and rounded rather than truncated: the page used to say
+        # 2.6 s for a 2658 ms index.
+        facts[f"{short}.cold_s"] = round(row["cold_ms"] / 1000, 1)
+        for key in ("p50", "p90", "max", "mean"):
+            facts[f"{short}.radius_{key}"] = fan[key]
+
+        e = edits.get(row["package"])
+        if not e:
+            continue
+        for key in ("min", "p50", "p90", "max", "mean"):
+            facts[f"{short}.edit_{key}"] = e[key]
+        facts[f"{short}.edit_files_timed"] = e["files_timed"]
+        # The cheapest edit as a share of the mean. On a large tree this is most
+        # of the measurement, and it is the stable way to say that an edit costs
+        # about the same whichever file you touch.
+        facts[f"{short}.edit_floor_share"] = (
+            round(100 * e["min"] / e["mean"]) if e["mean"] else 0
+        )
+        facts[f"{short}.edit_vs_size"] = e["size_correlation"]
+        facts[f"{short}.edit_vs_radius"] = e["radius_correlation"]
+    return facts
+
+
+def inject_facts(html, facts):
+    """Replace every {{token}} in the template with a measured value.
+
+    An unknown token is fatal. Left alone it would render as a literal
+    {{django.warm_ms}} on the published page, which is the loud failure; the
+    quiet one is a token that silently resolves to nothing and leaves a sentence
+    reading "then  ms to confirm nothing changed".
+
+    Unused facts are fine. The benchmark measures more than the page shows.
+    """
+    missing = sorted(set(re.findall(r"\{\{([a-z0-9_.]+)\}\}", html)) - set(facts))
+    if missing:
+        raise SystemExit(
+            "template.html references benchmark values that do not exist: "
+            + ", ".join(missing)
+        )
+    for token, value in facts.items():
+        html = html.replace("{{" + token + "}}", f"{value}")
     return html
 
 
@@ -175,6 +252,7 @@ def main():
     blob = json.dumps(graphs, separators=(",", ":"))
     html = TEMPLATE.read_text(encoding="utf-8").replace("/*__DATA__*/null", blob)
     html = inline_chrome(html)
+    html = inject_facts(html, bench_facts())
     OUT.write_text(html, encoding="utf-8")
     print(f"\n{OUT.relative_to(ROOT)}  {len(html) / 1024:.0f} kB")
 

@@ -352,6 +352,9 @@ html.pc-has-bar body {
     margin: 0;
   }
   .lede strong { color: var(--fg); font-weight: 600; }
+  /* The lede is two paragraphs now, one per finding. Without this they set as a
+     single block and the second reads as a continuation of the first. */
+  .lede + .lede { margin-top: .9rem; }
 
   /* ---- instrument ---- */
   .instrument {
@@ -519,6 +522,38 @@ html.pc-has-bar body {
     text-wrap: balance;
     margin: 0 0 .7rem;
   }
+  /* The timings are the element here, not prose wrapped around them. */
+  .cost-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.4rem 2.6rem;
+    margin: 0 0 1.5rem;
+    padding: 1.15rem 1.35rem;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    box-shadow: var(--shadow);
+  }
+  .cost-fig { display: flex; flex-direction: column; gap: .3rem; }
+  .cost-val {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    font-weight: 600;
+    line-height: 1;
+    color: var(--fg);
+    font-variant-numeric: tabular-nums;
+  }
+  .cost-lab {
+    font-family: "IBM Plex Mono", ui-monospace, monospace;
+    font-size: .72rem;
+    letter-spacing: .07em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  /* Caption for the map directly below it, not a paragraph in its own right. */
+  .map-intro { margin-bottom: 1.1rem; }
+
   .sec-note { max-width: 62ch; color: var(--muted); margin: 0 0 1.6rem; }
   .sec-note strong { color: var(--fg); font-weight: 600; }
 
@@ -779,18 +814,48 @@ html.pc-has-bar body {
 <div class="wrap">
 
   <header>
-    <p class="eyebrow">Static analysis · import graphs · five Python packages</p>
+    <p class="eyebrow">Incremental analysis · import graphs · blast radius</p>
     <h1>I changed this file.<br>What else do I now need to look at?</h1>
     <p class="lede">
-      Every square is one file. Click one and watch what a change to it reaches —
-      not the files it imports, but the files that import <em>it</em>, transitively.
-      That set is its <strong>blast radius</strong>, and it is what an analyzer would
-      have to re-check. Colour is distance: <strong>how many import hops away</strong>
-      the damage travelled.
+      Index Django's 883 files once, then pay milliseconds per change. A
+      stateless analyzer pays the first cost every time. What a change <em>reaches</em>
+      is a different question: the median file reaches 3 others, the
+      worst reaches 588, and <strong>the average describes
+      neither</strong>.
     </p>
   </header>
 
-  <section class="instrument">
+  <section>
+    <h2>Index once. Pay milliseconds after that.</h2>
+    <div class="cost-figures">
+      <div class="cost-fig">
+        <span class="cost-val">3.2 s</span>
+        <span class="cost-lab">first index, 883 files</span>
+      </div>
+      <div class="cost-fig">
+        <span class="cost-val">71 ms</span>
+        <span class="cost-lab">confirm nothing changed</span>
+      </div>
+      <div class="cost-fig">
+        <span class="cost-val">65.3 ms</span>
+        <span class="cost-lab">absorb one edit, median</span>
+      </div>
+    </div>
+    <p class="sec-note">
+      Timed for all 883 files, not sampled. The cheapest edit is
+      79% of the mean, so <strong>an edit costs about the same
+      whichever file you touch</strong>.
+    </p>
+  </section>
+
+  <section>
+    <p class="sec-note map-intro">
+      Every square is one file. Click one: the lit squares are its
+      <strong>blast radius</strong>, the files that import it transitively, coloured by
+      how many hops away.
+    </p>
+
+    <div class="instrument">
     <div class="bar" role="tablist" aria-label="Package">
       <span class="bar-label">Repo</span>
       <div id="tabs" style="display:flex;flex-wrap:wrap;gap:.3rem"></div>
@@ -834,6 +899,7 @@ html.pc-has-bar body {
           <datalist id="files"></datalist>
         </div>
       </aside>
+      </div>
     </div>
   </section>
 
@@ -841,10 +907,10 @@ html.pc-has-bar body {
     <h2>Most changes are cheap. A minority are catastrophic.</h2>
     <p class="sec-note">
       Blast radius computed for <strong>every</strong> file in each package, not two
-      hand-picked ones. The gap between median and mean is the whole finding: the
-      median change touches a handful of files, the mean is dragged upward by a small
-      set of hub modules, and <strong>the average tells you nothing about either</strong>.
-      The expensive minority sit inside the package's largest import cycle.
+      hand-picked ones. Where the median sits far below the mean, the median change
+      touches a handful of files while the mean is dragged upward by a small set of hub
+      modules inside the largest import cycle, and <strong>the average tells you nothing
+      about either</strong>.
     </p>
     <div class="dist" id="dist"></div>
   </section>
@@ -855,7 +921,7 @@ html.pc-has-bar body {
       <div>
         <h3>The map</h3>
         <p>One square per Python file, grouped into blocks by top-level directory and
-        ordered by path. Block size is just file count — this is a census, not a treemap
+        ordered by path. Block size is just file count, so this is a census rather than a treemap
         of importance.</p>
       </div>
       <div>
@@ -872,18 +938,14 @@ html.pc-has-bar body {
       </div>
       <div>
         <h3>Where the data came from</h3>
-        <p>Pinned source distributions from PyPI, indexed by <code>aic</code> — imports
-        resolved exactly, never by suffix matching. Every number here is generated, none
+        <p>Pinned source distributions from PyPI, indexed by <code>aic</code>, with imports
+        resolved exactly rather than by suffix matching. Every number here is generated, none
         typed in by hand.</p>
       </div>
     </div>
   </section>
 
   <footer>
-    <p><strong>AIC</strong> keeps this graph on disk and updates it incrementally: index
-    the repo once, then on each change reparse only what moved and re-mark only what the
-    change reached. On Django that is 2.6&nbsp;s once, then 51&nbsp;ms to confirm nothing
-    changed and 14–60&nbsp;ms to absorb an edit — the spread being the blast radius above.</p>
     <p>The dirty-propagation model comes from
     <a href="https://www.tdcommons.org/dpubs_series/8241/">Graph-based AI Compiler</a>
     (Rhodes Floyd Davis Jr., Technical Disclosure Commons, 2025, CC-BY 4.0), which runs the
@@ -1162,7 +1224,7 @@ html.pc-has-bar body {
   /* ---- chrome ---- */
   function renderLegend() {
     var el = document.getElementById("legend");
-    var labels = ["1 hop — imports it directly", "2 hops", "3 hops", "4 hops", "5+ hops"];
+    var labels = ["1 hop, imports it directly", "2 hops", "3 hops", "4 hops", "5+ hops"];
     el.innerHTML = "";
     var row = document.createElement("div");
     row.className = "legend-row";
@@ -1177,7 +1239,7 @@ html.pc-has-bar body {
     }
     var q = document.createElement("div");
     q.className = "legend-row";
-    q.innerHTML = '<span class="sw" style="background:var(--dot)"></span>untouched — no re-check needed';
+    q.innerHTML = '<span class="sw" style="background:var(--dot)"></span>untouched, no re-check needed';
     el.appendChild(q);
   }
 
