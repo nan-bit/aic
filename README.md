@@ -34,9 +34,9 @@ aic index .        # first run:  parses everything
 aic index .        # second run: stat-diffs, finds nothing changed
 ```
 
-On this repo — 75 files — that is **99 ms, then 2 ms**. The second run is the
-whole argument, and the ratio is what travels: on Django's 883 files it is 2.6 s,
-then 51 ms.
+The second run is the whole argument. The measured version of it is in
+[bench/RESULTS.md](bench/RESULTS.md): on Django's 883 files, **3.2 s to index and
+71 ms to confirm nothing changed**.
 
 Everything else, runnable against this repo as written:
 
@@ -58,19 +58,29 @@ On Django (883 files, 9,213 functions):
 
 | | | measured by |
 |---|---:|---|
-| first index, one time | 2.6 s | full parse + probes + taint dataflow |
-| re-index, nothing changed | 51 ms | `index` — stat-diffs the tree, finds no work |
-| one file changed | 14–60 ms | `touch` — reparse one file, propagate |
+| first index, one time | 3.2 s | full parse + probes + taint dataflow |
+| re-index, nothing changed | 71 ms | `index`, stat-diffs the tree, finds no work |
+| one file changed, median | 65.3 ms | `touch`, reparse one file, propagate |
 
-That last row is the product, and it is a range rather than a number because the
-blast radius is:
+That last row is a median because absorbing an edit was timed for every one of
+the 883 files rather than sampled. The spread is narrow: 57.1 ms at the cheapest,
+85.8 ms at the 90th percentile, and the cheapest is **79% of the mean**. On a tree
+this size an edit costs about the same whichever file you touch.
 
-| edited file | dependents invalidated | recheck cost |
-|---|---:|---:|
-| `contrib/gis/db/backends/mysql/schema.py` | **1** | 14 ms |
-| `db/models/query.py` | **570** | 60 ms |
+**The spread is not a blast-radius effect**, which is what this section claimed
+for a long time on the strength of two files timed by hand. Absorbing an edit
+reparses and re-probes the file that changed, then sets a flag on each dependent,
+and setting a flag is nearly free. Cost tracks the size of the edited file:
+Spearman +0.94, +0.95, +0.96 and +0.84 against size on requests, flask, celery
+and sqlalchemy, against -0.18, +0.10, +0.15 and +0.27 for blast radius.
 
-A stateless scanner cannot tell those apart. It does identical full work either way.
+Django's own files make the point. `utils/functional.py` reaches **588** files,
+more than anything else in the repo, and absorbs an edit in **70.3 ms**.
+`db/models/query.py` reaches **571**, fewer, and takes **118.0 ms**. The wider
+one is cheaper.
+
+A stateless scanner cannot tell any of them apart. It does identical full work
+every time.
 
 Worth separating two things that get conflated: **a diff is what you changed;
 blast radius is what your change reached.** A one-line edit to
@@ -91,15 +101,22 @@ result this is chasing.
 | package | files | median | p90 | max | mean | largest import cycle |
 |---|---:|---:|---:|---:|---:|---:|
 | requests 2.32.3 | 18 | 6 | 9 | 14 | 6.0 | 1 (6%) |
+| flask 3.0.3 | 24 | 22 | 22 | 23 | 19.5 | 19 (79%) |
 | celery 5.4.0 | 158 | 6 | 89 | 123 | 41.2 | 34 (22%) |
 | sqlalchemy 2.0.36 | 255 | 40 | 245 | 248 | 127.1 | 121 (47%) |
 | django 5.2.16 | 883 | **3** | 571 | 588 | **140.4** | 162 (18%) |
 
-Median far below mean is the finding: **most changes are cheap to verify, a
-minority are catastrophic, and the average tells you nothing about either.** The
-expensive minority sit inside the largest import cycle — for Django, 18% of the
-repo where incremental analysis buys little and 82% where it buys nearly
-everything.
+Median far below mean is the finding on everything but Flask: **most changes are
+cheap to verify, a minority are catastrophic, and the average tells you nothing
+about either.** The expensive minority sit inside the largest import cycle, which
+for Django is 18% of the repo where incremental analysis buys little and 82%
+where it buys nearly everything.
+
+Flask is the exception, and it is worth keeping in the table rather than dropping
+for tidiness. Its median of 22 sits *above* its mean of 19.5 because 79% of the
+package is inside one import cycle: almost every file reaches almost every other,
+so there is no cheap majority to find. A graph tells you that too, and it is the
+answer that says incremental analysis will not help here.
 
 It is also a scheduling input. When verification costs money and latency, this
 says which edits deserve the expensive pass. Full results and the flask outlier:
@@ -276,10 +293,10 @@ findings from ones its own diff caused. Its reasoning was visibly grounded in
 the output: *"models.py is imported by 7 of 9 files, so it has the widest blast
 radius in the repo."*
 
-One session also exposed a bug that 70 passing tests did not. `aic_review` was
-called three times with different probes; the first returned 14 findings and the
-next two returned **zero**, while `aic_impact` on the same file returned 7. Two
-tools, same scope, contradictory answers. Cause: `refresh` called
+One session also exposed a bug that the test suite, 156 tests today, did not.
+`aic_review` was called three times with different probes; the first returned
+14 findings and the next two returned **zero**, while `aic_impact` on the same
+file returned 7. Two tools, same scope, contradictory answers. Cause: `refresh` called
 `mark_clean_all()` on every invocation, so DIRTY meant "dependents of the most
 recent change set" — correct for a one-shot CLI run, wrong for a resident server
 where the second call's no-op refresh erased what the first established. Scope
