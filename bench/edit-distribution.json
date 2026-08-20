@@ -1,0 +1,8100 @@
+{
+  "requests 2.32.3": {
+    "files_timed": 18,
+    "min": 3.0,
+    "p50": 5.2,
+    "p75": 12.8,
+    "p90": 14.7,
+    "p99": 19.7,
+    "max": 19.7,
+    "mean": 8.1,
+    "radius_correlation": -0.18,
+    "size_correlation": 0.94,
+    "samples": [
+      {
+        "path": "__init__.py",
+        "ms": 5.4,
+        "radius": 1,
+        "bytes": 5072
+      },
+      {
+        "path": "__version__.py",
+        "ms": 4.4,
+        "radius": 9,
+        "bytes": 435
+      },
+      {
+        "path": "_internal_utils.py",
+        "ms": 4.5,
+        "radius": 9,
+        "bytes": 1495
+      },
+      {
+        "path": "adapters.py",
+        "ms": 12.8,
+        "radius": 4,
+        "bytes": 27451
+      },
+      {
+        "path": "api.py",
+        "ms": 5.2,
+        "radius": 2,
+        "bytes": 6449
+      },
+      {
+        "path": "auth.py",
+        "ms": 10.5,
+        "radius": 6,
+        "bytes": 10186
+      },
+      {
+        "path": "certs.py",
+        "ms": 3.9,
+        "radius": 8,
+        "bytes": 429
+      },
+      {
+        "path": "compat.py",
+        "ms": 4.5,
+        "radius": 14,
+        "bytes": 1817
+      },
+      {
+        "path": "cookies.py",
+        "ms": 13.3,
+        "radius": 8,
+        "bytes": 18590
+      },
+      {
+        "path": "exceptions.py",
+        "ms": 4.9,
+        "radius": 8,
+        "bytes": 4260
+      },
+      {
+        "path": "help.py",
+        "ms": 5.2,
+        "radius": 1,
+        "bytes": 3875
+      },
+      {
+        "path": "hooks.py",
+        "ms": 3.9,
+        "radius": 6,
+        "bytes": 733
+      },
+      {
+        "path": "models.py",
+        "ms": 18.4,
+        "radius": 5,
+        "bytes": 35418
+      },
+      {
+        "path": "packages.py",
+        "ms": 3.0,
+        "radius": 2,
+        "bytes": 904
+      },
+      {
+        "path": "sessions.py",
+        "ms": 14.7,
+        "radius": 3,
+        "bytes": 30495
+      },
+      {
+        "path": "status_codes.py",
+        "ms": 5.4,
+        "radius": 6,
+        "bytes": 4322
+      },
+      {
+        "path": "structures.py",
+        "ms": 5.7,
+        "radius": 9,
+        "bytes": 2912
+      },
+      {
+        "path": "utils.py",
+        "ms": 19.7,
+        "radius": 7,
+        "bytes": 33619
+      }
+    ]
+  },
+  "flask 3.0.3": {
+    "files_timed": 24,
+    "min": 3.3,
+    "p50": 7.6,
+    "p75": 8.6,
+    "p90": 13.9,
+    "p99": 20.8,
+    "max": 20.8,
+    "mean": 8.1,
+    "radius_correlation": 0.1,
+    "size_correlation": 0.95,
+    "samples": [
+      {
+        "path": "__init__.py",
+        "ms": 4.2,
+        "radius": 1,
+        "bytes": 2625
+      },
+      {
+        "path": "__main__.py",
+        "ms": 3.3,
+        "radius": 1,
+        "bytes": 30
+      },
+      {
+        "path": "app.py",
+        "ms": 19.0,
+        "radius": 22,
+        "bytes": 60143
+      },
+      {
+        "path": "blueprints.py",
+        "ms": 5.0,
+        "radius": 22,
+        "bytes": 4430
+      },
+      {
+        "path": "cli.py",
+        "ms": 20.8,
+        "radius": 22,
+        "bytes": 35825
+      },
+      {
+        "path": "config.py",
+        "ms": 7.6,
+        "radius": 22,
+        "bytes": 13312
+      },
+      {
+        "path": "ctx.py",
+        "ms": 9.0,
+        "radius": 22,
+        "bytes": 15120
+      },
+      {
+        "path": "debughelpers.py",
+        "ms": 7.8,
+        "radius": 22,
+        "bytes": 6080
+      },
+      {
+        "path": "globals.py",
+        "ms": 4.1,
+        "radius": 22,
+        "bytes": 1713
+      },
+      {
+        "path": "helpers.py",
+        "ms": 8.6,
+        "radius": 22,
+        "bytes": 23084
+      },
+      {
+        "path": "json/__init__.py",
+        "ms": 5.2,
+        "radius": 22,
+        "bytes": 5602
+      },
+      {
+        "path": "json/provider.py",
+        "ms": 6.6,
+        "radius": 22,
+        "bytes": 7646
+      },
+      {
+        "path": "json/tag.py",
+        "ms": 7.6,
+        "radius": 22,
+        "bytes": 9281
+      },
+      {
+        "path": "logging.py",
+        "ms": 4.6,
+        "radius": 22,
+        "bytes": 2377
+      },
+      {
+        "path": "sansio/app.py",
+        "ms": 12.5,
+        "radius": 22,
+        "bytes": 38053
+      },
+      {
+        "path": "sansio/blueprints.py",
+        "ms": 13.9,
+        "radius": 22,
+        "bytes": 24637
+      },
+      {
+        "path": "sansio/scaffold.py",
+        "ms": 11.0,
+        "radius": 22,
+        "bytes": 30633
+      },
+      {
+        "path": "sessions.py",
+        "ms": 6.9,
+        "radius": 22,
+        "bytes": 14807
+      },
+      {
+        "path": "signals.py",
+        "ms": 3.8,
+        "radius": 23,
+        "bytes": 750
+      },
+      {
+        "path": "templating.py",
+        "ms": 8.4,
+        "radius": 22,
+        "bytes": 7537
+      },
+      {
+        "path": "testing.py",
+        "ms": 8.6,
+        "radius": 22,
+        "bytes": 10163
+      },
+      {
+        "path": "typing.py",
+        "ms": 5.1,
+        "radius": 23,
+        "bytes": 3190
+      },
+      {
+        "path": "views.py",
+        "ms": 5.8,
+        "radius": 1,
+        "bytes": 6939
+      },
+      {
+        "path": "wrappers.py",
+        "ms": 5.4,
+        "radius": 22,
+        "bytes": 5831
+      }
+    ]
+  },
+  "celery 5.4.0": {
+    "files_timed": 158,
+    "min": 4.3,
+    "p50": 8.8,
+    "p75": 11.4,
+    "p90": 17.9,
+    "p99": 28.2,
+    "max": 47.4,
+    "mean": 10.5,
+    "radius_correlation": 0.15,
+    "size_correlation": 0.96,
+    "samples": [
+      {
+        "path": "__init__.py",
+        "ms": 8.9,
+        "radius": 1,
+        "bytes": 5947
+      },
+      {
+        "path": "__main__.py",
+        "ms": 6.0,
+        "radius": 1,
+        "bytes": 409
+      },
+      {
+        "path": "_state.py",
+        "ms": 8.6,
+        "radius": 77,
+        "bytes": 5029
+      },
+      {
+        "path": "app/__init__.py",
+        "ms": 7.7,
+        "radius": 77,
+        "bytes": 2430
+      },
+      {
+        "path": "app/amqp.py",
+        "ms": 16.8,
+        "radius": 1,
+        "bytes": 23236
+      },
+      {
+        "path": "app/annotations.py",
+        "ms": 7.0,
+        "radius": 78,
+        "bytes": 1445
+      },
+      {
+        "path": "app/autoretry.py",
+        "ms": 7.7,
+        "radius": 78,
+        "bytes": 2506
+      },
+      {
+        "path": "app/backends.py",
+        "ms": 7.6,
+        "radius": 77,
+        "bytes": 2746
+      },
+      {
+        "path": "app/base.py",
+        "ms": 24.6,
+        "radius": 77,
+        "bytes": 50584
+      },
+      {
+        "path": "app/builtins.py",
+        "ms": 10.7,
+        "radius": 77,
+        "bytes": 6673
+      },
+      {
+        "path": "app/control.py",
+        "ms": 14.1,
+        "radius": 1,
+        "bytes": 29171
+      },
+      {
+        "path": "app/defaults.py",
+        "ms": 11.4,
+        "radius": 83,
+        "bytes": 15266
+      },
+      {
+        "path": "app/events.py",
+        "ms": 6.6,
+        "radius": 1,
+        "bytes": 1326
+      },
+      {
+        "path": "app/log.py",
+        "ms": 11.4,
+        "radius": 1,
+        "bytes": 9067
+      },
+      {
+        "path": "app/registry.py",
+        "ms": 6.9,
+        "radius": 77,
+        "bytes": 2001
+      },
+      {
+        "path": "app/routes.py",
+        "ms": 8.8,
+        "radius": 2,
+        "bytes": 4527
+      },
+      {
+        "path": "app/task.py",
+        "ms": 20.2,
+        "radius": 77,
+        "bytes": 43794
+      },
+      {
+        "path": "app/trace.py",
+        "ms": 27.7,
+        "radius": 77,
+        "bytes": 27551
+      },
+      {
+        "path": "app/utils.py",
+        "ms": 13.3,
+        "radius": 77,
+        "bytes": 13160
+      },
+      {
+        "path": "apps/__init__.py",
+        "ms": 5.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "apps/beat.py",
+        "ms": 9.4,
+        "radius": 1,
+        "bytes": 5724
+      },
+      {
+        "path": "apps/multi.py",
+        "ms": 18.4,
+        "radius": 78,
+        "bytes": 16360
+      },
+      {
+        "path": "apps/worker.py",
+        "ms": 12.8,
+        "radius": 1,
+        "bytes": 13291
+      },
+      {
+        "path": "backends/__init__.py",
+        "ms": 5.5,
+        "radius": 2,
+        "bytes": 23
+      },
+      {
+        "path": "backends/arangodb.py",
+        "ms": 8.8,
+        "radius": 1,
+        "bytes": 5937
+      },
+      {
+        "path": "backends/asynchronous.py",
+        "ms": 12.1,
+        "radius": 3,
+        "bytes": 10309
+      },
+      {
+        "path": "backends/azureblockblob.py",
+        "ms": 8.4,
+        "radius": 1,
+        "bytes": 5127
+      },
+      {
+        "path": "backends/base.py",
+        "ms": 28.2,
+        "radius": 18,
+        "bytes": 43982
+      },
+      {
+        "path": "backends/cache.py",
+        "ms": 9.2,
+        "radius": 1,
+        "bytes": 4831
+      },
+      {
+        "path": "backends/cassandra.py",
+        "ms": 10.2,
+        "radius": 1,
+        "bytes": 9006
+      },
+      {
+        "path": "backends/consul.py",
+        "ms": 7.6,
+        "radius": 1,
+        "bytes": 3816
+      },
+      {
+        "path": "backends/cosmosdbsql.py",
+        "ms": 9.0,
+        "radius": 1,
+        "bytes": 6777
+      },
+      {
+        "path": "backends/couchbase.py",
+        "ms": 8.1,
+        "radius": 1,
+        "bytes": 3393
+      },
+      {
+        "path": "backends/couchdb.py",
+        "ms": 8.2,
+        "radius": 1,
+        "bytes": 2935
+      },
+      {
+        "path": "backends/database/__init__.py",
+        "ms": 11.4,
+        "radius": 1,
+        "bytes": 7751
+      },
+      {
+        "path": "backends/database/models.py",
+        "ms": 7.0,
+        "radius": 2,
+        "bytes": 3394
+      },
+      {
+        "path": "backends/database/session.py",
+        "ms": 6.8,
+        "radius": 3,
+        "bytes": 3011
+      },
+      {
+        "path": "backends/dynamodb.py",
+        "ms": 12.6,
+        "radius": 1,
+        "bytes": 19348
+      },
+      {
+        "path": "backends/elasticsearch.py",
+        "ms": 11.2,
+        "radius": 1,
+        "bytes": 9583
+      },
+      {
+        "path": "backends/filesystem.py",
+        "ms": 8.8,
+        "radius": 1,
+        "bytes": 3777
+      },
+      {
+        "path": "backends/gcs.py",
+        "ms": 9.1,
+        "radius": 1,
+        "bytes": 4716
+      },
+      {
+        "path": "backends/mongodb.py",
+        "ms": 11.7,
+        "radius": 1,
+        "bytes": 11438
+      },
+      {
+        "path": "backends/redis.py",
+        "ms": 20.0,
+        "radius": 1,
+        "bytes": 26389
+      },
+      {
+        "path": "backends/rpc.py",
+        "ms": 11.7,
+        "radius": 1,
+        "bytes": 12077
+      },
+      {
+        "path": "backends/s3.py",
+        "ms": 7.7,
+        "radius": 1,
+        "bytes": 2752
+      },
+      {
+        "path": "beat.py",
+        "ms": 18.7,
+        "radius": 4,
+        "bytes": 24521
+      },
+      {
+        "path": "bin/__init__.py",
+        "ms": 5.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "bin/amqp.py",
+        "ms": 11.3,
+        "radius": 77,
+        "bytes": 10023
+      },
+      {
+        "path": "bin/base.py",
+        "ms": 12.0,
+        "radius": 77,
+        "bytes": 9173
+      },
+      {
+        "path": "bin/beat.py",
+        "ms": 7.6,
+        "radius": 77,
+        "bytes": 2592
+      },
+      {
+        "path": "bin/call.py",
+        "ms": 6.5,
+        "radius": 77,
+        "bytes": 2370
+      },
+      {
+        "path": "bin/celery.py",
+        "ms": 9.4,
+        "radius": 77,
+        "bytes": 7440
+      },
+      {
+        "path": "bin/control.py",
+        "ms": 11.2,
+        "radius": 77,
+        "bytes": 8645
+      },
+      {
+        "path": "bin/events.py",
+        "ms": 7.6,
+        "radius": 77,
+        "bytes": 2794
+      },
+      {
+        "path": "bin/graph.py",
+        "ms": 11.7,
+        "radius": 77,
+        "bytes": 5796
+      },
+      {
+        "path": "bin/list.py",
+        "ms": 7.1,
+        "radius": 77,
+        "bytes": 1058
+      },
+      {
+        "path": "bin/logtool.py",
+        "ms": 9.2,
+        "radius": 77,
+        "bytes": 4267
+      },
+      {
+        "path": "bin/migrate.py",
+        "ms": 7.0,
+        "radius": 77,
+        "bytes": 2108
+      },
+      {
+        "path": "bin/multi.py",
+        "ms": 13.6,
+        "radius": 77,
+        "bytes": 15374
+      },
+      {
+        "path": "bin/purge.py",
+        "ms": 7.5,
+        "radius": 77,
+        "bytes": 2608
+      },
+      {
+        "path": "bin/result.py",
+        "ms": 6.3,
+        "radius": 77,
+        "bytes": 976
+      },
+      {
+        "path": "bin/shell.py",
+        "ms": 8.4,
+        "radius": 77,
+        "bytes": 4839
+      },
+      {
+        "path": "bin/upgrade.py",
+        "ms": 8.4,
+        "radius": 77,
+        "bytes": 3064
+      },
+      {
+        "path": "bin/worker.py",
+        "ms": 12.0,
+        "radius": 77,
+        "bytes": 12886
+      },
+      {
+        "path": "bootsteps.py",
+        "ms": 15.3,
+        "radius": 89,
+        "bytes": 12277
+      },
+      {
+        "path": "canvas.py",
+        "ms": 47.4,
+        "radius": 77,
+        "bytes": 96756
+      },
+      {
+        "path": "concurrency/__init__.py",
+        "ms": 6.7,
+        "radius": 85,
+        "bytes": 1457
+      },
+      {
+        "path": "concurrency/asynpool.py",
+        "ms": 37.4,
+        "radius": 2,
+        "bytes": 51466
+      },
+      {
+        "path": "concurrency/base.py",
+        "ms": 8.4,
+        "radius": 82,
+        "bytes": 4706
+      },
+      {
+        "path": "concurrency/eventlet.py",
+        "ms": 9.2,
+        "radius": 1,
+        "bytes": 5126
+      },
+      {
+        "path": "concurrency/gevent.py",
+        "ms": 8.7,
+        "radius": 1,
+        "bytes": 3387
+      },
+      {
+        "path": "concurrency/prefork.py",
+        "ms": 9.0,
+        "radius": 1,
+        "bytes": 5850
+      },
+      {
+        "path": "concurrency/solo.py",
+        "ms": 6.4,
+        "radius": 1,
+        "bytes": 754
+      },
+      {
+        "path": "concurrency/thread.py",
+        "ms": 6.2,
+        "radius": 1,
+        "bytes": 1807
+      },
+      {
+        "path": "contrib/__init__.py",
+        "ms": 5.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/abortable.py",
+        "ms": 5.8,
+        "radius": 1,
+        "bytes": 5003
+      },
+      {
+        "path": "contrib/django/__init__.py",
+        "ms": 5.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/django/task.py",
+        "ms": 6.3,
+        "radius": 1,
+        "bytes": 725
+      },
+      {
+        "path": "contrib/migrate.py",
+        "ms": 14.0,
+        "radius": 77,
+        "bytes": 14361
+      },
+      {
+        "path": "contrib/pytest.py",
+        "ms": 8.4,
+        "radius": 1,
+        "bytes": 6754
+      },
+      {
+        "path": "contrib/rdb.py",
+        "ms": 9.2,
+        "radius": 2,
+        "bytes": 5005
+      },
+      {
+        "path": "contrib/sphinx.py",
+        "ms": 7.3,
+        "radius": 1,
+        "bytes": 3391
+      },
+      {
+        "path": "contrib/testing/__init__.py",
+        "ms": 4.9,
+        "radius": 3,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/testing/app.py",
+        "ms": 7.8,
+        "radius": 2,
+        "bytes": 3112
+      },
+      {
+        "path": "contrib/testing/manager.py",
+        "ms": 11.8,
+        "radius": 1,
+        "bytes": 8605
+      },
+      {
+        "path": "contrib/testing/mocks.py",
+        "ms": 7.6,
+        "radius": 1,
+        "bytes": 4182
+      },
+      {
+        "path": "contrib/testing/tasks.py",
+        "ms": 6.0,
+        "radius": 4,
+        "bytes": 208
+      },
+      {
+        "path": "contrib/testing/worker.py",
+        "ms": 9.0,
+        "radius": 2,
+        "bytes": 7064
+      },
+      {
+        "path": "events/__init__.py",
+        "ms": 4.6,
+        "radius": 1,
+        "bytes": 477
+      },
+      {
+        "path": "events/cursesmon.py",
+        "ms": 19.9,
+        "radius": 77,
+        "bytes": 17961
+      },
+      {
+        "path": "events/dispatcher.py",
+        "ms": 10.4,
+        "radius": 2,
+        "bytes": 8987
+      },
+      {
+        "path": "events/dumper.py",
+        "ms": 9.0,
+        "radius": 77,
+        "bytes": 3116
+      },
+      {
+        "path": "events/event.py",
+        "ms": 6.7,
+        "radius": 4,
+        "bytes": 1736
+      },
+      {
+        "path": "events/receiver.py",
+        "ms": 8.9,
+        "radius": 2,
+        "bytes": 4998
+      },
+      {
+        "path": "events/snapshot.py",
+        "ms": 8.2,
+        "radius": 77,
+        "bytes": 3294
+      },
+      {
+        "path": "events/state.py",
+        "ms": 21.3,
+        "radius": 1,
+        "bytes": 25648
+      },
+      {
+        "path": "exceptions.py",
+        "ms": 9.0,
+        "radius": 113,
+        "bytes": 9086
+      },
+      {
+        "path": "fixups/__init__.py",
+        "ms": 5.6,
+        "radius": 1,
+        "bytes": 14
+      },
+      {
+        "path": "fixups/django.py",
+        "ms": 10.0,
+        "radius": 1,
+        "bytes": 7300
+      },
+      {
+        "path": "loaders/__init__.py",
+        "ms": 6.5,
+        "radius": 78,
+        "bytes": 490
+      },
+      {
+        "path": "loaders/app.py",
+        "ms": 4.9,
+        "radius": 2,
+        "bytes": 199
+      },
+      {
+        "path": "loaders/base.py",
+        "ms": 11.2,
+        "radius": 4,
+        "bytes": 9147
+      },
+      {
+        "path": "loaders/default.py",
+        "ms": 6.6,
+        "radius": 1,
+        "bytes": 1520
+      },
+      {
+        "path": "local.py",
+        "ms": 16.4,
+        "radius": 100,
+        "bytes": 16087
+      },
+      {
+        "path": "platforms.py",
+        "ms": 17.9,
+        "radius": 89,
+        "bytes": 25289
+      },
+      {
+        "path": "result.py",
+        "ms": 24.1,
+        "radius": 77,
+        "bytes": 35612
+      },
+      {
+        "path": "schedules.py",
+        "ms": 20.0,
+        "radius": 5,
+        "bytes": 32003
+      },
+      {
+        "path": "security/__init__.py",
+        "ms": 7.5,
+        "radius": 78,
+        "bytes": 2363
+      },
+      {
+        "path": "security/certificate.py",
+        "ms": 8.1,
+        "radius": 80,
+        "bytes": 4026
+      },
+      {
+        "path": "security/key.py",
+        "ms": 7.0,
+        "radius": 80,
+        "bytes": 1189
+      },
+      {
+        "path": "security/serialization.py",
+        "ms": 7.6,
+        "radius": 79,
+        "bytes": 4248
+      },
+      {
+        "path": "security/utils.py",
+        "ms": 6.8,
+        "radius": 82,
+        "bytes": 845
+      },
+      {
+        "path": "signals.py",
+        "ms": 6.8,
+        "radius": 91,
+        "bytes": 4384
+      },
+      {
+        "path": "states.py",
+        "ms": 6.6,
+        "radius": 81,
+        "bytes": 3324
+      },
+      {
+        "path": "utils/__init__.py",
+        "ms": 5.9,
+        "radius": 89,
+        "bytes": 935
+      },
+      {
+        "path": "utils/abstract.py",
+        "ms": 7.7,
+        "radius": 78,
+        "bytes": 2874
+      },
+      {
+        "path": "utils/collections.py",
+        "ms": 19.1,
+        "radius": 92,
+        "bytes": 25432
+      },
+      {
+        "path": "utils/debug.py",
+        "ms": 9.3,
+        "radius": 85,
+        "bytes": 4709
+      },
+      {
+        "path": "utils/deprecated.py",
+        "ms": 7.7,
+        "radius": 85,
+        "bytes": 3620
+      },
+      {
+        "path": "utils/dispatch/__init__.py",
+        "ms": 5.8,
+        "radius": 92,
+        "bytes": 74
+      },
+      {
+        "path": "utils/dispatch/signal.py",
+        "ms": 12.4,
+        "radius": 93,
+        "bytes": 13603
+      },
+      {
+        "path": "utils/functional.py",
+        "ms": 13.2,
+        "radius": 113,
+        "bytes": 12017
+      },
+      {
+        "path": "utils/graph.py",
+        "ms": 11.4,
+        "radius": 90,
+        "bytes": 9041
+      },
+      {
+        "path": "utils/imports.py",
+        "ms": 8.9,
+        "radius": 109,
+        "bytes": 5126
+      },
+      {
+        "path": "utils/iso8601.py",
+        "ms": 7.0,
+        "radius": 1,
+        "bytes": 2916
+      },
+      {
+        "path": "utils/log.py",
+        "ms": 10.6,
+        "radius": 122,
+        "bytes": 8757
+      },
+      {
+        "path": "utils/nodenames.py",
+        "ms": 8.4,
+        "radius": 96,
+        "bytes": 3163
+      },
+      {
+        "path": "utils/objects.py",
+        "ms": 7.1,
+        "radius": 79,
+        "bytes": 4215
+      },
+      {
+        "path": "utils/saferepr.py",
+        "ms": 16.2,
+        "radius": 79,
+        "bytes": 9020
+      },
+      {
+        "path": "utils/serialization.py",
+        "ms": 10.3,
+        "radius": 114,
+        "bytes": 8209
+      },
+      {
+        "path": "utils/static/__init__.py",
+        "ms": 6.1,
+        "radius": 2,
+        "bytes": 299
+      },
+      {
+        "path": "utils/sysinfo.py",
+        "ms": 6.3,
+        "radius": 6,
+        "bytes": 1264
+      },
+      {
+        "path": "utils/term.py",
+        "ms": 10.1,
+        "radius": 123,
+        "bytes": 5135
+      },
+      {
+        "path": "utils/text.py",
+        "ms": 10.1,
+        "radius": 114,
+        "bytes": 5844
+      },
+      {
+        "path": "utils/threads.py",
+        "ms": 10.7,
+        "radius": 84,
+        "bytes": 9552
+      },
+      {
+        "path": "utils/time.py",
+        "ms": 15.3,
+        "radius": 98,
+        "bytes": 15039
+      },
+      {
+        "path": "utils/timer2.py",
+        "ms": 8.6,
+        "radius": 83,
+        "bytes": 4813
+      },
+      {
+        "path": "worker/__init__.py",
+        "ms": 6.1,
+        "radius": 82,
+        "bytes": 95
+      },
+      {
+        "path": "worker/autoscale.py",
+        "ms": 9.0,
+        "radius": 1,
+        "bytes": 4593
+      },
+      {
+        "path": "worker/components.py",
+        "ms": 9.2,
+        "radius": 2,
+        "bytes": 7497
+      },
+      {
+        "path": "worker/consumer/__init__.py",
+        "ms": 4.3,
+        "radius": 3,
+        "bytes": 391
+      },
+      {
+        "path": "worker/consumer/agent.py",
+        "ms": 4.8,
+        "radius": 4,
+        "bytes": 525
+      },
+      {
+        "path": "worker/consumer/connection.py",
+        "ms": 5.9,
+        "radius": 11,
+        "bytes": 1026
+      },
+      {
+        "path": "worker/consumer/consumer.py",
+        "ms": 18.3,
+        "radius": 4,
+        "bytes": 29091
+      },
+      {
+        "path": "worker/consumer/control.py",
+        "ms": 7.0,
+        "radius": 4,
+        "bytes": 946
+      },
+      {
+        "path": "worker/consumer/events.py",
+        "ms": 7.2,
+        "radius": 9,
+        "bytes": 2054
+      },
+      {
+        "path": "worker/consumer/gossip.py",
+        "ms": 10.8,
+        "radius": 4,
+        "bytes": 6863
+      },
+      {
+        "path": "worker/consumer/heart.py",
+        "ms": 6.4,
+        "radius": 4,
+        "bytes": 930
+      },
+      {
+        "path": "worker/consumer/mingle.py",
+        "ms": 7.6,
+        "radius": 7,
+        "bytes": 2519
+      },
+      {
+        "path": "worker/consumer/tasks.py",
+        "ms": 7.2,
+        "radius": 5,
+        "bytes": 1960
+      },
+      {
+        "path": "worker/control.py",
+        "ms": 16.8,
+        "radius": 77,
+        "bytes": 19882
+      },
+      {
+        "path": "worker/heartbeat.py",
+        "ms": 7.0,
+        "radius": 5,
+        "bytes": 2107
+      },
+      {
+        "path": "worker/loops.py",
+        "ms": 9.3,
+        "radius": 5,
+        "bytes": 4433
+      },
+      {
+        "path": "worker/pidbox.py",
+        "ms": 9.0,
+        "radius": 5,
+        "bytes": 3630
+      },
+      {
+        "path": "worker/request.py",
+        "ms": 21.1,
+        "radius": 77,
+        "bytes": 27229
+      },
+      {
+        "path": "worker/state.py",
+        "ms": 10.4,
+        "radius": 84,
+        "bytes": 8583
+      },
+      {
+        "path": "worker/strategy.py",
+        "ms": 11.2,
+        "radius": 1,
+        "bytes": 7324
+      },
+      {
+        "path": "worker/worker.py",
+        "ms": 13.0,
+        "radius": 82,
+        "bytes": 14488
+      }
+    ]
+  },
+  "sqlalchemy 2.0.36": {
+    "files_timed": 255,
+    "min": 8.5,
+    "p50": 17.2,
+    "p75": 28.0,
+    "p90": 48.8,
+    "p99": 83.1,
+    "max": 176.2,
+    "mean": 24.4,
+    "radius_correlation": 0.27,
+    "size_correlation": 0.84,
+    "samples": [
+      {
+        "path": "__init__.py",
+        "ms": 12.7,
+        "radius": 1,
+        "bytes": 13033
+      },
+      {
+        "path": "connectors/__init__.py",
+        "ms": 8.8,
+        "radius": 21,
+        "bytes": 476
+      },
+      {
+        "path": "connectors/aioodbc.py",
+        "ms": 11.9,
+        "radius": 7,
+        "bytes": 5288
+      },
+      {
+        "path": "connectors/asyncio.py",
+        "ms": 12.6,
+        "radius": 12,
+        "bytes": 6138
+      },
+      {
+        "path": "connectors/pyodbc.py",
+        "ms": 14.7,
+        "radius": 20,
+        "bytes": 8501
+      },
+      {
+        "path": "cyextension/__init__.py",
+        "ms": 9.4,
+        "radius": 248,
+        "bytes": 244
+      },
+      {
+        "path": "dialects/__init__.py",
+        "ms": 10.6,
+        "radius": 245,
+        "bytes": 1770
+      },
+      {
+        "path": "dialects/_typing.py",
+        "ms": 9.6,
+        "radius": 15,
+        "bytes": 888
+      },
+      {
+        "path": "dialects/mssql/__init__.py",
+        "ms": 9.6,
+        "radius": 6,
+        "bytes": 1880
+      },
+      {
+        "path": "dialects/mssql/aioodbc.py",
+        "ms": 10.2,
+        "radius": 6,
+        "bytes": 2022
+      },
+      {
+        "path": "dialects/mssql/base.py",
+        "ms": 54.9,
+        "radius": 6,
+        "bytes": 132423
+      },
+      {
+        "path": "dialects/mssql/information_schema.py",
+        "ms": 12.7,
+        "radius": 6,
+        "bytes": 8084
+      },
+      {
+        "path": "dialects/mssql/json.py",
+        "ms": 11.6,
+        "radius": 7,
+        "bytes": 4816
+      },
+      {
+        "path": "dialects/mssql/provision.py",
+        "ms": 13.8,
+        "radius": 1,
+        "bytes": 5593
+      },
+      {
+        "path": "dialects/mssql/pymssql.py",
+        "ms": 12.2,
+        "radius": 6,
+        "bytes": 4097
+      },
+      {
+        "path": "dialects/mssql/pyodbc.py",
+        "ms": 16.3,
+        "radius": 6,
+        "bytes": 27056
+      },
+      {
+        "path": "dialects/mysql/__init__.py",
+        "ms": 9.4,
+        "radius": 12,
+        "bytes": 2153
+      },
+      {
+        "path": "dialects/mysql/aiomysql.py",
+        "ms": 15.3,
+        "radius": 12,
+        "bytes": 9999
+      },
+      {
+        "path": "dialects/mysql/asyncmy.py",
+        "ms": 15.4,
+        "radius": 12,
+        "bytes": 10067
+      },
+      {
+        "path": "dialects/mysql/base.py",
+        "ms": 51.9,
+        "radius": 12,
+        "bytes": 122755
+      },
+      {
+        "path": "dialects/mysql/cymysql.py",
+        "ms": 10.8,
+        "radius": 12,
+        "bytes": 2300
+      },
+      {
+        "path": "dialects/mysql/dml.py",
+        "ms": 12.0,
+        "radius": 13,
+        "bytes": 7645
+      },
+      {
+        "path": "dialects/mysql/enumerated.py",
+        "ms": 14.0,
+        "radius": 14,
+        "bytes": 8448
+      },
+      {
+        "path": "dialects/mysql/expression.py",
+        "ms": 10.8,
+        "radius": 13,
+        "bytes": 4097
+      },
+      {
+        "path": "dialects/mysql/json.py",
+        "ms": 10.5,
+        "radius": 13,
+        "bytes": 2269
+      },
+      {
+        "path": "dialects/mysql/mariadb.py",
+        "ms": 10.3,
+        "radius": 1,
+        "bytes": 853
+      },
+      {
+        "path": "dialects/mysql/mariadbconnector.py",
+        "ms": 14.3,
+        "radius": 12,
+        "bytes": 8623
+      },
+      {
+        "path": "dialects/mysql/mysqlconnector.py",
+        "ms": 14.1,
+        "radius": 12,
+        "bytes": 5729
+      },
+      {
+        "path": "dialects/mysql/mysqldb.py",
+        "ms": 15.2,
+        "radius": 12,
+        "bytes": 9503
+      },
+      {
+        "path": "dialects/mysql/provision.py",
+        "ms": 11.5,
+        "radius": 1,
+        "bytes": 3575
+      },
+      {
+        "path": "dialects/mysql/pymysql.py",
+        "ms": 11.0,
+        "radius": 12,
+        "bytes": 4083
+      },
+      {
+        "path": "dialects/mysql/pyodbc.py",
+        "ms": 11.3,
+        "radius": 12,
+        "bytes": 4297
+      },
+      {
+        "path": "dialects/mysql/reflection.py",
+        "ms": 24.1,
+        "radius": 13,
+        "bytes": 22834
+      },
+      {
+        "path": "dialects/mysql/reserved_words.py",
+        "ms": 11.7,
+        "radius": 13,
+        "bytes": 9258
+      },
+      {
+        "path": "dialects/mysql/types.py",
+        "ms": 14.9,
+        "radius": 15,
+        "bytes": 24343
+      },
+      {
+        "path": "dialects/oracle/__init__.py",
+        "ms": 9.8,
+        "radius": 4,
+        "bytes": 1493
+      },
+      {
+        "path": "dialects/oracle/base.py",
+        "ms": 71.0,
+        "radius": 4,
+        "bytes": 119676
+      },
+      {
+        "path": "dialects/oracle/cx_oracle.py",
+        "ms": 28.1,
+        "radius": 4,
+        "bytes": 55235
+      },
+      {
+        "path": "dialects/oracle/dictionary.py",
+        "ms": 16.0,
+        "radius": 5,
+        "bytes": 19519
+      },
+      {
+        "path": "dialects/oracle/oracledb.py",
+        "ms": 36.2,
+        "radius": 4,
+        "bytes": 13619
+      },
+      {
+        "path": "dialects/oracle/provision.py",
+        "ms": 14.2,
+        "radius": 1,
+        "bytes": 8304
+      },
+      {
+        "path": "dialects/oracle/types.py",
+        "ms": 13.6,
+        "radius": 6,
+        "bytes": 8231
+      },
+      {
+        "path": "dialects/postgresql/__init__.py",
+        "ms": 11.0,
+        "radius": 11,
+        "bytes": 3892
+      },
+      {
+        "path": "dialects/postgresql/_psycopg_common.py",
+        "ms": 15.6,
+        "radius": 11,
+        "bytes": 5696
+      },
+      {
+        "path": "dialects/postgresql/array.py",
+        "ms": 13.2,
+        "radius": 15,
+        "bytes": 13734
+      },
+      {
+        "path": "dialects/postgresql/asyncpg.py",
+        "ms": 27.6,
+        "radius": 11,
+        "bytes": 41074
+      },
+      {
+        "path": "dialects/postgresql/base.py",
+        "ms": 79.4,
+        "radius": 11,
+        "bytes": 179083
+      },
+      {
+        "path": "dialects/postgresql/dml.py",
+        "ms": 12.5,
+        "radius": 11,
+        "bytes": 11212
+      },
+      {
+        "path": "dialects/postgresql/ext.py",
+        "ms": 13.8,
+        "radius": 11,
+        "bytes": 16262
+      },
+      {
+        "path": "dialects/postgresql/hstore.py",
+        "ms": 13.7,
+        "radius": 12,
+        "bytes": 11541
+      },
+      {
+        "path": "dialects/postgresql/json.py",
+        "ms": 12.4,
+        "radius": 12,
+        "bytes": 11618
+      },
+      {
+        "path": "dialects/postgresql/named_types.py",
+        "ms": 14.7,
+        "radius": 12,
+        "bytes": 17594
+      },
+      {
+        "path": "dialects/postgresql/operators.py",
+        "ms": 9.1,
+        "radius": 17,
+        "bytes": 2808
+      },
+      {
+        "path": "dialects/postgresql/pg8000.py",
+        "ms": 19.8,
+        "radius": 11,
+        "bytes": 18640
+      },
+      {
+        "path": "dialects/postgresql/pg_catalog.py",
+        "ms": 13.2,
+        "radius": 12,
+        "bytes": 9254
+      },
+      {
+        "path": "dialects/postgresql/provision.py",
+        "ms": 13.6,
+        "radius": 1,
+        "bytes": 5770
+      },
+      {
+        "path": "dialects/postgresql/psycopg.py",
+        "ms": 21.8,
+        "radius": 11,
+        "bytes": 23168
+      },
+      {
+        "path": "dialects/postgresql/psycopg2.py",
+        "ms": 16.5,
+        "radius": 11,
+        "bytes": 31998
+      },
+      {
+        "path": "dialects/postgresql/psycopg2cffi.py",
+        "ms": 14.3,
+        "radius": 11,
+        "bytes": 1756
+      },
+      {
+        "path": "dialects/postgresql/ranges.py",
+        "ms": 22.9,
+        "radius": 12,
+        "bytes": 32949
+      },
+      {
+        "path": "dialects/postgresql/types.py",
+        "ms": 11.6,
+        "radius": 13,
+        "bytes": 7300
+      },
+      {
+        "path": "dialects/sqlite/__init__.py",
+        "ms": 10.1,
+        "radius": 2,
+        "bytes": 1182
+      },
+      {
+        "path": "dialects/sqlite/aiosqlite.py",
+        "ms": 17.4,
+        "radius": 3,
+        "bytes": 12345
+      },
+      {
+        "path": "dialects/sqlite/base.py",
+        "ms": 44.1,
+        "radius": 6,
+        "bytes": 97811
+      },
+      {
+        "path": "dialects/sqlite/dml.py",
+        "ms": 11.3,
+        "radius": 3,
+        "bytes": 8443
+      },
+      {
+        "path": "dialects/sqlite/json.py",
+        "ms": 10.2,
+        "radius": 7,
+        "bytes": 2777
+      },
+      {
+        "path": "dialects/sqlite/provision.py",
+        "ms": 15.5,
+        "radius": 1,
+        "bytes": 5632
+      },
+      {
+        "path": "dialects/sqlite/pysqlcipher.py",
+        "ms": 11.1,
+        "radius": 3,
+        "bytes": 5356
+      },
+      {
+        "path": "dialects/sqlite/pysqlite.py",
+        "ms": 15.2,
+        "radius": 5,
+        "bytes": 28068
+      },
+      {
+        "path": "engine/__init__.py",
+        "ms": 9.8,
+        "radius": 245,
+        "bytes": 2818
+      },
+      {
+        "path": "engine/_py_processors.py",
+        "ms": 12.6,
+        "radius": 247,
+        "bytes": 3744
+      },
+      {
+        "path": "engine/_py_row.py",
+        "ms": 12.2,
+        "radius": 245,
+        "bytes": 3787
+      },
+      {
+        "path": "engine/_py_util.py",
+        "ms": 10.2,
+        "radius": 245,
+        "bytes": 2484
+      },
+      {
+        "path": "engine/base.py",
+        "ms": 49.3,
+        "radius": 245,
+        "bytes": 122958
+      },
+      {
+        "path": "engine/characteristics.py",
+        "ms": 14.3,
+        "radius": 245,
+        "bytes": 4765
+      },
+      {
+        "path": "engine/create.py",
+        "ms": 19.4,
+        "radius": 245,
+        "bytes": 33206
+      },
+      {
+        "path": "engine/cursor.py",
+        "ms": 34.9,
+        "radius": 245,
+        "bytes": 76392
+      },
+      {
+        "path": "engine/default.py",
+        "ms": 53.3,
+        "radius": 245,
+        "bytes": 84648
+      },
+      {
+        "path": "engine/events.py",
+        "ms": 15.5,
+        "radius": 245,
+        "bytes": 37381
+      },
+      {
+        "path": "engine/interfaces.py",
+        "ms": 25.8,
+        "radius": 245,
+        "bytes": 112936
+      },
+      {
+        "path": "engine/mock.py",
+        "ms": 11.2,
+        "radius": 245,
+        "bytes": 4179
+      },
+      {
+        "path": "engine/processors.py",
+        "ms": 9.1,
+        "radius": 246,
+        "bytes": 2379
+      },
+      {
+        "path": "engine/reflection.py",
+        "ms": 37.0,
+        "radius": 245,
+        "bytes": 75364
+      },
+      {
+        "path": "engine/result.py",
+        "ms": 41.3,
+        "radius": 245,
+        "bytes": 77651
+      },
+      {
+        "path": "engine/row.py",
+        "ms": 15.9,
+        "radius": 245,
+        "bytes": 12032
+      },
+      {
+        "path": "engine/strategies.py",
+        "ms": 9.3,
+        "radius": 1,
+        "bytes": 442
+      },
+      {
+        "path": "engine/url.py",
+        "ms": 22.8,
+        "radius": 245,
+        "bytes": 30784
+      },
+      {
+        "path": "engine/util.py",
+        "ms": 13.2,
+        "radius": 245,
+        "bytes": 5682
+      },
+      {
+        "path": "event/__init__.py",
+        "ms": 9.6,
+        "radius": 245,
+        "bytes": 997
+      },
+      {
+        "path": "event/api.py",
+        "ms": 11.4,
+        "radius": 245,
+        "bytes": 8226
+      },
+      {
+        "path": "event/attr.py",
+        "ms": 22.3,
+        "radius": 245,
+        "bytes": 20751
+      },
+      {
+        "path": "event/base.py",
+        "ms": 17.3,
+        "radius": 245,
+        "bytes": 15127
+      },
+      {
+        "path": "event/legacy.py",
+        "ms": 14.5,
+        "radius": 245,
+        "bytes": 8227
+      },
+      {
+        "path": "event/registry.py",
+        "ms": 15.1,
+        "radius": 245,
+        "bytes": 10835
+      },
+      {
+        "path": "events.py",
+        "ms": 9.3,
+        "radius": 1,
+        "bytes": 525
+      },
+      {
+        "path": "exc.py",
+        "ms": 17.2,
+        "radius": 245,
+        "bytes": 23976
+      },
+      {
+        "path": "ext/__init__.py",
+        "ms": 8.7,
+        "radius": 1,
+        "bytes": 322
+      },
+      {
+        "path": "ext/associationproxy.py",
+        "ms": 41.4,
+        "radius": 1,
+        "bytes": 66062
+      },
+      {
+        "path": "ext/asyncio/__init__.py",
+        "ms": 9.7,
+        "radius": 245,
+        "bytes": 1317
+      },
+      {
+        "path": "ext/asyncio/base.py",
+        "ms": 13.9,
+        "radius": 245,
+        "bytes": 8905
+      },
+      {
+        "path": "ext/asyncio/engine.py",
+        "ms": 23.2,
+        "radius": 245,
+        "bytes": 48190
+      },
+      {
+        "path": "ext/asyncio/exc.py",
+        "ms": 10.6,
+        "radius": 245,
+        "bytes": 639
+      },
+      {
+        "path": "ext/asyncio/result.py",
+        "ms": 17.8,
+        "radius": 245,
+        "bytes": 30477
+      },
+      {
+        "path": "ext/asyncio/scoping.py",
+        "ms": 19.1,
+        "radius": 245,
+        "bytes": 52608
+      },
+      {
+        "path": "ext/asyncio/session.py",
+        "ms": 26.2,
+        "radius": 245,
+        "bytes": 63087
+      },
+      {
+        "path": "ext/automap.py",
+        "ms": 26.8,
+        "radius": 1,
+        "bytes": 61581
+      },
+      {
+        "path": "ext/baked.py",
+        "ms": 19.0,
+        "radius": 1,
+        "bytes": 17807
+      },
+      {
+        "path": "ext/compiler.py",
+        "ms": 12.1,
+        "radius": 7,
+        "bytes": 20877
+      },
+      {
+        "path": "ext/declarative/__init__.py",
+        "ms": 10.1,
+        "radius": 1,
+        "bytes": 1818
+      },
+      {
+        "path": "ext/declarative/extensions.py",
+        "ms": 15.0,
+        "radius": 2,
+        "bytes": 19547
+      },
+      {
+        "path": "ext/horizontal_shard.py",
+        "ms": 15.8,
+        "radius": 1,
+        "bytes": 16750
+      },
+      {
+        "path": "ext/hybrid.py",
+        "ms": 18.5,
+        "radius": 2,
+        "bytes": 52458
+      },
+      {
+        "path": "ext/indexable.py",
+        "ms": 11.0,
+        "radius": 1,
+        "bytes": 11032
+      },
+      {
+        "path": "ext/instrumentation.py",
+        "ms": 16.3,
+        "radius": 1,
+        "bytes": 15707
+      },
+      {
+        "path": "ext/mutable.py",
+        "ms": 21.0,
+        "radius": 1,
+        "bytes": 37355
+      },
+      {
+        "path": "ext/mypy/__init__.py",
+        "ms": 8.5,
+        "radius": 5,
+        "bytes": 241
+      },
+      {
+        "path": "ext/mypy/apply.py",
+        "ms": 16.9,
+        "radius": 3,
+        "bytes": 10550
+      },
+      {
+        "path": "ext/mypy/decl_class.py",
+        "ms": 17.9,
+        "radius": 2,
+        "bytes": 17384
+      },
+      {
+        "path": "ext/mypy/infer.py",
+        "ms": 23.8,
+        "radius": 4,
+        "bytes": 19369
+      },
+      {
+        "path": "ext/mypy/names.py",
+        "ms": 14.8,
+        "radius": 5,
+        "bytes": 10479
+      },
+      {
+        "path": "ext/mypy/plugin.py",
+        "ms": 16.0,
+        "radius": 1,
+        "bytes": 9750
+      },
+      {
+        "path": "ext/mypy/util.py",
+        "ms": 15.4,
+        "radius": 43,
+        "bytes": 9960
+      },
+      {
+        "path": "ext/orderinglist.py",
+        "ms": 15.2,
+        "radius": 1,
+        "bytes": 14384
+      },
+      {
+        "path": "ext/serializer.py",
+        "ms": 14.2,
+        "radius": 1,
+        "bytes": 6140
+      },
+      {
+        "path": "future/__init__.py",
+        "ms": 13.1,
+        "radius": 245,
+        "bytes": 512
+      },
+      {
+        "path": "future/engine.py",
+        "ms": 10.6,
+        "radius": 245,
+        "bytes": 495
+      },
+      {
+        "path": "inspection.py",
+        "ms": 12.4,
+        "radius": 245,
+        "bytes": 5063
+      },
+      {
+        "path": "log.py",
+        "ms": 15.0,
+        "radius": 245,
+        "bytes": 8607
+      },
+      {
+        "path": "orm/__init__.py",
+        "ms": 15.5,
+        "radius": 245,
+        "bytes": 8463
+      },
+      {
+        "path": "orm/_orm_constructors.py",
+        "ms": 20.6,
+        "radius": 245,
+        "bytes": 103434
+      },
+      {
+        "path": "orm/_typing.py",
+        "ms": 12.3,
+        "radius": 245,
+        "bytes": 4973
+      },
+      {
+        "path": "orm/attributes.py",
+        "ms": 52.3,
+        "radius": 245,
+        "bytes": 92534
+      },
+      {
+        "path": "orm/base.py",
+        "ms": 18.9,
+        "radius": 245,
+        "bytes": 27502
+      },
+      {
+        "path": "orm/bulk_persistence.py",
+        "ms": 43.5,
+        "radius": 245,
+        "bytes": 72663
+      },
+      {
+        "path": "orm/clsregistry.py",
+        "ms": 23.0,
+        "radius": 245,
+        "bytes": 17974
+      },
+      {
+        "path": "orm/collections.py",
+        "ms": 39.3,
+        "radius": 245,
+        "bytes": 52243
+      },
+      {
+        "path": "orm/context.py",
+        "ms": 60.5,
+        "radius": 245,
+        "bytes": 112955
+      },
+      {
+        "path": "orm/decl_api.py",
+        "ms": 28.0,
+        "radius": 245,
+        "bytes": 63998
+      },
+      {
+        "path": "orm/decl_base.py",
+        "ms": 47.5,
+        "radius": 245,
+        "bytes": 83343
+      },
+      {
+        "path": "orm/dependency.py",
+        "ms": 41.2,
+        "radius": 245,
+        "bytes": 47631
+      },
+      {
+        "path": "orm/descriptor_props.py",
+        "ms": 36.0,
+        "radius": 245,
+        "bytes": 37244
+      },
+      {
+        "path": "orm/dynamic.py",
+        "ms": 16.2,
+        "radius": 245,
+        "bytes": 9816
+      },
+      {
+        "path": "orm/evaluator.py",
+        "ms": 17.6,
+        "radius": 245,
+        "bytes": 12353
+      },
+      {
+        "path": "orm/events.py",
+        "ms": 28.7,
+        "radius": 245,
+        "bytes": 127777
+      },
+      {
+        "path": "orm/exc.py",
+        "ms": 15.0,
+        "radius": 245,
+        "bytes": 7413
+      },
+      {
+        "path": "orm/identity.py",
+        "ms": 28.6,
+        "radius": 245,
+        "bytes": 9249
+      },
+      {
+        "path": "orm/instrumentation.py",
+        "ms": 26.9,
+        "radius": 245,
+        "bytes": 24321
+      },
+      {
+        "path": "orm/interfaces.py",
+        "ms": 23.6,
+        "radius": 245,
+        "bytes": 48690
+      },
+      {
+        "path": "orm/loading.py",
+        "ms": 60.8,
+        "radius": 245,
+        "bytes": 58277
+      },
+      {
+        "path": "orm/mapped_collection.py",
+        "ms": 19.6,
+        "radius": 245,
+        "bytes": 19682
+      },
+      {
+        "path": "orm/mapper.py",
+        "ms": 83.1,
+        "radius": 245,
+        "bytes": 171738
+      },
+      {
+        "path": "orm/path_registry.py",
+        "ms": 24.9,
+        "radius": 245,
+        "bytes": 25920
+      },
+      {
+        "path": "orm/persistence.py",
+        "ms": 87.2,
+        "radius": 245,
+        "bytes": 61701
+      },
+      {
+        "path": "orm/properties.py",
+        "ms": 30.1,
+        "radius": 245,
+        "bytes": 29306
+      },
+      {
+        "path": "orm/query.py",
+        "ms": 41.8,
+        "radius": 245,
+        "bytes": 117708
+      },
+      {
+        "path": "orm/relationships.py",
+        "ms": 88.6,
+        "radius": 245,
+        "bytes": 128644
+      },
+      {
+        "path": "orm/scoping.py",
+        "ms": 23.4,
+        "radius": 245,
+        "bytes": 78688
+      },
+      {
+        "path": "orm/session.py",
+        "ms": 74.0,
+        "radius": 245,
+        "bytes": 195979
+      },
+      {
+        "path": "orm/state.py",
+        "ms": 26.4,
+        "radius": 245,
+        "bytes": 37670
+      },
+      {
+        "path": "orm/state_changes.py",
+        "ms": 12.1,
+        "radius": 245,
+        "bytes": 6815
+      },
+      {
+        "path": "orm/strategies.py",
+        "ms": 70.3,
+        "radius": 245,
+        "bytes": 119866
+      },
+      {
+        "path": "orm/strategy_options.py",
+        "ms": 48.3,
+        "radius": 245,
+        "bytes": 85353
+      },
+      {
+        "path": "orm/sync.py",
+        "ms": 16.9,
+        "radius": 245,
+        "bytes": 5779
+      },
+      {
+        "path": "orm/unitofwork.py",
+        "ms": 26.4,
+        "radius": 245,
+        "bytes": 27033
+      },
+      {
+        "path": "orm/util.py",
+        "ms": 47.0,
+        "radius": 245,
+        "bytes": 81021
+      },
+      {
+        "path": "orm/writeonly.py",
+        "ms": 24.3,
+        "radius": 245,
+        "bytes": 22305
+      },
+      {
+        "path": "pool/__init__.py",
+        "ms": 10.5,
+        "radius": 245,
+        "bytes": 1804
+      },
+      {
+        "path": "pool/base.py",
+        "ms": 32.3,
+        "radius": 245,
+        "bytes": 52236
+      },
+      {
+        "path": "pool/events.py",
+        "ms": 22.0,
+        "radius": 245,
+        "bytes": 13147
+      },
+      {
+        "path": "pool/impl.py",
+        "ms": 45.5,
+        "radius": 245,
+        "bytes": 18944
+      },
+      {
+        "path": "schema.py",
+        "ms": 26.9,
+        "radius": 245,
+        "bytes": 3194
+      },
+      {
+        "path": "sql/__init__.py",
+        "ms": 19.5,
+        "radius": 245,
+        "bytes": 5820
+      },
+      {
+        "path": "sql/_dml_constructors.py",
+        "ms": 32.5,
+        "radius": 245,
+        "bytes": 3867
+      },
+      {
+        "path": "sql/_elements_constructors.py",
+        "ms": 19.4,
+        "radius": 245,
+        "bytes": 63168
+      },
+      {
+        "path": "sql/_orm_types.py",
+        "ms": 16.7,
+        "radius": 245,
+        "bytes": 625
+      },
+      {
+        "path": "sql/_py_util.py",
+        "ms": 20.6,
+        "radius": 245,
+        "bytes": 2173
+      },
+      {
+        "path": "sql/_selectable_constructors.py",
+        "ms": 17.3,
+        "radius": 245,
+        "bytes": 18780
+      },
+      {
+        "path": "sql/_typing.py",
+        "ms": 15.1,
+        "radius": 245,
+        "bytes": 12771
+      },
+      {
+        "path": "sql/annotation.py",
+        "ms": 21.3,
+        "radius": 245,
+        "bytes": 18245
+      },
+      {
+        "path": "sql/base.py",
+        "ms": 52.3,
+        "radius": 245,
+        "bytes": 73925
+      },
+      {
+        "path": "sql/cache_key.py",
+        "ms": 55.8,
+        "radius": 245,
+        "bytes": 33668
+      },
+      {
+        "path": "sql/coercions.py",
+        "ms": 31.3,
+        "radius": 245,
+        "bytes": 40664
+      },
+      {
+        "path": "sql/compiler.py",
+        "ms": 176.2,
+        "radius": 245,
+        "bytes": 274687
+      },
+      {
+        "path": "sql/crud.py",
+        "ms": 43.0,
+        "radius": 245,
+        "bytes": 56514
+      },
+      {
+        "path": "sql/ddl.py",
+        "ms": 29.2,
+        "radius": 245,
+        "bytes": 45636
+      },
+      {
+        "path": "sql/default_comparator.py",
+        "ms": 20.6,
+        "radius": 245,
+        "bytes": 16707
+      },
+      {
+        "path": "sql/dml.py",
+        "ms": 29.5,
+        "radius": 245,
+        "bytes": 65614
+      },
+      {
+        "path": "sql/elements.py",
+        "ms": 77.8,
+        "radius": 245,
+        "bytes": 176544
+      },
+      {
+        "path": "sql/events.py",
+        "ms": 13.7,
+        "radius": 245,
+        "bytes": 18290
+      },
+      {
+        "path": "sql/expression.py",
+        "ms": 13.7,
+        "radius": 245,
+        "bytes": 7586
+      },
+      {
+        "path": "sql/functions.py",
+        "ms": 38.8,
+        "radius": 245,
+        "bytes": 63762
+      },
+      {
+        "path": "sql/lambdas.py",
+        "ms": 34.7,
+        "radius": 245,
+        "bytes": 49292
+      },
+      {
+        "path": "sql/naming.py",
+        "ms": 14.9,
+        "radius": 245,
+        "bytes": 6858
+      },
+      {
+        "path": "sql/operators.py",
+        "ms": 28.4,
+        "radius": 245,
+        "bytes": 76106
+      },
+      {
+        "path": "sql/roles.py",
+        "ms": 12.1,
+        "radius": 245,
+        "bytes": 7662
+      },
+      {
+        "path": "sql/schema.py",
+        "ms": 79.9,
+        "radius": 245,
+        "bytes": 229717
+      },
+      {
+        "path": "sql/selectable.py",
+        "ms": 77.2,
+        "radius": 245,
+        "bytes": 236460
+      },
+      {
+        "path": "sql/sqltypes.py",
+        "ms": 50.3,
+        "radius": 245,
+        "bytes": 127469
+      },
+      {
+        "path": "sql/traversals.py",
+        "ms": 31.7,
+        "radius": 245,
+        "bytes": 33664
+      },
+      {
+        "path": "sql/type_api.py",
+        "ms": 31.5,
+        "radius": 245,
+        "bytes": 84464
+      },
+      {
+        "path": "sql/util.py",
+        "ms": 40.1,
+        "radius": 245,
+        "bytes": 48077
+      },
+      {
+        "path": "sql/visitors.py",
+        "ms": 29.0,
+        "radius": 245,
+        "bytes": 36317
+      },
+      {
+        "path": "testing/__init__.py",
+        "ms": 15.3,
+        "radius": 38,
+        "bytes": 3160
+      },
+      {
+        "path": "testing/assertions.py",
+        "ms": 42.5,
+        "radius": 38,
+        "bytes": 31439
+      },
+      {
+        "path": "testing/assertsql.py",
+        "ms": 22.9,
+        "radius": 39,
+        "bytes": 16817
+      },
+      {
+        "path": "testing/asyncio.py",
+        "ms": 12.1,
+        "radius": 38,
+        "bytes": 3830
+      },
+      {
+        "path": "testing/config.py",
+        "ms": 28.5,
+        "radius": 38,
+        "bytes": 12090
+      },
+      {
+        "path": "testing/engines.py",
+        "ms": 23.6,
+        "radius": 38,
+        "bytes": 13481
+      },
+      {
+        "path": "testing/entities.py",
+        "ms": 15.2,
+        "radius": 40,
+        "bytes": 3354
+      },
+      {
+        "path": "testing/exclusions.py",
+        "ms": 22.5,
+        "radius": 38,
+        "bytes": 12460
+      },
+      {
+        "path": "testing/fixtures/__init__.py",
+        "ms": 16.8,
+        "radius": 38,
+        "bytes": 1198
+      },
+      {
+        "path": "testing/fixtures/base.py",
+        "ms": 29.4,
+        "radius": 38,
+        "bytes": 12256
+      },
+      {
+        "path": "testing/fixtures/mypy.py",
+        "ms": 23.4,
+        "radius": 38,
+        "bytes": 11973
+      },
+      {
+        "path": "testing/fixtures/orm.py",
+        "ms": 18.2,
+        "radius": 38,
+        "bytes": 6095
+      },
+      {
+        "path": "testing/fixtures/sql.py",
+        "ms": 33.5,
+        "radius": 38,
+        "bytes": 15900
+      },
+      {
+        "path": "testing/pickleable.py",
+        "ms": 12.5,
+        "radius": 1,
+        "bytes": 2833
+      },
+      {
+        "path": "testing/plugin/__init__.py",
+        "ms": 48.8,
+        "radius": 2,
+        "bytes": 247
+      },
+      {
+        "path": "testing/plugin/bootstrap.py",
+        "ms": 12.0,
+        "radius": 1,
+        "bytes": 1685
+      },
+      {
+        "path": "testing/plugin/plugin_base.py",
+        "ms": 24.8,
+        "radius": 38,
+        "bytes": 21578
+      },
+      {
+        "path": "testing/plugin/pytestplugin.py",
+        "ms": 30.6,
+        "radius": 1,
+        "bytes": 27656
+      },
+      {
+        "path": "testing/profiling.py",
+        "ms": 17.9,
+        "radius": 38,
+        "bytes": 10148
+      },
+      {
+        "path": "testing/provision.py",
+        "ms": 21.5,
+        "radius": 38,
+        "bytes": 14626
+      },
+      {
+        "path": "testing/requirements.py",
+        "ms": 31.7,
+        "radius": 38,
+        "bytes": 52832
+      },
+      {
+        "path": "testing/schema.py",
+        "ms": 16.9,
+        "radius": 38,
+        "bytes": 6513
+      },
+      {
+        "path": "testing/suite/__init__.py",
+        "ms": 10.0,
+        "radius": 4,
+        "bytes": 722
+      },
+      {
+        "path": "testing/suite/test_cte.py",
+        "ms": 15.0,
+        "radius": 5,
+        "bytes": 6451
+      },
+      {
+        "path": "testing/suite/test_ddl.py",
+        "ms": 21.6,
+        "radius": 4,
+        "bytes": 12031
+      },
+      {
+        "path": "testing/suite/test_deprecations.py",
+        "ms": 15.8,
+        "radius": 5,
+        "bytes": 5337
+      },
+      {
+        "path": "testing/suite/test_dialect.py",
+        "ms": 26.0,
+        "radius": 4,
+        "bytes": 22923
+      },
+      {
+        "path": "testing/suite/test_insert.py",
+        "ms": 21.1,
+        "radius": 4,
+        "bytes": 18824
+      },
+      {
+        "path": "testing/suite/test_reflection.py",
+        "ms": 75.7,
+        "radius": 5,
+        "bytes": 109648
+      },
+      {
+        "path": "testing/suite/test_results.py",
+        "ms": 25.5,
+        "radius": 5,
+        "bytes": 16914
+      },
+      {
+        "path": "testing/suite/test_rowcount.py",
+        "ms": 15.3,
+        "radius": 5,
+        "bytes": 7900
+      },
+      {
+        "path": "testing/suite/test_select.py",
+        "ms": 53.2,
+        "radius": 5,
+        "bytes": 61732
+      },
+      {
+        "path": "testing/suite/test_sequence.py",
+        "ms": 23.2,
+        "radius": 5,
+        "bytes": 9923
+      },
+      {
+        "path": "testing/suite/test_types.py",
+        "ms": 52.1,
+        "radius": 5,
+        "bytes": 67805
+      },
+      {
+        "path": "testing/suite/test_unicode_ddl.py",
+        "ms": 15.0,
+        "radius": 5,
+        "bytes": 6141
+      },
+      {
+        "path": "testing/suite/test_update_delete.py",
+        "ms": 14.8,
+        "radius": 5,
+        "bytes": 3994
+      },
+      {
+        "path": "testing/util.py",
+        "ms": 21.9,
+        "radius": 38,
+        "bytes": 14469
+      },
+      {
+        "path": "testing/warnings.py",
+        "ms": 10.8,
+        "radius": 38,
+        "bytes": 1546
+      },
+      {
+        "path": "types.py",
+        "ms": 10.6,
+        "radius": 245,
+        "bytes": 3168
+      },
+      {
+        "path": "util/__init__.py",
+        "ms": 11.0,
+        "radius": 245,
+        "bytes": 8312
+      },
+      {
+        "path": "util/_collections.py",
+        "ms": 24.7,
+        "radius": 245,
+        "bytes": 20078
+      },
+      {
+        "path": "util/_concurrency_py3k.py",
+        "ms": 14.9,
+        "radius": 245,
+        "bytes": 9170
+      },
+      {
+        "path": "util/_has_cy.py",
+        "ms": 11.8,
+        "radius": 247,
+        "bytes": 1247
+      },
+      {
+        "path": "util/_py_collections.py",
+        "ms": 25.6,
+        "radius": 245,
+        "bytes": 16714
+      },
+      {
+        "path": "util/compat.py",
+        "ms": 19.9,
+        "radius": 246,
+        "bytes": 8760
+      },
+      {
+        "path": "util/concurrency.py",
+        "ms": 14.4,
+        "radius": 245,
+        "bytes": 3304
+      },
+      {
+        "path": "util/deprecations.py",
+        "ms": 28.0,
+        "radius": 245,
+        "bytes": 11971
+      },
+      {
+        "path": "util/langhelpers.py",
+        "ms": 54.2,
+        "radius": 245,
+        "bytes": 65090
+      },
+      {
+        "path": "util/preloaded.py",
+        "ms": 12.1,
+        "radius": 245,
+        "bytes": 5904
+      },
+      {
+        "path": "util/queue.py",
+        "ms": 18.0,
+        "radius": 245,
+        "bytes": 10185
+      },
+      {
+        "path": "util/tool_support.py",
+        "ms": 19.0,
+        "radius": 1,
+        "bytes": 6135
+      },
+      {
+        "path": "util/topological.py",
+        "ms": 17.0,
+        "radius": 245,
+        "bytes": 3458
+      },
+      {
+        "path": "util/typing.py",
+        "ms": 24.0,
+        "radius": 245,
+        "bytes": 18182
+      }
+    ]
+  },
+  "django 5.2.16": {
+    "files_timed": 883,
+    "min": 57.1,
+    "p50": 65.3,
+    "p75": 73.2,
+    "p90": 85.8,
+    "p99": 135.7,
+    "max": 551.0,
+    "mean": 71.9,
+    "radius_correlation": 0.21,
+    "size_correlation": 0.42,
+    "samples": [
+      {
+        "path": "__init__.py",
+        "ms": 62.8,
+        "radius": 1,
+        "bytes": 800
+      },
+      {
+        "path": "__main__.py",
+        "ms": 62.1,
+        "radius": 571,
+        "bytes": 212
+      },
+      {
+        "path": "apps/__init__.py",
+        "ms": 62.9,
+        "radius": 571,
+        "bytes": 90
+      },
+      {
+        "path": "apps/config.py",
+        "ms": 71.6,
+        "radius": 571,
+        "bytes": 11482
+      },
+      {
+        "path": "apps/registry.py",
+        "ms": 68.1,
+        "radius": 571,
+        "bytes": 17693
+      },
+      {
+        "path": "conf/__init__.py",
+        "ms": 69.0,
+        "radius": 571,
+        "bytes": 9809
+      },
+      {
+        "path": "conf/global_settings.py",
+        "ms": 73.9,
+        "radius": 572,
+        "bytes": 23068
+      },
+      {
+        "path": "conf/locale/__init__.py",
+        "ms": 66.9,
+        "radius": 572,
+        "bytes": 13864
+      },
+      {
+        "path": "conf/locale/ar/__init__.py",
+        "ms": 66.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ar/formats.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 696
+      },
+      {
+        "path": "conf/locale/ar_DZ/__init__.py",
+        "ms": 64.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ar_DZ/formats.py",
+        "ms": 60.7,
+        "radius": 1,
+        "bytes": 901
+      },
+      {
+        "path": "conf/locale/az/__init__.py",
+        "ms": 62.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/az/formats.py",
+        "ms": 71.0,
+        "radius": 1,
+        "bytes": 1087
+      },
+      {
+        "path": "conf/locale/bg/__init__.py",
+        "ms": 73.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/bg/formats.py",
+        "ms": 73.5,
+        "radius": 1,
+        "bytes": 705
+      },
+      {
+        "path": "conf/locale/bn/__init__.py",
+        "ms": 125.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/bn/formats.py",
+        "ms": 100.4,
+        "radius": 1,
+        "bytes": 964
+      },
+      {
+        "path": "conf/locale/bs/__init__.py",
+        "ms": 76.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/bs/formats.py",
+        "ms": 61.7,
+        "radius": 1,
+        "bytes": 705
+      },
+      {
+        "path": "conf/locale/ca/__init__.py",
+        "ms": 64.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ca/formats.py",
+        "ms": 60.9,
+        "radius": 1,
+        "bytes": 940
+      },
+      {
+        "path": "conf/locale/ckb/__init__.py",
+        "ms": 59.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ckb/formats.py",
+        "ms": 61.3,
+        "radius": 1,
+        "bytes": 728
+      },
+      {
+        "path": "conf/locale/cs/__init__.py",
+        "ms": 61.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/cs/formats.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 1539
+      },
+      {
+        "path": "conf/locale/cy/__init__.py",
+        "ms": 57.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/cy/formats.py",
+        "ms": 97.5,
+        "radius": 1,
+        "bytes": 1355
+      },
+      {
+        "path": "conf/locale/da/__init__.py",
+        "ms": 63.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/da/formats.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 876
+      },
+      {
+        "path": "conf/locale/de/__init__.py",
+        "ms": 73.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/de/formats.py",
+        "ms": 111.2,
+        "radius": 1,
+        "bytes": 996
+      },
+      {
+        "path": "conf/locale/de_CH/__init__.py",
+        "ms": 66.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/de_CH/formats.py",
+        "ms": 64.5,
+        "radius": 1,
+        "bytes": 1187
+      },
+      {
+        "path": "conf/locale/el/__init__.py",
+        "ms": 90.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/el/formats.py",
+        "ms": 69.9,
+        "radius": 1,
+        "bytes": 1241
+      },
+      {
+        "path": "conf/locale/en/__init__.py",
+        "ms": 62.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/en/formats.py",
+        "ms": 62.8,
+        "radius": 1,
+        "bytes": 2438
+      },
+      {
+        "path": "conf/locale/en_AU/__init__.py",
+        "ms": 74.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/en_AU/formats.py",
+        "ms": 88.2,
+        "radius": 1,
+        "bytes": 1650
+      },
+      {
+        "path": "conf/locale/en_CA/__init__.py",
+        "ms": 135.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/en_CA/formats.py",
+        "ms": 126.1,
+        "radius": 1,
+        "bytes": 1166
+      },
+      {
+        "path": "conf/locale/en_GB/__init__.py",
+        "ms": 85.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/en_GB/formats.py",
+        "ms": 75.3,
+        "radius": 1,
+        "bytes": 1650
+      },
+      {
+        "path": "conf/locale/en_IE/__init__.py",
+        "ms": 104.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/en_IE/formats.py",
+        "ms": 70.3,
+        "radius": 1,
+        "bytes": 1484
+      },
+      {
+        "path": "conf/locale/eo/__init__.py",
+        "ms": 137.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/eo/formats.py",
+        "ms": 432.8,
+        "radius": 1,
+        "bytes": 1715
+      },
+      {
+        "path": "conf/locale/es/__init__.py",
+        "ms": 551.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es/formats.py",
+        "ms": 215.7,
+        "radius": 1,
+        "bytes": 978
+      },
+      {
+        "path": "conf/locale/es_AR/__init__.py",
+        "ms": 167.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es_AR/formats.py",
+        "ms": 538.2,
+        "radius": 1,
+        "bytes": 935
+      },
+      {
+        "path": "conf/locale/es_CO/__init__.py",
+        "ms": 238.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es_CO/formats.py",
+        "ms": 338.2,
+        "radius": 1,
+        "bytes": 691
+      },
+      {
+        "path": "conf/locale/es_MX/__init__.py",
+        "ms": 93.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es_MX/formats.py",
+        "ms": 67.1,
+        "radius": 1,
+        "bytes": 768
+      },
+      {
+        "path": "conf/locale/es_NI/__init__.py",
+        "ms": 78.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es_NI/formats.py",
+        "ms": 92.4,
+        "radius": 1,
+        "bytes": 711
+      },
+      {
+        "path": "conf/locale/es_PR/__init__.py",
+        "ms": 135.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/es_PR/formats.py",
+        "ms": 103.5,
+        "radius": 1,
+        "bytes": 675
+      },
+      {
+        "path": "conf/locale/et/__init__.py",
+        "ms": 118.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/et/formats.py",
+        "ms": 111.2,
+        "radius": 1,
+        "bytes": 707
+      },
+      {
+        "path": "conf/locale/eu/__init__.py",
+        "ms": 91.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/eu/formats.py",
+        "ms": 85.4,
+        "radius": 1,
+        "bytes": 749
+      },
+      {
+        "path": "conf/locale/fa/__init__.py",
+        "ms": 90.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fa/formats.py",
+        "ms": 69.1,
+        "radius": 1,
+        "bytes": 722
+      },
+      {
+        "path": "conf/locale/fi/__init__.py",
+        "ms": 85.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fi/formats.py",
+        "ms": 95.3,
+        "radius": 1,
+        "bytes": 1213
+      },
+      {
+        "path": "conf/locale/fr/__init__.py",
+        "ms": 65.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fr/formats.py",
+        "ms": 67.2,
+        "radius": 1,
+        "bytes": 938
+      },
+      {
+        "path": "conf/locale/fr_BE/__init__.py",
+        "ms": 67.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fr_BE/formats.py",
+        "ms": 79.9,
+        "radius": 1,
+        "bytes": 1154
+      },
+      {
+        "path": "conf/locale/fr_CA/__init__.py",
+        "ms": 79.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fr_CA/formats.py",
+        "ms": 61.6,
+        "radius": 1,
+        "bytes": 1171
+      },
+      {
+        "path": "conf/locale/fr_CH/__init__.py",
+        "ms": 64.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fr_CH/formats.py",
+        "ms": 71.0,
+        "radius": 1,
+        "bytes": 1320
+      },
+      {
+        "path": "conf/locale/fy/__init__.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/fy/formats.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 658
+      },
+      {
+        "path": "conf/locale/ga/__init__.py",
+        "ms": 62.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ga/formats.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 682
+      },
+      {
+        "path": "conf/locale/gd/__init__.py",
+        "ms": 62.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/gd/formats.py",
+        "ms": 64.6,
+        "radius": 1,
+        "bytes": 715
+      },
+      {
+        "path": "conf/locale/gl/__init__.py",
+        "ms": 66.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/gl/formats.py",
+        "ms": 61.9,
+        "radius": 1,
+        "bytes": 757
+      },
+      {
+        "path": "conf/locale/he/__init__.py",
+        "ms": 61.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/he/formats.py",
+        "ms": 61.6,
+        "radius": 1,
+        "bytes": 712
+      },
+      {
+        "path": "conf/locale/hi/__init__.py",
+        "ms": 68.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/hi/formats.py",
+        "ms": 76.8,
+        "radius": 1,
+        "bytes": 684
+      },
+      {
+        "path": "conf/locale/hr/__init__.py",
+        "ms": 72.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/hr/formats.py",
+        "ms": 83.0,
+        "radius": 1,
+        "bytes": 1723
+      },
+      {
+        "path": "conf/locale/hu/__init__.py",
+        "ms": 60.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/hu/formats.py",
+        "ms": 65.6,
+        "radius": 1,
+        "bytes": 1001
+      },
+      {
+        "path": "conf/locale/id/__init__.py",
+        "ms": 83.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/id/formats.py",
+        "ms": 65.1,
+        "radius": 1,
+        "bytes": 1644
+      },
+      {
+        "path": "conf/locale/ig/__init__.py",
+        "ms": 63.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ig/formats.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 1119
+      },
+      {
+        "path": "conf/locale/is/__init__.py",
+        "ms": 62.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/is/formats.py",
+        "ms": 62.0,
+        "radius": 1,
+        "bytes": 688
+      },
+      {
+        "path": "conf/locale/it/__init__.py",
+        "ms": 63.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/it/formats.py",
+        "ms": 63.3,
+        "radius": 1,
+        "bytes": 1774
+      },
+      {
+        "path": "conf/locale/ja/__init__.py",
+        "ms": 63.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ja/formats.py",
+        "ms": 85.2,
+        "radius": 1,
+        "bytes": 729
+      },
+      {
+        "path": "conf/locale/ka/__init__.py",
+        "ms": 69.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ka/formats.py",
+        "ms": 63.8,
+        "radius": 1,
+        "bytes": 1861
+      },
+      {
+        "path": "conf/locale/km/__init__.py",
+        "ms": 67.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/km/formats.py",
+        "ms": 77.6,
+        "radius": 1,
+        "bytes": 750
+      },
+      {
+        "path": "conf/locale/kn/__init__.py",
+        "ms": 65.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/kn/formats.py",
+        "ms": 99.2,
+        "radius": 1,
+        "bytes": 680
+      },
+      {
+        "path": "conf/locale/ko/__init__.py",
+        "ms": 63.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ko/formats.py",
+        "ms": 71.3,
+        "radius": 1,
+        "bytes": 2060
+      },
+      {
+        "path": "conf/locale/ky/__init__.py",
+        "ms": 71.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ky/formats.py",
+        "ms": 65.3,
+        "radius": 1,
+        "bytes": 1178
+      },
+      {
+        "path": "conf/locale/lt/__init__.py",
+        "ms": 73.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/lt/formats.py",
+        "ms": 64.3,
+        "radius": 1,
+        "bytes": 1637
+      },
+      {
+        "path": "conf/locale/lv/__init__.py",
+        "ms": 62.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/lv/formats.py",
+        "ms": 61.3,
+        "radius": 1,
+        "bytes": 1713
+      },
+      {
+        "path": "conf/locale/mk/__init__.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/mk/formats.py",
+        "ms": 62.5,
+        "radius": 1,
+        "bytes": 1451
+      },
+      {
+        "path": "conf/locale/ml/__init__.py",
+        "ms": 62.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ml/formats.py",
+        "ms": 69.0,
+        "radius": 1,
+        "bytes": 1597
+      },
+      {
+        "path": "conf/locale/mn/__init__.py",
+        "ms": 70.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/mn/formats.py",
+        "ms": 62.8,
+        "radius": 1,
+        "bytes": 676
+      },
+      {
+        "path": "conf/locale/ms/__init__.py",
+        "ms": 65.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ms/formats.py",
+        "ms": 64.2,
+        "radius": 1,
+        "bytes": 1522
+      },
+      {
+        "path": "conf/locale/nb/__init__.py",
+        "ms": 107.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/nb/formats.py",
+        "ms": 68.9,
+        "radius": 1,
+        "bytes": 1552
+      },
+      {
+        "path": "conf/locale/nl/__init__.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/nl/formats.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 3927
+      },
+      {
+        "path": "conf/locale/nn/__init__.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/nn/formats.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 1552
+      },
+      {
+        "path": "conf/locale/pl/__init__.py",
+        "ms": 59.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/pl/formats.py",
+        "ms": 57.8,
+        "radius": 1,
+        "bytes": 1032
+      },
+      {
+        "path": "conf/locale/pt/__init__.py",
+        "ms": 58.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/pt/formats.py",
+        "ms": 57.5,
+        "radius": 1,
+        "bytes": 1520
+      },
+      {
+        "path": "conf/locale/pt_BR/__init__.py",
+        "ms": 59.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/pt_BR/formats.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 1285
+      },
+      {
+        "path": "conf/locale/ro/__init__.py",
+        "ms": 59.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ro/formats.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 928
+      },
+      {
+        "path": "conf/locale/ru/__init__.py",
+        "ms": 58.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ru/formats.py",
+        "ms": 59.2,
+        "radius": 1,
+        "bytes": 1098
+      },
+      {
+        "path": "conf/locale/sk/__init__.py",
+        "ms": 58.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sk/formats.py",
+        "ms": 58.6,
+        "radius": 1,
+        "bytes": 1051
+      },
+      {
+        "path": "conf/locale/sl/__init__.py",
+        "ms": 58.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sl/formats.py",
+        "ms": 58.1,
+        "radius": 1,
+        "bytes": 1642
+      },
+      {
+        "path": "conf/locale/sq/__init__.py",
+        "ms": 58.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sq/formats.py",
+        "ms": 108.7,
+        "radius": 1,
+        "bytes": 688
+      },
+      {
+        "path": "conf/locale/sr/__init__.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sr/formats.py",
+        "ms": 60.4,
+        "radius": 1,
+        "bytes": 1729
+      },
+      {
+        "path": "conf/locale/sr_Latn/__init__.py",
+        "ms": 58.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sr_Latn/formats.py",
+        "ms": 58.0,
+        "radius": 1,
+        "bytes": 1728
+      },
+      {
+        "path": "conf/locale/sv/__init__.py",
+        "ms": 58.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/sv/formats.py",
+        "ms": 58.2,
+        "radius": 1,
+        "bytes": 1311
+      },
+      {
+        "path": "conf/locale/ta/__init__.py",
+        "ms": 58.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ta/formats.py",
+        "ms": 81.9,
+        "radius": 1,
+        "bytes": 682
+      },
+      {
+        "path": "conf/locale/te/__init__.py",
+        "ms": 59.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/te/formats.py",
+        "ms": 60.6,
+        "radius": 1,
+        "bytes": 680
+      },
+      {
+        "path": "conf/locale/tg/__init__.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/tg/formats.py",
+        "ms": 58.4,
+        "radius": 1,
+        "bytes": 1160
+      },
+      {
+        "path": "conf/locale/th/__init__.py",
+        "ms": 78.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/th/formats.py",
+        "ms": 57.6,
+        "radius": 1,
+        "bytes": 1072
+      },
+      {
+        "path": "conf/locale/tk/__init__.py",
+        "ms": 57.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/tk/formats.py",
+        "ms": 57.5,
+        "radius": 1,
+        "bytes": 1160
+      },
+      {
+        "path": "conf/locale/tr/__init__.py",
+        "ms": 57.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/tr/formats.py",
+        "ms": 64.5,
+        "radius": 1,
+        "bytes": 1019
+      },
+      {
+        "path": "conf/locale/ug/__init__.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/ug/formats.py",
+        "ms": 61.9,
+        "radius": 1,
+        "bytes": 454
+      },
+      {
+        "path": "conf/locale/uk/__init__.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/uk/formats.py",
+        "ms": 61.4,
+        "radius": 1,
+        "bytes": 1241
+      },
+      {
+        "path": "conf/locale/uz/__init__.py",
+        "ms": 57.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/uz/formats.py",
+        "ms": 70.6,
+        "radius": 1,
+        "bytes": 1176
+      },
+      {
+        "path": "conf/locale/vi/__init__.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/vi/formats.py",
+        "ms": 59.2,
+        "radius": 1,
+        "bytes": 762
+      },
+      {
+        "path": "conf/locale/zh_Hans/__init__.py",
+        "ms": 59.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/zh_Hans/formats.py",
+        "ms": 61.4,
+        "radius": 1,
+        "bytes": 1598
+      },
+      {
+        "path": "conf/locale/zh_Hant/__init__.py",
+        "ms": 58.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "conf/locale/zh_Hant/formats.py",
+        "ms": 60.1,
+        "radius": 1,
+        "bytes": 1598
+      },
+      {
+        "path": "conf/urls/__init__.py",
+        "ms": 62.2,
+        "radius": 571,
+        "bytes": 292
+      },
+      {
+        "path": "conf/urls/i18n.py",
+        "ms": 61.1,
+        "radius": 2,
+        "bytes": 1166
+      },
+      {
+        "path": "conf/urls/static.py",
+        "ms": 58.9,
+        "radius": 2,
+        "bytes": 908
+      },
+      {
+        "path": "contrib/__init__.py",
+        "ms": 59.4,
+        "radius": 66,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/admin/__init__.py",
+        "ms": 60.5,
+        "radius": 25,
+        "bytes": 1203
+      },
+      {
+        "path": "contrib/admin/actions.py",
+        "ms": 61.9,
+        "radius": 25,
+        "bytes": 3181
+      },
+      {
+        "path": "contrib/admin/apps.py",
+        "ms": 59.6,
+        "radius": 1,
+        "bytes": 840
+      },
+      {
+        "path": "contrib/admin/checks.py",
+        "ms": 80.1,
+        "radius": 25,
+        "bytes": 50474
+      },
+      {
+        "path": "contrib/admin/decorators.py",
+        "ms": 62.0,
+        "radius": 25,
+        "bytes": 3481
+      },
+      {
+        "path": "contrib/admin/exceptions.py",
+        "ms": 58.6,
+        "radius": 27,
+        "bytes": 507
+      },
+      {
+        "path": "contrib/admin/filters.py",
+        "ms": 76.2,
+        "radius": 25,
+        "bytes": 27668
+      },
+      {
+        "path": "contrib/admin/forms.py",
+        "ms": 59.6,
+        "radius": 26,
+        "bytes": 1023
+      },
+      {
+        "path": "contrib/admin/helpers.py",
+        "ms": 69.6,
+        "radius": 25,
+        "bytes": 18620
+      },
+      {
+        "path": "contrib/admin/migrations/0001_initial.py",
+        "ms": 59.5,
+        "radius": 1,
+        "bytes": 2507
+      },
+      {
+        "path": "contrib/admin/migrations/0002_logentry_remove_auto_add.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 553
+      },
+      {
+        "path": "contrib/admin/migrations/0003_logentry_add_action_flag_choices.py",
+        "ms": 57.8,
+        "radius": 1,
+        "bytes": 538
+      },
+      {
+        "path": "contrib/admin/migrations/__init__.py",
+        "ms": 58.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/admin/models.py",
+        "ms": 64.4,
+        "radius": 25,
+        "bytes": 8500
+      },
+      {
+        "path": "contrib/admin/options.py",
+        "ms": 110.9,
+        "radius": 25,
+        "bytes": 101633
+      },
+      {
+        "path": "contrib/admin/sites.py",
+        "ms": 71.0,
+        "radius": 25,
+        "bytes": 23454
+      },
+      {
+        "path": "contrib/admin/templatetags/__init__.py",
+        "ms": 59.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/admin/templatetags/admin_list.py",
+        "ms": 79.2,
+        "radius": 25,
+        "bytes": 19159
+      },
+      {
+        "path": "contrib/admin/templatetags/admin_modify.py",
+        "ms": 61.8,
+        "radius": 1,
+        "bytes": 4978
+      },
+      {
+        "path": "contrib/admin/templatetags/admin_urls.py",
+        "ms": 61.1,
+        "radius": 25,
+        "bytes": 2038
+      },
+      {
+        "path": "contrib/admin/templatetags/base.py",
+        "ms": 60.4,
+        "radius": 27,
+        "bytes": 1562
+      },
+      {
+        "path": "contrib/admin/templatetags/log.py",
+        "ms": 60.8,
+        "radius": 1,
+        "bytes": 2050
+      },
+      {
+        "path": "contrib/admin/tests.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 8559
+      },
+      {
+        "path": "contrib/admin/utils.py",
+        "ms": 75.1,
+        "radius": 25,
+        "bytes": 21908
+      },
+      {
+        "path": "contrib/admin/views/__init__.py",
+        "ms": 58.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/admin/views/autocomplete.py",
+        "ms": 61.1,
+        "radius": 26,
+        "bytes": 4385
+      },
+      {
+        "path": "contrib/admin/views/decorators.py",
+        "ms": 58.1,
+        "radius": 3,
+        "bytes": 639
+      },
+      {
+        "path": "contrib/admin/views/main.py",
+        "ms": 76.7,
+        "radius": 25,
+        "bytes": 25868
+      },
+      {
+        "path": "contrib/admin/widgets.py",
+        "ms": 68.6,
+        "radius": 25,
+        "bytes": 19637
+      },
+      {
+        "path": "contrib/admindocs/__init__.py",
+        "ms": 60.2,
+        "radius": 3,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/admindocs/apps.py",
+        "ms": 58.6,
+        "radius": 1,
+        "bytes": 216
+      },
+      {
+        "path": "contrib/admindocs/middleware.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 1329
+      },
+      {
+        "path": "contrib/admindocs/urls.py",
+        "ms": 59.6,
+        "radius": 1,
+        "bytes": 1309
+      },
+      {
+        "path": "contrib/admindocs/utils.py",
+        "ms": 64.7,
+        "radius": 4,
+        "bytes": 8399
+      },
+      {
+        "path": "contrib/admindocs/views.py",
+        "ms": 69.2,
+        "radius": 2,
+        "bytes": 19572
+      },
+      {
+        "path": "contrib/auth/__init__.py",
+        "ms": 66.7,
+        "radius": 64,
+        "bytes": 14960
+      },
+      {
+        "path": "contrib/auth/admin.py",
+        "ms": 64.5,
+        "radius": 1,
+        "bytes": 10378
+      },
+      {
+        "path": "contrib/auth/apps.py",
+        "ms": 60.0,
+        "radius": 1,
+        "bytes": 1284
+      },
+      {
+        "path": "contrib/auth/backends.py",
+        "ms": 66.3,
+        "radius": 12,
+        "bytes": 12967
+      },
+      {
+        "path": "contrib/auth/base_user.py",
+        "ms": 62.8,
+        "radius": 64,
+        "bytes": 5043
+      },
+      {
+        "path": "contrib/auth/checks.py",
+        "ms": 64.0,
+        "radius": 2,
+        "bytes": 9847
+      },
+      {
+        "path": "contrib/auth/context_processors.py",
+        "ms": 59.3,
+        "radius": 1,
+        "bytes": 1911
+      },
+      {
+        "path": "contrib/auth/decorators.py",
+        "ms": 63.5,
+        "radius": 47,
+        "bytes": 4760
+      },
+      {
+        "path": "contrib/auth/forms.py",
+        "ms": 72.9,
+        "radius": 49,
+        "bytes": 21496
+      },
+      {
+        "path": "contrib/auth/handlers/__init__.py",
+        "ms": 58.7,
+        "radius": 11,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/auth/handlers/modwsgi.py",
+        "ms": 59.7,
+        "radius": 11,
+        "bytes": 1914
+      },
+      {
+        "path": "contrib/auth/hashers.py",
+        "ms": 70.9,
+        "radius": 65,
+        "bytes": 23335
+      },
+      {
+        "path": "contrib/auth/management/__init__.py",
+        "ms": 80.4,
+        "radius": 4,
+        "bytes": 5391
+      },
+      {
+        "path": "contrib/auth/management/commands/__init__.py",
+        "ms": 62.4,
+        "radius": 11,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/auth/management/commands/changepassword.py",
+        "ms": 74.0,
+        "radius": 11,
+        "bytes": 2686
+      },
+      {
+        "path": "contrib/auth/management/commands/createsuperuser.py",
+        "ms": 77.8,
+        "radius": 1,
+        "bytes": 13576
+      },
+      {
+        "path": "contrib/auth/middleware.py",
+        "ms": 64.7,
+        "radius": 1,
+        "bytes": 11954
+      },
+      {
+        "path": "contrib/auth/migrations/0001_initial.py",
+        "ms": 68.2,
+        "radius": 1,
+        "bytes": 7281
+      },
+      {
+        "path": "contrib/auth/migrations/0002_alter_permission_name_max_length.py",
+        "ms": 58.5,
+        "radius": 1,
+        "bytes": 346
+      },
+      {
+        "path": "contrib/auth/migrations/0003_alter_user_email_max_length.py",
+        "ms": 57.1,
+        "radius": 1,
+        "bytes": 418
+      },
+      {
+        "path": "contrib/auth/migrations/0004_alter_user_username_opts.py",
+        "ms": 60.0,
+        "radius": 1,
+        "bytes": 880
+      },
+      {
+        "path": "contrib/auth/migrations/0005_alter_user_last_login_null.py",
+        "ms": 58.4,
+        "radius": 1,
+        "bytes": 410
+      },
+      {
+        "path": "contrib/auth/migrations/0006_require_contenttypes_0002.py",
+        "ms": 68.1,
+        "radius": 1,
+        "bytes": 369
+      },
+      {
+        "path": "contrib/auth/migrations/0007_alter_validators_add_error_messages.py",
+        "ms": 59.9,
+        "radius": 1,
+        "bytes": 802
+      },
+      {
+        "path": "contrib/auth/migrations/0008_alter_user_username_max_length.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 814
+      },
+      {
+        "path": "contrib/auth/migrations/0009_alter_user_last_name_max_length.py",
+        "ms": 59.9,
+        "radius": 1,
+        "bytes": 415
+      },
+      {
+        "path": "contrib/auth/migrations/0010_alter_group_name_max_length.py",
+        "ms": 59.4,
+        "radius": 1,
+        "bytes": 378
+      },
+      {
+        "path": "contrib/auth/migrations/0011_update_proxy_permissions.py",
+        "ms": 61.6,
+        "radius": 1,
+        "bytes": 2860
+      },
+      {
+        "path": "contrib/auth/migrations/0012_alter_user_first_name_max_length.py",
+        "ms": 60.3,
+        "radius": 1,
+        "bytes": 411
+      },
+      {
+        "path": "contrib/auth/migrations/__init__.py",
+        "ms": 61.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/auth/mixins.py",
+        "ms": 64.6,
+        "radius": 1,
+        "bytes": 4652
+      },
+      {
+        "path": "contrib/auth/models.py",
+        "ms": 72.8,
+        "radius": 64,
+        "bytes": 21331
+      },
+      {
+        "path": "contrib/auth/password_validation.py",
+        "ms": 68.3,
+        "radius": 65,
+        "bytes": 9631
+      },
+      {
+        "path": "contrib/auth/signals.py",
+        "ms": 83.0,
+        "radius": 65,
+        "bytes": 118
+      },
+      {
+        "path": "contrib/auth/tokens.py",
+        "ms": 66.6,
+        "radius": 50,
+        "bytes": 4328
+      },
+      {
+        "path": "contrib/auth/urls.py",
+        "ms": 63.1,
+        "radius": 1,
+        "bytes": 1185
+      },
+      {
+        "path": "contrib/auth/validators.py",
+        "ms": 62.6,
+        "radius": 65,
+        "bytes": 722
+      },
+      {
+        "path": "contrib/auth/views.py",
+        "ms": 70.9,
+        "radius": 47,
+        "bytes": 14134
+      },
+      {
+        "path": "contrib/contenttypes/__init__.py",
+        "ms": 62.0,
+        "radius": 26,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/contenttypes/admin.py",
+        "ms": 70.8,
+        "radius": 1,
+        "bytes": 5858
+      },
+      {
+        "path": "contrib/contenttypes/apps.py",
+        "ms": 61.9,
+        "radius": 1,
+        "bytes": 846
+      },
+      {
+        "path": "contrib/contenttypes/checks.py",
+        "ms": 63.7,
+        "radius": 2,
+        "bytes": 1268
+      },
+      {
+        "path": "contrib/contenttypes/fields.py",
+        "ms": 80.4,
+        "radius": 4,
+        "bytes": 31744
+      },
+      {
+        "path": "contrib/contenttypes/forms.py",
+        "ms": 63.9,
+        "radius": 2,
+        "bytes": 3950
+      },
+      {
+        "path": "contrib/contenttypes/management/__init__.py",
+        "ms": 67.1,
+        "radius": 6,
+        "bytes": 4937
+      },
+      {
+        "path": "contrib/contenttypes/management/commands/__init__.py",
+        "ms": 65.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/contenttypes/management/commands/remove_stale_contenttypes.py",
+        "ms": 76.8,
+        "radius": 1,
+        "bytes": 4643
+      },
+      {
+        "path": "contrib/contenttypes/migrations/0001_initial.py",
+        "ms": 60.9,
+        "radius": 1,
+        "bytes": 1434
+      },
+      {
+        "path": "contrib/contenttypes/migrations/0002_remove_content_type_name.py",
+        "ms": 63.2,
+        "radius": 1,
+        "bytes": 1199
+      },
+      {
+        "path": "contrib/contenttypes/migrations/__init__.py",
+        "ms": 60.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/contenttypes/models.py",
+        "ms": 70.3,
+        "radius": 72,
+        "bytes": 6844
+      },
+      {
+        "path": "contrib/contenttypes/prefetch.py",
+        "ms": 74.1,
+        "radius": 1,
+        "bytes": 1358
+      },
+      {
+        "path": "contrib/contenttypes/views.py",
+        "ms": 65.4,
+        "radius": 26,
+        "bytes": 3549
+      },
+      {
+        "path": "contrib/flatpages/__init__.py",
+        "ms": 61.6,
+        "radius": 2,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/flatpages/admin.py",
+        "ms": 67.5,
+        "radius": 1,
+        "bytes": 701
+      },
+      {
+        "path": "contrib/flatpages/apps.py",
+        "ms": 59.5,
+        "radius": 1,
+        "bytes": 252
+      },
+      {
+        "path": "contrib/flatpages/forms.py",
+        "ms": 61.2,
+        "radius": 2,
+        "bytes": 2492
+      },
+      {
+        "path": "contrib/flatpages/middleware.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 784
+      },
+      {
+        "path": "contrib/flatpages/migrations/0001_initial.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 2408
+      },
+      {
+        "path": "contrib/flatpages/migrations/__init__.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/flatpages/models.py",
+        "ms": 62.4,
+        "radius": 7,
+        "bytes": 1764
+      },
+      {
+        "path": "contrib/flatpages/sitemaps.py",
+        "ms": 60.5,
+        "radius": 1,
+        "bytes": 584
+      },
+      {
+        "path": "contrib/flatpages/templatetags/__init__.py",
+        "ms": 61.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/flatpages/templatetags/flatpages.py",
+        "ms": 73.0,
+        "radius": 1,
+        "bytes": 3552
+      },
+      {
+        "path": "contrib/flatpages/urls.py",
+        "ms": 65.4,
+        "radius": 1,
+        "bytes": 179
+      },
+      {
+        "path": "contrib/flatpages/views.py",
+        "ms": 64.3,
+        "radius": 7,
+        "bytes": 2724
+      },
+      {
+        "path": "contrib/gis/__init__.py",
+        "ms": 60.8,
+        "radius": 65,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/admin/__init__.py",
+        "ms": 62.6,
+        "radius": 1,
+        "bytes": 486
+      },
+      {
+        "path": "contrib/gis/admin/options.py",
+        "ms": 60.3,
+        "radius": 2,
+        "bytes": 689
+      },
+      {
+        "path": "contrib/gis/apps.py",
+        "ms": 61.7,
+        "radius": 1,
+        "bytes": 417
+      },
+      {
+        "path": "contrib/gis/db/__init__.py",
+        "ms": 59.3,
+        "radius": 16,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/__init__.py",
+        "ms": 67.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/base/__init__.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/base/adapter.py",
+        "ms": 60.5,
+        "radius": 9,
+        "bytes": 592
+      },
+      {
+        "path": "contrib/gis/db/backends/base/features.py",
+        "ms": 61.6,
+        "radius": 9,
+        "bytes": 3718
+      },
+      {
+        "path": "contrib/gis/db/backends/base/models.py",
+        "ms": 61.9,
+        "radius": 10,
+        "bytes": 4009
+      },
+      {
+        "path": "contrib/gis/db/backends/base/operations.py",
+        "ms": 63.4,
+        "radius": 9,
+        "bytes": 6859
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/__init__.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/base.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 498
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/features.py",
+        "ms": 59.5,
+        "radius": 2,
+        "bytes": 866
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/introspection.py",
+        "ms": 60.2,
+        "radius": 2,
+        "bytes": 1602
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/operations.py",
+        "ms": 62.3,
+        "radius": 2,
+        "bytes": 4952
+      },
+      {
+        "path": "contrib/gis/db/backends/mysql/schema.py",
+        "ms": 61.9,
+        "radius": 2,
+        "bytes": 3958
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/__init__.py",
+        "ms": 60.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/adapter.py",
+        "ms": 61.8,
+        "radius": 3,
+        "bytes": 2066
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/base.py",
+        "ms": 59.2,
+        "radius": 1,
+        "bytes": 507
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/features.py",
+        "ms": 59.8,
+        "radius": 2,
+        "bytes": 1021
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/introspection.py",
+        "ms": 61.0,
+        "radius": 2,
+        "bytes": 1939
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/models.py",
+        "ms": 60.5,
+        "radius": 3,
+        "bytes": 2081
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/operations.py",
+        "ms": 63.7,
+        "radius": 2,
+        "bytes": 8785
+      },
+      {
+        "path": "contrib/gis/db/backends/oracle/schema.py",
+        "ms": 63.8,
+        "radius": 2,
+        "bytes": 5430
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/__init__.py",
+        "ms": 60.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/adapter.py",
+        "ms": 60.8,
+        "radius": 3,
+        "bytes": 1980
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/base.py",
+        "ms": 62.6,
+        "radius": 1,
+        "bytes": 5793
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/const.py",
+        "ms": 59.9,
+        "radius": 5,
+        "bytes": 2008
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/features.py",
+        "ms": 59.3,
+        "radius": 2,
+        "bytes": 455
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/introspection.py",
+        "ms": 83.9,
+        "radius": 2,
+        "bytes": 3164
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/models.py",
+        "ms": 63.3,
+        "radius": 3,
+        "bytes": 2002
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/operations.py",
+        "ms": 68.0,
+        "radius": 2,
+        "bytes": 16968
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/pgraster.py",
+        "ms": 63.4,
+        "radius": 4,
+        "bytes": 4588
+      },
+      {
+        "path": "contrib/gis/db/backends/postgis/schema.py",
+        "ms": 63.7,
+        "radius": 2,
+        "bytes": 4468
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/__init__.py",
+        "ms": 76.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/adapter.py",
+        "ms": 59.2,
+        "radius": 3,
+        "bytes": 318
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/base.py",
+        "ms": 62.8,
+        "radius": 1,
+        "bytes": 3218
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/client.py",
+        "ms": 67.6,
+        "radius": 2,
+        "bytes": 138
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/features.py",
+        "ms": 66.4,
+        "radius": 2,
+        "bytes": 876
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/introspection.py",
+        "ms": 63.5,
+        "radius": 2,
+        "bytes": 3118
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/models.py",
+        "ms": 59.8,
+        "radius": 3,
+        "bytes": 1930
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/operations.py",
+        "ms": 64.1,
+        "radius": 2,
+        "bytes": 8520
+      },
+      {
+        "path": "contrib/gis/db/backends/spatialite/schema.py",
+        "ms": 64.7,
+        "radius": 2,
+        "bytes": 7340
+      },
+      {
+        "path": "contrib/gis/db/backends/utils.py",
+        "ms": 59.4,
+        "radius": 9,
+        "bytes": 785
+      },
+      {
+        "path": "contrib/gis/db/models/__init__.py",
+        "ms": 59.5,
+        "radius": 27,
+        "bytes": 865
+      },
+      {
+        "path": "contrib/gis/db/models/aggregates.py",
+        "ms": 70.3,
+        "radius": 28,
+        "bytes": 3147
+      },
+      {
+        "path": "contrib/gis/db/models/fields.py",
+        "ms": 72.1,
+        "radius": 31,
+        "bytes": 14288
+      },
+      {
+        "path": "contrib/gis/db/models/functions.py",
+        "ms": 78.5,
+        "radius": 28,
+        "bytes": 19606
+      },
+      {
+        "path": "contrib/gis/db/models/lookups.py",
+        "ms": 127.8,
+        "radius": 31,
+        "bytes": 11797
+      },
+      {
+        "path": "contrib/gis/db/models/proxy.py",
+        "ms": 81.4,
+        "radius": 32,
+        "bytes": 3174
+      },
+      {
+        "path": "contrib/gis/db/models/sql/__init__.py",
+        "ms": 64.7,
+        "radius": 29,
+        "bytes": 134
+      },
+      {
+        "path": "contrib/gis/db/models/sql/conversion.py",
+        "ms": 75.0,
+        "radius": 30,
+        "bytes": 2433
+      },
+      {
+        "path": "contrib/gis/feeds.py",
+        "ms": 81.8,
+        "radius": 1,
+        "bytes": 5995
+      },
+      {
+        "path": "contrib/gis/forms/__init__.py",
+        "ms": 74.9,
+        "radius": 32,
+        "bytes": 318
+      },
+      {
+        "path": "contrib/gis/forms/fields.py",
+        "ms": 79.0,
+        "radius": 33,
+        "bytes": 4608
+      },
+      {
+        "path": "contrib/gis/forms/widgets.py",
+        "ms": 90.6,
+        "radius": 34,
+        "bytes": 3917
+      },
+      {
+        "path": "contrib/gis/gdal/__init__.py",
+        "ms": 70.2,
+        "radius": 64,
+        "bytes": 1811
+      },
+      {
+        "path": "contrib/gis/gdal/base.py",
+        "ms": 79.6,
+        "radius": 71,
+        "bytes": 181
+      },
+      {
+        "path": "contrib/gis/gdal/datasource.py",
+        "ms": 65.0,
+        "radius": 64,
+        "bytes": 4644
+      },
+      {
+        "path": "contrib/gis/gdal/driver.py",
+        "ms": 70.7,
+        "radius": 66,
+        "bytes": 2983
+      },
+      {
+        "path": "contrib/gis/gdal/envelope.py",
+        "ms": 69.6,
+        "radius": 70,
+        "bytes": 7314
+      },
+      {
+        "path": "contrib/gis/gdal/error.py",
+        "ms": 60.9,
+        "radius": 81,
+        "bytes": 1575
+      },
+      {
+        "path": "contrib/gis/gdal/feature.py",
+        "ms": 67.4,
+        "radius": 64,
+        "bytes": 4017
+      },
+      {
+        "path": "contrib/gis/gdal/field.py",
+        "ms": 82.3,
+        "radius": 65,
+        "bytes": 6886
+      },
+      {
+        "path": "contrib/gis/gdal/geometries.py",
+        "ms": 82.1,
+        "radius": 64,
+        "bytes": 29286
+      },
+      {
+        "path": "contrib/gis/gdal/geomtype.py",
+        "ms": 65.2,
+        "radius": 65,
+        "bytes": 4582
+      },
+      {
+        "path": "contrib/gis/gdal/layer.py",
+        "ms": 67.2,
+        "radius": 64,
+        "bytes": 8825
+      },
+      {
+        "path": "contrib/gis/gdal/libgdal.py",
+        "ms": 60.7,
+        "radius": 77,
+        "bytes": 3619
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/__init__.py",
+        "ms": 60.6,
+        "radius": 71,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/ds.py",
+        "ms": 60.3,
+        "radius": 68,
+        "bytes": 4725
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/errcheck.py",
+        "ms": 61.6,
+        "radius": 76,
+        "bytes": 4172
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/generation.py",
+        "ms": 63.0,
+        "radius": 75,
+        "bytes": 4888
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/geom.py",
+        "ms": 62.3,
+        "radius": 65,
+        "bytes": 6233
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/raster.py",
+        "ms": 61.4,
+        "radius": 68,
+        "bytes": 5571
+      },
+      {
+        "path": "contrib/gis/gdal/prototypes/srs.py",
+        "ms": 64.4,
+        "radius": 67,
+        "bytes": 3677
+      },
+      {
+        "path": "contrib/gis/gdal/raster/__init__.py",
+        "ms": 58.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/gdal/raster/band.py",
+        "ms": 63.2,
+        "radius": 66,
+        "bytes": 8343
+      },
+      {
+        "path": "contrib/gis/gdal/raster/base.py",
+        "ms": 61.7,
+        "radius": 67,
+        "bytes": 2882
+      },
+      {
+        "path": "contrib/gis/gdal/raster/const.py",
+        "ms": 60.1,
+        "radius": 67,
+        "bytes": 3283
+      },
+      {
+        "path": "contrib/gis/gdal/raster/source.py",
+        "ms": 74.0,
+        "radius": 65,
+        "bytes": 18373
+      },
+      {
+        "path": "contrib/gis/gdal/srs.py",
+        "ms": 66.3,
+        "radius": 66,
+        "bytes": 12301
+      },
+      {
+        "path": "contrib/gis/geoip2.py",
+        "ms": 67.9,
+        "radius": 1,
+        "bytes": 9399
+      },
+      {
+        "path": "contrib/gis/geometry.py",
+        "ms": 73.8,
+        "radius": 66,
+        "bytes": 788
+      },
+      {
+        "path": "contrib/gis/geos/__init__.py",
+        "ms": 68.0,
+        "radius": 64,
+        "bytes": 661
+      },
+      {
+        "path": "contrib/gis/geos/base.py",
+        "ms": 59.1,
+        "radius": 75,
+        "bytes": 181
+      },
+      {
+        "path": "contrib/gis/geos/collections.py",
+        "ms": 63.1,
+        "radius": 64,
+        "bytes": 3939
+      },
+      {
+        "path": "contrib/gis/geos/coordseq.py",
+        "ms": 64.7,
+        "radius": 64,
+        "bytes": 6838
+      },
+      {
+        "path": "contrib/gis/geos/error.py",
+        "ms": 62.4,
+        "radius": 76,
+        "bytes": 105
+      },
+      {
+        "path": "contrib/gis/geos/factory.py",
+        "ms": 64.3,
+        "radius": 64,
+        "bytes": 961
+      },
+      {
+        "path": "contrib/gis/geos/geometry.py",
+        "ms": 83.0,
+        "radius": 64,
+        "bytes": 26650
+      },
+      {
+        "path": "contrib/gis/geos/io.py",
+        "ms": 70.3,
+        "radius": 64,
+        "bytes": 800
+      },
+      {
+        "path": "contrib/gis/geos/libgeos.py",
+        "ms": 72.5,
+        "radius": 74,
+        "bytes": 4983
+      },
+      {
+        "path": "contrib/gis/geos/linestring.py",
+        "ms": 78.2,
+        "radius": 64,
+        "bytes": 6372
+      },
+      {
+        "path": "contrib/gis/geos/mutable_list.py",
+        "ms": 97.2,
+        "radius": 65,
+        "bytes": 10122
+      },
+      {
+        "path": "contrib/gis/geos/point.py",
+        "ms": 63.1,
+        "radius": 64,
+        "bytes": 4781
+      },
+      {
+        "path": "contrib/gis/geos/polygon.py",
+        "ms": 69.9,
+        "radius": 64,
+        "bytes": 6710
+      },
+      {
+        "path": "contrib/gis/geos/prepared.py",
+        "ms": 66.9,
+        "radius": 64,
+        "bytes": 1577
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/__init__.py",
+        "ms": 59.6,
+        "radius": 65,
+        "bytes": 1435
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/coordseq.py",
+        "ms": 63.1,
+        "radius": 66,
+        "bytes": 3124
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/errcheck.py",
+        "ms": 62.9,
+        "radius": 72,
+        "bytes": 2788
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/geom.py",
+        "ms": 59.7,
+        "radius": 68,
+        "bytes": 3401
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/io.py",
+        "ms": 65.9,
+        "radius": 64,
+        "bytes": 11321
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/misc.py",
+        "ms": 59.2,
+        "radius": 66,
+        "bytes": 1167
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/predicates.py",
+        "ms": 59.7,
+        "radius": 66,
+        "bytes": 1662
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/prepared.py",
+        "ms": 59.4,
+        "radius": 65,
+        "bytes": 1175
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/threadsafe.py",
+        "ms": 60.4,
+        "radius": 74,
+        "bytes": 2302
+      },
+      {
+        "path": "contrib/gis/geos/prototypes/topology.py",
+        "ms": 59.6,
+        "radius": 66,
+        "bytes": 2327
+      },
+      {
+        "path": "contrib/gis/management/__init__.py",
+        "ms": 58.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/management/commands/__init__.py",
+        "ms": 78.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/management/commands/inspectdb.py",
+        "ms": 66.5,
+        "radius": 1,
+        "bytes": 760
+      },
+      {
+        "path": "contrib/gis/management/commands/ogrinspect.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 6071
+      },
+      {
+        "path": "contrib/gis/measure.py",
+        "ms": 65.8,
+        "radius": 34,
+        "bytes": 12574
+      },
+      {
+        "path": "contrib/gis/ptr.py",
+        "ms": 60.4,
+        "radius": 83,
+        "bytes": 1312
+      },
+      {
+        "path": "contrib/gis/serializers/__init__.py",
+        "ms": 58.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/gis/serializers/geojson.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 2876
+      },
+      {
+        "path": "contrib/gis/shortcuts.py",
+        "ms": 62.1,
+        "radius": 67,
+        "bytes": 1027
+      },
+      {
+        "path": "contrib/gis/sitemaps/__init__.py",
+        "ms": 63.2,
+        "radius": 1,
+        "bytes": 138
+      },
+      {
+        "path": "contrib/gis/sitemaps/kml.py",
+        "ms": 64.3,
+        "radius": 2,
+        "bytes": 2573
+      },
+      {
+        "path": "contrib/gis/sitemaps/views.py",
+        "ms": 73.7,
+        "radius": 1,
+        "bytes": 2353
+      },
+      {
+        "path": "contrib/gis/utils/__init__.py",
+        "ms": 66.6,
+        "radius": 1,
+        "bytes": 682
+      },
+      {
+        "path": "contrib/gis/utils/layermapping.py",
+        "ms": 77.8,
+        "radius": 2,
+        "bytes": 29040
+      },
+      {
+        "path": "contrib/gis/utils/ogrinfo.py",
+        "ms": 68.6,
+        "radius": 2,
+        "bytes": 1956
+      },
+      {
+        "path": "contrib/gis/utils/ogrinspect.py",
+        "ms": 69.3,
+        "radius": 3,
+        "bytes": 9170
+      },
+      {
+        "path": "contrib/gis/utils/srs.py",
+        "ms": 64.6,
+        "radius": 2,
+        "bytes": 2962
+      },
+      {
+        "path": "contrib/gis/views.py",
+        "ms": 68.3,
+        "radius": 1,
+        "bytes": 714
+      },
+      {
+        "path": "contrib/humanize/__init__.py",
+        "ms": 65.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/humanize/apps.py",
+        "ms": 70.6,
+        "radius": 1,
+        "bytes": 194
+      },
+      {
+        "path": "contrib/humanize/templatetags/__init__.py",
+        "ms": 63.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/humanize/templatetags/humanize.py",
+        "ms": 72.9,
+        "radius": 1,
+        "bytes": 12681
+      },
+      {
+        "path": "contrib/messages/__init__.py",
+        "ms": 70.9,
+        "radius": 36,
+        "bytes": 171
+      },
+      {
+        "path": "contrib/messages/api.py",
+        "ms": 61.7,
+        "radius": 36,
+        "bytes": 3250
+      },
+      {
+        "path": "contrib/messages/apps.py",
+        "ms": 69.3,
+        "radius": 1,
+        "bytes": 611
+      },
+      {
+        "path": "contrib/messages/constants.py",
+        "ms": 59.9,
+        "radius": 37,
+        "bytes": 312
+      },
+      {
+        "path": "contrib/messages/context_processors.py",
+        "ms": 64.8,
+        "radius": 1,
+        "bytes": 354
+      },
+      {
+        "path": "contrib/messages/middleware.py",
+        "ms": 67.3,
+        "radius": 1,
+        "bytes": 986
+      },
+      {
+        "path": "contrib/messages/storage/__init__.py",
+        "ms": 75.2,
+        "radius": 38,
+        "bytes": 392
+      },
+      {
+        "path": "contrib/messages/storage/base.py",
+        "ms": 66.6,
+        "radius": 36,
+        "bytes": 6082
+      },
+      {
+        "path": "contrib/messages/storage/cookie.py",
+        "ms": 67.9,
+        "radius": 3,
+        "bytes": 8678
+      },
+      {
+        "path": "contrib/messages/storage/fallback.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 2093
+      },
+      {
+        "path": "contrib/messages/storage/session.py",
+        "ms": 60.9,
+        "radius": 2,
+        "bytes": 1764
+      },
+      {
+        "path": "contrib/messages/test.py",
+        "ms": 65.5,
+        "radius": 1,
+        "bytes": 421
+      },
+      {
+        "path": "contrib/messages/utils.py",
+        "ms": 87.6,
+        "radius": 36,
+        "bytes": 256
+      },
+      {
+        "path": "contrib/messages/views.py",
+        "ms": 69.1,
+        "radius": 1,
+        "bytes": 524
+      },
+      {
+        "path": "contrib/postgres/__init__.py",
+        "ms": 64.8,
+        "radius": 11,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/postgres/aggregates/__init__.py",
+        "ms": 57.7,
+        "radius": 1,
+        "bytes": 65
+      },
+      {
+        "path": "contrib/postgres/aggregates/general.py",
+        "ms": 59.5,
+        "radius": 2,
+        "bytes": 1496
+      },
+      {
+        "path": "contrib/postgres/aggregates/mixins.py",
+        "ms": 63.5,
+        "radius": 3,
+        "bytes": 2108
+      },
+      {
+        "path": "contrib/postgres/aggregates/statistics.py",
+        "ms": 61.6,
+        "radius": 2,
+        "bytes": 1511
+      },
+      {
+        "path": "contrib/postgres/apps.py",
+        "ms": 60.3,
+        "radius": 1,
+        "bytes": 3692
+      },
+      {
+        "path": "contrib/postgres/constraints.py",
+        "ms": 65.1,
+        "radius": 1,
+        "bytes": 9086
+      },
+      {
+        "path": "contrib/postgres/expressions.py",
+        "ms": 60.9,
+        "radius": 10,
+        "bytes": 405
+      },
+      {
+        "path": "contrib/postgres/fields/__init__.py",
+        "ms": 63.0,
+        "radius": 10,
+        "bytes": 148
+      },
+      {
+        "path": "contrib/postgres/fields/array.py",
+        "ms": 70.9,
+        "radius": 10,
+        "bytes": 12630
+      },
+      {
+        "path": "contrib/postgres/fields/citext.py",
+        "ms": 62.1,
+        "radius": 11,
+        "bytes": 1363
+      },
+      {
+        "path": "contrib/postgres/fields/hstore.py",
+        "ms": 64.9,
+        "radius": 10,
+        "bytes": 3296
+      },
+      {
+        "path": "contrib/postgres/fields/jsonb.py",
+        "ms": 66.1,
+        "radius": 11,
+        "bytes": 406
+      },
+      {
+        "path": "contrib/postgres/fields/ranges.py",
+        "ms": 71.1,
+        "radius": 10,
+        "bytes": 11417
+      },
+      {
+        "path": "contrib/postgres/fields/utils.py",
+        "ms": 59.8,
+        "radius": 11,
+        "bytes": 95
+      },
+      {
+        "path": "contrib/postgres/forms/__init__.py",
+        "ms": 59.6,
+        "radius": 11,
+        "bytes": 89
+      },
+      {
+        "path": "contrib/postgres/forms/array.py",
+        "ms": 66.6,
+        "radius": 12,
+        "bytes": 8401
+      },
+      {
+        "path": "contrib/postgres/forms/hstore.py",
+        "ms": 64.7,
+        "radius": 12,
+        "bytes": 1787
+      },
+      {
+        "path": "contrib/postgres/forms/ranges.py",
+        "ms": 60.4,
+        "radius": 12,
+        "bytes": 3652
+      },
+      {
+        "path": "contrib/postgres/functions.py",
+        "ms": 64.6,
+        "radius": 1,
+        "bytes": 252
+      },
+      {
+        "path": "contrib/postgres/indexes.py",
+        "ms": 67.4,
+        "radius": 2,
+        "bytes": 8224
+      },
+      {
+        "path": "contrib/postgres/lookups.py",
+        "ms": 65.1,
+        "radius": 10,
+        "bytes": 1991
+      },
+      {
+        "path": "contrib/postgres/operations.py",
+        "ms": 79.8,
+        "radius": 1,
+        "bytes": 12274
+      },
+      {
+        "path": "contrib/postgres/search.py",
+        "ms": 69.6,
+        "radius": 10,
+        "bytes": 11732
+      },
+      {
+        "path": "contrib/postgres/serializers.py",
+        "ms": 62.8,
+        "radius": 2,
+        "bytes": 435
+      },
+      {
+        "path": "contrib/postgres/signals.py",
+        "ms": 65.6,
+        "radius": 3,
+        "bytes": 2870
+      },
+      {
+        "path": "contrib/postgres/utils.py",
+        "ms": 62.9,
+        "radius": 13,
+        "bytes": 1187
+      },
+      {
+        "path": "contrib/postgres/validators.py",
+        "ms": 64.0,
+        "radius": 13,
+        "bytes": 2801
+      },
+      {
+        "path": "contrib/redirects/__init__.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/redirects/admin.py",
+        "ms": 60.1,
+        "radius": 1,
+        "bytes": 314
+      },
+      {
+        "path": "contrib/redirects/apps.py",
+        "ms": 63.0,
+        "radius": 1,
+        "bytes": 251
+      },
+      {
+        "path": "contrib/redirects/middleware.py",
+        "ms": 64.2,
+        "radius": 1,
+        "bytes": 1921
+      },
+      {
+        "path": "contrib/redirects/migrations/0001_initial.py",
+        "ms": 61.0,
+        "radius": 1,
+        "bytes": 2101
+      },
+      {
+        "path": "contrib/redirects/migrations/0002_alter_redirect_new_path_help_text.py",
+        "ms": 64.0,
+        "radius": 1,
+        "bytes": 635
+      },
+      {
+        "path": "contrib/redirects/migrations/__init__.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/redirects/models.py",
+        "ms": 61.5,
+        "radius": 3,
+        "bytes": 1083
+      },
+      {
+        "path": "contrib/sessions/__init__.py",
+        "ms": 62.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sessions/apps.py",
+        "ms": 61.5,
+        "radius": 1,
+        "bytes": 194
+      },
+      {
+        "path": "contrib/sessions/backends/__init__.py",
+        "ms": 61.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sessions/backends/base.py",
+        "ms": 69.9,
+        "radius": 9,
+        "bytes": 16958
+      },
+      {
+        "path": "contrib/sessions/backends/cache.py",
+        "ms": 70.4,
+        "radius": 1,
+        "bytes": 4674
+      },
+      {
+        "path": "contrib/sessions/backends/cached_db.py",
+        "ms": 64.1,
+        "radius": 1,
+        "bytes": 4148
+      },
+      {
+        "path": "contrib/sessions/backends/db.py",
+        "ms": 73.4,
+        "radius": 4,
+        "bytes": 6907
+      },
+      {
+        "path": "contrib/sessions/backends/file.py",
+        "ms": 74.8,
+        "radius": 1,
+        "bytes": 8200
+      },
+      {
+        "path": "contrib/sessions/backends/signed_cookies.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 3218
+      },
+      {
+        "path": "contrib/sessions/base_session.py",
+        "ms": 70.3,
+        "radius": 5,
+        "bytes": 1491
+      },
+      {
+        "path": "contrib/sessions/exceptions.py",
+        "ms": 87.5,
+        "radius": 3,
+        "bytes": 359
+      },
+      {
+        "path": "contrib/sessions/management/__init__.py",
+        "ms": 60.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sessions/management/commands/__init__.py",
+        "ms": 60.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sessions/management/commands/clearsessions.py",
+        "ms": 65.9,
+        "radius": 1,
+        "bytes": 661
+      },
+      {
+        "path": "contrib/sessions/middleware.py",
+        "ms": 83.6,
+        "radius": 1,
+        "bytes": 3755
+      },
+      {
+        "path": "contrib/sessions/migrations/0001_initial.py",
+        "ms": 130.0,
+        "radius": 1,
+        "bytes": 1148
+      },
+      {
+        "path": "contrib/sessions/migrations/__init__.py",
+        "ms": 63.6,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sessions/models.py",
+        "ms": 103.6,
+        "radius": 4,
+        "bytes": 1250
+      },
+      {
+        "path": "contrib/sessions/serializers.py",
+        "ms": 65.6,
+        "radius": 1,
+        "bytes": 106
+      },
+      {
+        "path": "contrib/sitemaps/__init__.py",
+        "ms": 91.7,
+        "radius": 4,
+        "bytes": 6923
+      },
+      {
+        "path": "contrib/sitemaps/apps.py",
+        "ms": 68.9,
+        "radius": 1,
+        "bytes": 249
+      },
+      {
+        "path": "contrib/sitemaps/views.py",
+        "ms": 68.8,
+        "radius": 1,
+        "bytes": 4657
+      },
+      {
+        "path": "contrib/sites/__init__.py",
+        "ms": 61.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sites/admin.py",
+        "ms": 66.3,
+        "radius": 1,
+        "bytes": 214
+      },
+      {
+        "path": "contrib/sites/apps.py",
+        "ms": 67.8,
+        "radius": 1,
+        "bytes": 562
+      },
+      {
+        "path": "contrib/sites/checks.py",
+        "ms": 68.1,
+        "radius": 2,
+        "bytes": 366
+      },
+      {
+        "path": "contrib/sites/management.py",
+        "ms": 67.4,
+        "radius": 2,
+        "bytes": 1646
+      },
+      {
+        "path": "contrib/sites/managers.py",
+        "ms": 62.8,
+        "radius": 1,
+        "bytes": 1994
+      },
+      {
+        "path": "contrib/sites/middleware.py",
+        "ms": 58.9,
+        "radius": 1,
+        "bytes": 309
+      },
+      {
+        "path": "contrib/sites/migrations/0001_initial.py",
+        "ms": 63.7,
+        "radius": 1,
+        "bytes": 1361
+      },
+      {
+        "path": "contrib/sites/migrations/0002_alter_domain_unique.py",
+        "ms": 64.4,
+        "radius": 1,
+        "bytes": 549
+      },
+      {
+        "path": "contrib/sites/migrations/__init__.py",
+        "ms": 75.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/sites/models.py",
+        "ms": 73.2,
+        "radius": 60,
+        "bytes": 3695
+      },
+      {
+        "path": "contrib/sites/requests.py",
+        "ms": 69.2,
+        "radius": 57,
+        "bytes": 641
+      },
+      {
+        "path": "contrib/sites/shortcuts.py",
+        "ms": 104.0,
+        "radius": 56,
+        "bytes": 573
+      },
+      {
+        "path": "contrib/staticfiles/__init__.py",
+        "ms": 77.7,
+        "radius": 20,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/staticfiles/apps.py",
+        "ms": 62.2,
+        "radius": 1,
+        "bytes": 504
+      },
+      {
+        "path": "contrib/staticfiles/checks.py",
+        "ms": 78.4,
+        "radius": 2,
+        "bytes": 846
+      },
+      {
+        "path": "contrib/staticfiles/finders.py",
+        "ms": 72.4,
+        "radius": 19,
+        "bytes": 13547
+      },
+      {
+        "path": "contrib/staticfiles/handlers.py",
+        "ms": 65.8,
+        "radius": 4,
+        "bytes": 4043
+      },
+      {
+        "path": "contrib/staticfiles/management/__init__.py",
+        "ms": 62.9,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/staticfiles/management/commands/__init__.py",
+        "ms": 82.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/staticfiles/management/commands/collectstatic.py",
+        "ms": 135.3,
+        "radius": 1,
+        "bytes": 15105
+      },
+      {
+        "path": "contrib/staticfiles/management/commands/findstatic.py",
+        "ms": 81.1,
+        "radius": 1,
+        "bytes": 1643
+      },
+      {
+        "path": "contrib/staticfiles/management/commands/runserver.py",
+        "ms": 146.6,
+        "radius": 1,
+        "bytes": 1373
+      },
+      {
+        "path": "contrib/staticfiles/storage.py",
+        "ms": 103.6,
+        "radius": 571,
+        "bytes": 21176
+      },
+      {
+        "path": "contrib/staticfiles/testing.py",
+        "ms": 68.7,
+        "radius": 2,
+        "bytes": 463
+      },
+      {
+        "path": "contrib/staticfiles/urls.py",
+        "ms": 63.1,
+        "radius": 1,
+        "bytes": 498
+      },
+      {
+        "path": "contrib/staticfiles/utils.py",
+        "ms": 66.8,
+        "radius": 571,
+        "bytes": 2279
+      },
+      {
+        "path": "contrib/staticfiles/views.py",
+        "ms": 79.9,
+        "radius": 6,
+        "bytes": 1262
+      },
+      {
+        "path": "contrib/syndication/__init__.py",
+        "ms": 69.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "contrib/syndication/apps.py",
+        "ms": 87.2,
+        "radius": 1,
+        "bytes": 203
+      },
+      {
+        "path": "contrib/syndication/views.py",
+        "ms": 97.8,
+        "radius": 2,
+        "bytes": 9377
+      },
+      {
+        "path": "core/__init__.py",
+        "ms": 90.2,
+        "radius": 572,
+        "bytes": 0
+      },
+      {
+        "path": "core/asgi.py",
+        "ms": 91.8,
+        "radius": 1,
+        "bytes": 386
+      },
+      {
+        "path": "core/cache/__init__.py",
+        "ms": 77.6,
+        "radius": 571,
+        "bytes": 1929
+      },
+      {
+        "path": "core/cache/backends/__init__.py",
+        "ms": 84.3,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "core/cache/backends/base.py",
+        "ms": 89.0,
+        "radius": 571,
+        "bytes": 14292
+      },
+      {
+        "path": "core/cache/backends/db.py",
+        "ms": 91.2,
+        "radius": 2,
+        "bytes": 11373
+      },
+      {
+        "path": "core/cache/backends/dummy.py",
+        "ms": 86.8,
+        "radius": 1,
+        "bytes": 1043
+      },
+      {
+        "path": "core/cache/backends/filebased.py",
+        "ms": 91.0,
+        "radius": 571,
+        "bytes": 5797
+      },
+      {
+        "path": "core/cache/backends/locmem.py",
+        "ms": 88.9,
+        "radius": 1,
+        "bytes": 4036
+      },
+      {
+        "path": "core/cache/backends/memcached.py",
+        "ms": 89.1,
+        "radius": 1,
+        "bytes": 6776
+      },
+      {
+        "path": "core/cache/backends/redis.py",
+        "ms": 93.1,
+        "radius": 1,
+        "bytes": 8010
+      },
+      {
+        "path": "core/cache/utils.py",
+        "ms": 70.7,
+        "radius": 2,
+        "bytes": 397
+      },
+      {
+        "path": "core/checks/__init__.py",
+        "ms": 70.0,
+        "radius": 571,
+        "bytes": 1248
+      },
+      {
+        "path": "core/checks/async_checks.py",
+        "ms": 63.8,
+        "radius": 571,
+        "bytes": 403
+      },
+      {
+        "path": "core/checks/caches.py",
+        "ms": 64.7,
+        "radius": 571,
+        "bytes": 2643
+      },
+      {
+        "path": "core/checks/commands.py",
+        "ms": 65.0,
+        "radius": 571,
+        "bytes": 965
+      },
+      {
+        "path": "core/checks/compatibility/__init__.py",
+        "ms": 61.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "core/checks/compatibility/django_4_0.py",
+        "ms": 63.2,
+        "radius": 571,
+        "bytes": 657
+      },
+      {
+        "path": "core/checks/database.py",
+        "ms": 69.6,
+        "radius": 571,
+        "bytes": 341
+      },
+      {
+        "path": "core/checks/files.py",
+        "ms": 67.9,
+        "radius": 571,
+        "bytes": 522
+      },
+      {
+        "path": "core/checks/messages.py",
+        "ms": 77.5,
+        "radius": 571,
+        "bytes": 2241
+      },
+      {
+        "path": "core/checks/model_checks.py",
+        "ms": 73.9,
+        "radius": 571,
+        "bytes": 8830
+      },
+      {
+        "path": "core/checks/registry.py",
+        "ms": 72.1,
+        "radius": 572,
+        "bytes": 3482
+      },
+      {
+        "path": "core/checks/security/__init__.py",
+        "ms": 64.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "core/checks/security/base.py",
+        "ms": 71.4,
+        "radius": 571,
+        "bytes": 9140
+      },
+      {
+        "path": "core/checks/security/csrf.py",
+        "ms": 72.9,
+        "radius": 571,
+        "bytes": 2074
+      },
+      {
+        "path": "core/checks/security/sessions.py",
+        "ms": 63.5,
+        "radius": 571,
+        "bytes": 2554
+      },
+      {
+        "path": "core/checks/templates.py",
+        "ms": 63.9,
+        "radius": 571,
+        "bytes": 296
+      },
+      {
+        "path": "core/checks/translation.py",
+        "ms": 78.3,
+        "radius": 571,
+        "bytes": 1990
+      },
+      {
+        "path": "core/checks/urls.py",
+        "ms": 78.3,
+        "radius": 571,
+        "bytes": 4907
+      },
+      {
+        "path": "core/exceptions.py",
+        "ms": 99.8,
+        "radius": 585,
+        "bytes": 6583
+      },
+      {
+        "path": "core/files/__init__.py",
+        "ms": 91.5,
+        "radius": 574,
+        "bytes": 60
+      },
+      {
+        "path": "core/files/base.py",
+        "ms": 73.4,
+        "radius": 575,
+        "bytes": 4845
+      },
+      {
+        "path": "core/files/images.py",
+        "ms": 65.7,
+        "radius": 572,
+        "bytes": 2644
+      },
+      {
+        "path": "core/files/locks.py",
+        "ms": 66.8,
+        "radius": 573,
+        "bytes": 3614
+      },
+      {
+        "path": "core/files/move.py",
+        "ms": 87.9,
+        "radius": 572,
+        "bytes": 2948
+      },
+      {
+        "path": "core/files/storage/__init__.py",
+        "ms": 83.9,
+        "radius": 571,
+        "bytes": 622
+      },
+      {
+        "path": "core/files/storage/base.py",
+        "ms": 84.3,
+        "radius": 571,
+        "bytes": 8296
+      },
+      {
+        "path": "core/files/storage/filesystem.py",
+        "ms": 94.1,
+        "radius": 571,
+        "bytes": 9462
+      },
+      {
+        "path": "core/files/storage/handler.py",
+        "ms": 82.9,
+        "radius": 571,
+        "bytes": 1507
+      },
+      {
+        "path": "core/files/storage/memory.py",
+        "ms": 89.6,
+        "radius": 571,
+        "bytes": 9875
+      },
+      {
+        "path": "core/files/storage/mixins.py",
+        "ms": 83.6,
+        "radius": 572,
+        "bytes": 700
+      },
+      {
+        "path": "core/files/temp.py",
+        "ms": 88.2,
+        "radius": 572,
+        "bytes": 2503
+      },
+      {
+        "path": "core/files/uploadedfile.py",
+        "ms": 86.6,
+        "radius": 571,
+        "bytes": 4189
+      },
+      {
+        "path": "core/files/uploadhandler.py",
+        "ms": 85.8,
+        "radius": 571,
+        "bytes": 7809
+      },
+      {
+        "path": "core/files/utils.py",
+        "ms": 85.0,
+        "radius": 577,
+        "bytes": 2602
+      },
+      {
+        "path": "core/handlers/__init__.py",
+        "ms": 82.6,
+        "radius": 18,
+        "bytes": 0
+      },
+      {
+        "path": "core/handlers/asgi.py",
+        "ms": 79.3,
+        "radius": 13,
+        "bytes": 14026
+      },
+      {
+        "path": "core/handlers/base.py",
+        "ms": 69.3,
+        "radius": 18,
+        "bytes": 14813
+      },
+      {
+        "path": "core/handlers/exception.py",
+        "ms": 63.2,
+        "radius": 19,
+        "bytes": 5961
+      },
+      {
+        "path": "core/handlers/wsgi.py",
+        "ms": 65.3,
+        "radius": 15,
+        "bytes": 7315
+      },
+      {
+        "path": "core/mail/__init__.py",
+        "ms": 62.9,
+        "radius": 571,
+        "bytes": 5049
+      },
+      {
+        "path": "core/mail/backends/__init__.py",
+        "ms": 60.5,
+        "radius": 1,
+        "bytes": 37
+      },
+      {
+        "path": "core/mail/backends/base.py",
+        "ms": 60.2,
+        "radius": 6,
+        "bytes": 1683
+      },
+      {
+        "path": "core/mail/backends/console.py",
+        "ms": 61.7,
+        "radius": 2,
+        "bytes": 1427
+      },
+      {
+        "path": "core/mail/backends/dummy.py",
+        "ms": 61.0,
+        "radius": 1,
+        "bytes": 234
+      },
+      {
+        "path": "core/mail/backends/filebased.py",
+        "ms": 75.7,
+        "radius": 1,
+        "bytes": 2353
+      },
+      {
+        "path": "core/mail/backends/locmem.py",
+        "ms": 68.7,
+        "radius": 1,
+        "bytes": 913
+      },
+      {
+        "path": "core/mail/backends/smtp.py",
+        "ms": 64.7,
+        "radius": 1,
+        "bytes": 6500
+      },
+      {
+        "path": "core/mail/message.py",
+        "ms": 73.8,
+        "radius": 571,
+        "bytes": 18749
+      },
+      {
+        "path": "core/mail/utils.py",
+        "ms": 63.1,
+        "radius": 572,
+        "bytes": 506
+      },
+      {
+        "path": "core/management/__init__.py",
+        "ms": 69.6,
+        "radius": 571,
+        "bytes": 17407
+      },
+      {
+        "path": "core/management/base.py",
+        "ms": 75.0,
+        "radius": 571,
+        "bytes": 24967
+      },
+      {
+        "path": "core/management/color.py",
+        "ms": 76.3,
+        "radius": 572,
+        "bytes": 3168
+      },
+      {
+        "path": "core/management/commands/__init__.py",
+        "ms": 61.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "core/management/commands/check.py",
+        "ms": 77.4,
+        "radius": 1,
+        "bytes": 2832
+      },
+      {
+        "path": "core/management/commands/compilemessages.py",
+        "ms": 64.7,
+        "radius": 1,
+        "bytes": 7010
+      },
+      {
+        "path": "core/management/commands/createcachetable.py",
+        "ms": 63.9,
+        "radius": 1,
+        "bytes": 4656
+      },
+      {
+        "path": "core/management/commands/dbshell.py",
+        "ms": 76.9,
+        "radius": 1,
+        "bytes": 1762
+      },
+      {
+        "path": "core/management/commands/diffsettings.py",
+        "ms": 65.3,
+        "radius": 1,
+        "bytes": 3554
+      },
+      {
+        "path": "core/management/commands/dumpdata.py",
+        "ms": 93.2,
+        "radius": 1,
+        "bytes": 11180
+      },
+      {
+        "path": "core/management/commands/flush.py",
+        "ms": 86.0,
+        "radius": 1,
+        "bytes": 3605
+      },
+      {
+        "path": "core/management/commands/inspectdb.py",
+        "ms": 104.1,
+        "radius": 2,
+        "bytes": 17338
+      },
+      {
+        "path": "core/management/commands/loaddata.py",
+        "ms": 93.0,
+        "radius": 1,
+        "bytes": 16008
+      },
+      {
+        "path": "core/management/commands/makemessages.py",
+        "ms": 96.6,
+        "radius": 1,
+        "bytes": 28695
+      },
+      {
+        "path": "core/management/commands/makemigrations.py",
+        "ms": 106.1,
+        "radius": 1,
+        "bytes": 22539
+      },
+      {
+        "path": "core/management/commands/migrate.py",
+        "ms": 81.4,
+        "radius": 1,
+        "bytes": 21349
+      },
+      {
+        "path": "core/management/commands/optimizemigration.py",
+        "ms": 71.5,
+        "radius": 1,
+        "bytes": 5244
+      },
+      {
+        "path": "core/management/commands/runserver.py",
+        "ms": 67.7,
+        "radius": 2,
+        "bytes": 7539
+      },
+      {
+        "path": "core/management/commands/sendtestemail.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 1518
+      },
+      {
+        "path": "core/management/commands/shell.py",
+        "ms": 79.2,
+        "radius": 1,
+        "bytes": 9169
+      },
+      {
+        "path": "core/management/commands/showmigrations.py",
+        "ms": 69.5,
+        "radius": 1,
+        "bytes": 6847
+      },
+      {
+        "path": "core/management/commands/sqlflush.py",
+        "ms": 80.4,
+        "radius": 1,
+        "bytes": 1031
+      },
+      {
+        "path": "core/management/commands/sqlmigrate.py",
+        "ms": 86.2,
+        "radius": 1,
+        "bytes": 3310
+      },
+      {
+        "path": "core/management/commands/sqlsequencereset.py",
+        "ms": 63.6,
+        "radius": 1,
+        "bytes": 1101
+      },
+      {
+        "path": "core/management/commands/squashmigrations.py",
+        "ms": 71.2,
+        "radius": 1,
+        "bytes": 10882
+      },
+      {
+        "path": "core/management/commands/startapp.py",
+        "ms": 64.2,
+        "radius": 1,
+        "bytes": 503
+      },
+      {
+        "path": "core/management/commands/startproject.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 789
+      },
+      {
+        "path": "core/management/commands/test.py",
+        "ms": 83.8,
+        "radius": 1,
+        "bytes": 2367
+      },
+      {
+        "path": "core/management/commands/testserver.py",
+        "ms": 64.7,
+        "radius": 1,
+        "bytes": 2238
+      },
+      {
+        "path": "core/management/sql.py",
+        "ms": 72.0,
+        "radius": 13,
+        "bytes": 1851
+      },
+      {
+        "path": "core/management/templates.py",
+        "ms": 78.6,
+        "radius": 3,
+        "bytes": 15435
+      },
+      {
+        "path": "core/management/utils.py",
+        "ms": 74.0,
+        "radius": 12,
+        "bytes": 5636
+      },
+      {
+        "path": "core/paginator.py",
+        "ms": 70.7,
+        "radius": 38,
+        "bytes": 7905
+      },
+      {
+        "path": "core/serializers/__init__.py",
+        "ms": 75.1,
+        "radius": 571,
+        "bytes": 8772
+      },
+      {
+        "path": "core/serializers/base.py",
+        "ms": 74.1,
+        "radius": 571,
+        "bytes": 12631
+      },
+      {
+        "path": "core/serializers/json.py",
+        "ms": 67.1,
+        "radius": 571,
+        "bytes": 3757
+      },
+      {
+        "path": "core/serializers/jsonl.py",
+        "ms": 68.0,
+        "radius": 1,
+        "bytes": 2258
+      },
+      {
+        "path": "core/serializers/python.py",
+        "ms": 71.8,
+        "radius": 571,
+        "bytes": 8094
+      },
+      {
+        "path": "core/serializers/pyyaml.py",
+        "ms": 78.8,
+        "radius": 1,
+        "bytes": 3061
+      },
+      {
+        "path": "core/serializers/xml_serializer.py",
+        "ms": 71.7,
+        "radius": 1,
+        "bytes": 19457
+      },
+      {
+        "path": "core/servers/__init__.py",
+        "ms": 65.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "core/servers/basehttp.py",
+        "ms": 73.9,
+        "radius": 12,
+        "bytes": 9995
+      },
+      {
+        "path": "core/signals.py",
+        "ms": 61.4,
+        "radius": 571,
+        "bytes": 151
+      },
+      {
+        "path": "core/signing.py",
+        "ms": 68.0,
+        "radius": 571,
+        "bytes": 9594
+      },
+      {
+        "path": "core/validators.py",
+        "ms": 72.5,
+        "radius": 571,
+        "bytes": 22466
+      },
+      {
+        "path": "core/wsgi.py",
+        "ms": 61.1,
+        "radius": 13,
+        "bytes": 388
+      },
+      {
+        "path": "db/__init__.py",
+        "ms": 62.9,
+        "radius": 571,
+        "bytes": 1533
+      },
+      {
+        "path": "db/backends/__init__.py",
+        "ms": 60.4,
+        "radius": 572,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/base/__init__.py",
+        "ms": 61.4,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/base/base.py",
+        "ms": 72.6,
+        "radius": 31,
+        "bytes": 28598
+      },
+      {
+        "path": "db/backends/base/client.py",
+        "ms": 70.7,
+        "radius": 24,
+        "bytes": 937
+      },
+      {
+        "path": "db/backends/base/creation.py",
+        "ms": 68.6,
+        "radius": 23,
+        "bytes": 15847
+      },
+      {
+        "path": "db/backends/base/features.py",
+        "ms": 60.8,
+        "radius": 26,
+        "bytes": 15946
+      },
+      {
+        "path": "db/backends/base/introspection.py",
+        "ms": 66.4,
+        "radius": 27,
+        "bytes": 7900
+      },
+      {
+        "path": "db/backends/base/operations.py",
+        "ms": 75.7,
+        "radius": 571,
+        "bytes": 30169
+      },
+      {
+        "path": "db/backends/base/schema.py",
+        "ms": 128.8,
+        "radius": 26,
+        "bytes": 82323
+      },
+      {
+        "path": "db/backends/base/validation.py",
+        "ms": 60.4,
+        "radius": 34,
+        "bytes": 1067
+      },
+      {
+        "path": "db/backends/ddl_references.py",
+        "ms": 67.8,
+        "radius": 28,
+        "bytes": 8619
+      },
+      {
+        "path": "db/backends/dummy/__init__.py",
+        "ms": 59.7,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/dummy/base.py",
+        "ms": 60.0,
+        "radius": 1,
+        "bytes": 2217
+      },
+      {
+        "path": "db/backends/dummy/features.py",
+        "ms": 58.6,
+        "radius": 2,
+        "bytes": 181
+      },
+      {
+        "path": "db/backends/mysql/__init__.py",
+        "ms": 63.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/mysql/base.py",
+        "ms": 65.2,
+        "radius": 2,
+        "bytes": 16834
+      },
+      {
+        "path": "db/backends/mysql/client.py",
+        "ms": 62.9,
+        "radius": 4,
+        "bytes": 2988
+      },
+      {
+        "path": "db/backends/mysql/compiler.py",
+        "ms": 64.6,
+        "radius": 1,
+        "bytes": 3094
+      },
+      {
+        "path": "db/backends/mysql/creation.py",
+        "ms": 66.7,
+        "radius": 3,
+        "bytes": 3449
+      },
+      {
+        "path": "db/backends/mysql/features.py",
+        "ms": 63.0,
+        "radius": 4,
+        "bytes": 11128
+      },
+      {
+        "path": "db/backends/mysql/introspection.py",
+        "ms": 70.3,
+        "radius": 4,
+        "bytes": 14476
+      },
+      {
+        "path": "db/backends/mysql/operations.py",
+        "ms": 92.4,
+        "radius": 4,
+        "bytes": 18330
+      },
+      {
+        "path": "db/backends/mysql/schema.py",
+        "ms": 78.2,
+        "radius": 4,
+        "bytes": 11239
+      },
+      {
+        "path": "db/backends/mysql/validation.py",
+        "ms": 60.1,
+        "radius": 3,
+        "bytes": 3093
+      },
+      {
+        "path": "db/backends/oracle/__init__.py",
+        "ms": 62.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/oracle/base.py",
+        "ms": 72.1,
+        "radius": 6,
+        "bytes": 26097
+      },
+      {
+        "path": "db/backends/oracle/client.py",
+        "ms": 61.4,
+        "radius": 6,
+        "bytes": 784
+      },
+      {
+        "path": "db/backends/oracle/creation.py",
+        "ms": 68.4,
+        "radius": 7,
+        "bytes": 20986
+      },
+      {
+        "path": "db/backends/oracle/features.py",
+        "ms": 61.5,
+        "radius": 8,
+        "bytes": 9336
+      },
+      {
+        "path": "db/backends/oracle/functions.py",
+        "ms": 62.8,
+        "radius": 571,
+        "bytes": 812
+      },
+      {
+        "path": "db/backends/oracle/introspection.py",
+        "ms": 70.7,
+        "radius": 8,
+        "bytes": 15452
+      },
+      {
+        "path": "db/backends/oracle/operations.py",
+        "ms": 74.1,
+        "radius": 6,
+        "bytes": 30187
+      },
+      {
+        "path": "db/backends/oracle/oracledb_any.py",
+        "ms": 59.3,
+        "radius": 12,
+        "bytes": 446
+      },
+      {
+        "path": "db/backends/oracle/schema.py",
+        "ms": 65.4,
+        "radius": 8,
+        "bytes": 10753
+      },
+      {
+        "path": "db/backends/oracle/utils.py",
+        "ms": 65.0,
+        "radius": 6,
+        "bytes": 2753
+      },
+      {
+        "path": "db/backends/oracle/validation.py",
+        "ms": 64.3,
+        "radius": 7,
+        "bytes": 860
+      },
+      {
+        "path": "db/backends/postgresql/__init__.py",
+        "ms": 58.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/postgresql/base.py",
+        "ms": 67.5,
+        "radius": 2,
+        "bytes": 23486
+      },
+      {
+        "path": "db/backends/postgresql/client.py",
+        "ms": 61.5,
+        "radius": 3,
+        "bytes": 2044
+      },
+      {
+        "path": "db/backends/postgresql/compiler.py",
+        "ms": 69.1,
+        "radius": 5,
+        "bytes": 2775
+      },
+      {
+        "path": "db/backends/postgresql/creation.py",
+        "ms": 63.4,
+        "radius": 3,
+        "bytes": 3886
+      },
+      {
+        "path": "db/backends/postgresql/features.py",
+        "ms": 61.5,
+        "radius": 4,
+        "bytes": 5979
+      },
+      {
+        "path": "db/backends/postgresql/introspection.py",
+        "ms": 61.5,
+        "radius": 4,
+        "bytes": 11582
+      },
+      {
+        "path": "db/backends/postgresql/operations.py",
+        "ms": 67.5,
+        "radius": 4,
+        "bytes": 15940
+      },
+      {
+        "path": "db/backends/postgresql/psycopg_any.py",
+        "ms": 61.4,
+        "radius": 25,
+        "bytes": 3885
+      },
+      {
+        "path": "db/backends/postgresql/schema.py",
+        "ms": 67.1,
+        "radius": 4,
+        "bytes": 14749
+      },
+      {
+        "path": "db/backends/signals.py",
+        "ms": 62.1,
+        "radius": 32,
+        "bytes": 66
+      },
+      {
+        "path": "db/backends/sqlite3/__init__.py",
+        "ms": 59.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "db/backends/sqlite3/_functions.py",
+        "ms": 75.4,
+        "radius": 8,
+        "bytes": 14559
+      },
+      {
+        "path": "db/backends/sqlite3/base.py",
+        "ms": 66.5,
+        "radius": 7,
+        "bytes": 15131
+      },
+      {
+        "path": "db/backends/sqlite3/client.py",
+        "ms": 66.4,
+        "radius": 9,
+        "bytes": 321
+      },
+      {
+        "path": "db/backends/sqlite3/creation.py",
+        "ms": 65.7,
+        "radius": 8,
+        "bytes": 6849
+      },
+      {
+        "path": "db/backends/sqlite3/features.py",
+        "ms": 84.0,
+        "radius": 7,
+        "bytes": 6533
+      },
+      {
+        "path": "db/backends/sqlite3/introspection.py",
+        "ms": 82.1,
+        "radius": 9,
+        "bytes": 17908
+      },
+      {
+        "path": "db/backends/sqlite3/operations.py",
+        "ms": 85.1,
+        "radius": 7,
+        "bytes": 17167
+      },
+      {
+        "path": "db/backends/sqlite3/schema.py",
+        "ms": 78.3,
+        "radius": 9,
+        "bytes": 20749
+      },
+      {
+        "path": "db/backends/utils.py",
+        "ms": 68.9,
+        "radius": 571,
+        "bytes": 11137
+      },
+      {
+        "path": "db/migrations/__init__.py",
+        "ms": 64.6,
+        "radius": 571,
+        "bytes": 97
+      },
+      {
+        "path": "db/migrations/autodetector.py",
+        "ms": 104.1,
+        "radius": 3,
+        "bytes": 86243
+      },
+      {
+        "path": "db/migrations/exceptions.py",
+        "ms": 61.6,
+        "radius": 571,
+        "bytes": 1204
+      },
+      {
+        "path": "db/migrations/executor.py",
+        "ms": 73.9,
+        "radius": 571,
+        "bytes": 19038
+      },
+      {
+        "path": "db/migrations/graph.py",
+        "ms": 74.1,
+        "radius": 571,
+        "bytes": 13055
+      },
+      {
+        "path": "db/migrations/loader.py",
+        "ms": 69.9,
+        "radius": 571,
+        "bytes": 16877
+      },
+      {
+        "path": "db/migrations/migration.py",
+        "ms": 68.5,
+        "radius": 571,
+        "bytes": 9767
+      },
+      {
+        "path": "db/migrations/operations/__init__.py",
+        "ms": 66.0,
+        "radius": 571,
+        "bytes": 1008
+      },
+      {
+        "path": "db/migrations/operations/base.py",
+        "ms": 64.9,
+        "radius": 571,
+        "bytes": 5562
+      },
+      {
+        "path": "db/migrations/operations/fields.py",
+        "ms": 81.9,
+        "radius": 571,
+        "bytes": 12900
+      },
+      {
+        "path": "db/migrations/operations/models.py",
+        "ms": 88.1,
+        "radius": 571,
+        "bytes": 47864
+      },
+      {
+        "path": "db/migrations/operations/special.py",
+        "ms": 65.5,
+        "radius": 571,
+        "bytes": 7966
+      },
+      {
+        "path": "db/migrations/optimizer.py",
+        "ms": 61.8,
+        "radius": 6,
+        "bytes": 3255
+      },
+      {
+        "path": "db/migrations/questioner.py",
+        "ms": 69.9,
+        "radius": 4,
+        "bytes": 13568
+      },
+      {
+        "path": "db/migrations/recorder.py",
+        "ms": 65.3,
+        "radius": 571,
+        "bytes": 3827
+      },
+      {
+        "path": "db/migrations/serializer.py",
+        "ms": 67.9,
+        "radius": 7,
+        "bytes": 14133
+      },
+      {
+        "path": "db/migrations/state.py",
+        "ms": 92.1,
+        "radius": 571,
+        "bytes": 41924
+      },
+      {
+        "path": "db/migrations/utils.py",
+        "ms": 63.7,
+        "radius": 571,
+        "bytes": 4401
+      },
+      {
+        "path": "db/migrations/writer.py",
+        "ms": 68.0,
+        "radius": 7,
+        "bytes": 11613
+      },
+      {
+        "path": "db/models/__init__.py",
+        "ms": 64.1,
+        "radius": 571,
+        "bytes": 3084
+      },
+      {
+        "path": "db/models/aggregates.py",
+        "ms": 66.1,
+        "radius": 571,
+        "bytes": 8185
+      },
+      {
+        "path": "db/models/base.py",
+        "ms": 122.4,
+        "radius": 571,
+        "bytes": 100964
+      },
+      {
+        "path": "db/models/constants.py",
+        "ms": 60.4,
+        "radius": 572,
+        "bytes": 210
+      },
+      {
+        "path": "db/models/constraints.py",
+        "ms": 77.1,
+        "radius": 571,
+        "bytes": 29733
+      },
+      {
+        "path": "db/models/deletion.py",
+        "ms": 78.6,
+        "radius": 571,
+        "bytes": 20943
+      },
+      {
+        "path": "db/models/enums.py",
+        "ms": 65.8,
+        "radius": 573,
+        "bytes": 3527
+      },
+      {
+        "path": "db/models/expressions.py",
+        "ms": 101.5,
+        "radius": 571,
+        "bytes": 75011
+      },
+      {
+        "path": "db/models/fields/__init__.py",
+        "ms": 107.2,
+        "radius": 571,
+        "bytes": 98730
+      },
+      {
+        "path": "db/models/fields/composite.py",
+        "ms": 73.7,
+        "radius": 571,
+        "bytes": 5731
+      },
+      {
+        "path": "db/models/fields/files.py",
+        "ms": 75.6,
+        "radius": 571,
+        "bytes": 20206
+      },
+      {
+        "path": "db/models/fields/generated.py",
+        "ms": 72.3,
+        "radius": 571,
+        "bytes": 7655
+      },
+      {
+        "path": "db/models/fields/json.py",
+        "ms": 85.7,
+        "radius": 571,
+        "bytes": 23893
+      },
+      {
+        "path": "db/models/fields/mixins.py",
+        "ms": 65.7,
+        "radius": 571,
+        "bytes": 2478
+      },
+      {
+        "path": "db/models/fields/proxy.py",
+        "ms": 65.0,
+        "radius": 571,
+        "bytes": 515
+      },
+      {
+        "path": "db/models/fields/related.py",
+        "ms": 100.4,
+        "radius": 571,
+        "bytes": 79371
+      },
+      {
+        "path": "db/models/fields/related_descriptors.py",
+        "ms": 111.2,
+        "radius": 571,
+        "bytes": 66722
+      },
+      {
+        "path": "db/models/fields/related_lookups.py",
+        "ms": 65.5,
+        "radius": 571,
+        "bytes": 6076
+      },
+      {
+        "path": "db/models/fields/reverse_related.py",
+        "ms": 70.0,
+        "radius": 571,
+        "bytes": 12908
+      },
+      {
+        "path": "db/models/fields/tuple_lookups.py",
+        "ms": 72.2,
+        "radius": 571,
+        "bytes": 14349
+      },
+      {
+        "path": "db/models/functions/__init__.py",
+        "ms": 62.2,
+        "radius": 571,
+        "bytes": 2714
+      },
+      {
+        "path": "db/models/functions/comparison.py",
+        "ms": 64.6,
+        "radius": 571,
+        "bytes": 6810
+      },
+      {
+        "path": "db/models/functions/datetime.py",
+        "ms": 69.5,
+        "radius": 571,
+        "bytes": 13614
+      },
+      {
+        "path": "db/models/functions/json.py",
+        "ms": 74.5,
+        "radius": 571,
+        "bytes": 4668
+      },
+      {
+        "path": "db/models/functions/math.py",
+        "ms": 65.5,
+        "radius": 571,
+        "bytes": 6140
+      },
+      {
+        "path": "db/models/functions/mixins.py",
+        "ms": 65.2,
+        "radius": 571,
+        "bytes": 2382
+      },
+      {
+        "path": "db/models/functions/text.py",
+        "ms": 67.0,
+        "radius": 571,
+        "bytes": 11528
+      },
+      {
+        "path": "db/models/functions/window.py",
+        "ms": 69.7,
+        "radius": 571,
+        "bytes": 2841
+      },
+      {
+        "path": "db/models/indexes.py",
+        "ms": 81.1,
+        "radius": 571,
+        "bytes": 11935
+      },
+      {
+        "path": "db/models/lookups.py",
+        "ms": 76.8,
+        "radius": 571,
+        "bytes": 29048
+      },
+      {
+        "path": "db/models/manager.py",
+        "ms": 66.9,
+        "radius": 571,
+        "bytes": 6866
+      },
+      {
+        "path": "db/models/options.py",
+        "ms": 77.0,
+        "radius": 571,
+        "bytes": 39469
+      },
+      {
+        "path": "db/models/query.py",
+        "ms": 118.0,
+        "radius": 571,
+        "bytes": 107031
+      },
+      {
+        "path": "db/models/query_utils.py",
+        "ms": 75.7,
+        "radius": 571,
+        "bytes": 19700
+      },
+      {
+        "path": "db/models/signals.py",
+        "ms": 62.9,
+        "radius": 571,
+        "bytes": 1622
+      },
+      {
+        "path": "db/models/sql/__init__.py",
+        "ms": 61.2,
+        "radius": 571,
+        "bytes": 241
+      },
+      {
+        "path": "db/models/sql/compiler.py",
+        "ms": 113.0,
+        "radius": 7,
+        "bytes": 92436
+      },
+      {
+        "path": "db/models/sql/constants.py",
+        "ms": 60.9,
+        "radius": 573,
+        "bytes": 599
+      },
+      {
+        "path": "db/models/sql/datastructures.py",
+        "ms": 66.9,
+        "radius": 572,
+        "bytes": 8271
+      },
+      {
+        "path": "db/models/sql/query.py",
+        "ms": 123.5,
+        "radius": 571,
+        "bytes": 120134
+      },
+      {
+        "path": "db/models/sql/subqueries.py",
+        "ms": 66.0,
+        "radius": 571,
+        "bytes": 6150
+      },
+      {
+        "path": "db/models/sql/where.py",
+        "ms": 71.5,
+        "radius": 571,
+        "bytes": 12317
+      },
+      {
+        "path": "db/models/utils.py",
+        "ms": 62.4,
+        "radius": 572,
+        "bytes": 2182
+      },
+      {
+        "path": "db/transaction.py",
+        "ms": 65.0,
+        "radius": 571,
+        "bytes": 12506
+      },
+      {
+        "path": "db/utils.py",
+        "ms": 67.6,
+        "radius": 571,
+        "bytes": 9279
+      },
+      {
+        "path": "dispatch/__init__.py",
+        "ms": 61.7,
+        "radius": 571,
+        "bytes": 286
+      },
+      {
+        "path": "dispatch/dispatcher.py",
+        "ms": 72.7,
+        "radius": 571,
+        "bytes": 17777
+      },
+      {
+        "path": "forms/__init__.py",
+        "ms": 65.9,
+        "radius": 571,
+        "bytes": 368
+      },
+      {
+        "path": "forms/boundfield.py",
+        "ms": 71.7,
+        "radius": 571,
+        "bytes": 13271
+      },
+      {
+        "path": "forms/fields.py",
+        "ms": 88.8,
+        "radius": 571,
+        "bytes": 49568
+      },
+      {
+        "path": "forms/forms.py",
+        "ms": 69.9,
+        "radius": 571,
+        "bytes": 16132
+      },
+      {
+        "path": "forms/formsets.py",
+        "ms": 70.2,
+        "radius": 571,
+        "bytes": 21338
+      },
+      {
+        "path": "forms/models.py",
+        "ms": 91.1,
+        "radius": 571,
+        "bytes": 61213
+      },
+      {
+        "path": "forms/renderers.py",
+        "ms": 64.2,
+        "radius": 571,
+        "bytes": 3285
+      },
+      {
+        "path": "forms/utils.py",
+        "ms": 65.9,
+        "radius": 571,
+        "bytes": 7974
+      },
+      {
+        "path": "forms/widgets.py",
+        "ms": 83.0,
+        "radius": 571,
+        "bytes": 41244
+      },
+      {
+        "path": "http/__init__.py",
+        "ms": 59.9,
+        "radius": 571,
+        "bytes": 1200
+      },
+      {
+        "path": "http/cookie.py",
+        "ms": 62.4,
+        "radius": 571,
+        "bytes": 679
+      },
+      {
+        "path": "http/multipartparser.py",
+        "ms": 74.5,
+        "radius": 571,
+        "bytes": 27998
+      },
+      {
+        "path": "http/request.py",
+        "ms": 83.4,
+        "radius": 571,
+        "bytes": 30193
+      },
+      {
+        "path": "http/response.py",
+        "ms": 87.3,
+        "radius": 571,
+        "bytes": 26282
+      },
+      {
+        "path": "middleware/__init__.py",
+        "ms": 76.0,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "middleware/cache.py",
+        "ms": 69.0,
+        "radius": 49,
+        "bytes": 9405
+      },
+      {
+        "path": "middleware/clickjacking.py",
+        "ms": 60.6,
+        "radius": 1,
+        "bytes": 1724
+      },
+      {
+        "path": "middleware/common.py",
+        "ms": 62.1,
+        "radius": 1,
+        "bytes": 7666
+      },
+      {
+        "path": "middleware/csrf.py",
+        "ms": 74.5,
+        "radius": 571,
+        "bytes": 19489
+      },
+      {
+        "path": "middleware/gzip.py",
+        "ms": 69.9,
+        "radius": 2,
+        "bytes": 2945
+      },
+      {
+        "path": "middleware/http.py",
+        "ms": 66.2,
+        "radius": 2,
+        "bytes": 1616
+      },
+      {
+        "path": "middleware/locale.py",
+        "ms": 124.8,
+        "radius": 1,
+        "bytes": 3442
+      },
+      {
+        "path": "middleware/security.py",
+        "ms": 71.9,
+        "radius": 1,
+        "bytes": 2599
+      },
+      {
+        "path": "shortcuts.py",
+        "ms": 78.9,
+        "radius": 48,
+        "bytes": 6506
+      },
+      {
+        "path": "template/__init__.py",
+        "ms": 61.3,
+        "radius": 571,
+        "bytes": 1844
+      },
+      {
+        "path": "template/autoreload.py",
+        "ms": 64.6,
+        "radius": 571,
+        "bytes": 2063
+      },
+      {
+        "path": "template/backends/__init__.py",
+        "ms": 60.2,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "template/backends/base.py",
+        "ms": 62.2,
+        "radius": 571,
+        "bytes": 2801
+      },
+      {
+        "path": "template/backends/django.py",
+        "ms": 65.7,
+        "radius": 571,
+        "bytes": 5963
+      },
+      {
+        "path": "template/backends/dummy.py",
+        "ms": 61.5,
+        "radius": 1,
+        "bytes": 1751
+      },
+      {
+        "path": "template/backends/jinja2.py",
+        "ms": 64.3,
+        "radius": 571,
+        "bytes": 4036
+      },
+      {
+        "path": "template/backends/utils.py",
+        "ms": 60.1,
+        "radius": 571,
+        "bytes": 424
+      },
+      {
+        "path": "template/base.py",
+        "ms": 81.8,
+        "radius": 571,
+        "bytes": 41108
+      },
+      {
+        "path": "template/context.py",
+        "ms": 70.1,
+        "radius": 572,
+        "bytes": 9448
+      },
+      {
+        "path": "template/context_processors.py",
+        "ms": 63.3,
+        "radius": 1,
+        "bytes": 2480
+      },
+      {
+        "path": "template/defaultfilters.py",
+        "ms": 78.2,
+        "radius": 49,
+        "bytes": 28438
+      },
+      {
+        "path": "template/defaulttags.py",
+        "ms": 82.4,
+        "radius": 2,
+        "bytes": 49669
+      },
+      {
+        "path": "template/engine.py",
+        "ms": 67.5,
+        "radius": 571,
+        "bytes": 7773
+      },
+      {
+        "path": "template/exceptions.py",
+        "ms": 61.0,
+        "radius": 572,
+        "bytes": 1342
+      },
+      {
+        "path": "template/library.py",
+        "ms": 70.7,
+        "radius": 571,
+        "bytes": 16951
+      },
+      {
+        "path": "template/loader.py",
+        "ms": 62.6,
+        "radius": 571,
+        "bytes": 2054
+      },
+      {
+        "path": "template/loader_tags.py",
+        "ms": 72.3,
+        "radius": 1,
+        "bytes": 13234
+      },
+      {
+        "path": "template/loaders/__init__.py",
+        "ms": 58.5,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "template/loaders/app_directories.py",
+        "ms": 59.8,
+        "radius": 1,
+        "bytes": 312
+      },
+      {
+        "path": "template/loaders/base.py",
+        "ms": 60.1,
+        "radius": 5,
+        "bytes": 1636
+      },
+      {
+        "path": "template/loaders/cached.py",
+        "ms": 61.5,
+        "radius": 1,
+        "bytes": 3716
+      },
+      {
+        "path": "template/loaders/filesystem.py",
+        "ms": 60.5,
+        "radius": 2,
+        "bytes": 1506
+      },
+      {
+        "path": "template/loaders/locmem.py",
+        "ms": 60.0,
+        "radius": 1,
+        "bytes": 672
+      },
+      {
+        "path": "template/response.py",
+        "ms": 64.1,
+        "radius": 571,
+        "bytes": 5584
+      },
+      {
+        "path": "template/smartif.py",
+        "ms": 65.8,
+        "radius": 3,
+        "bytes": 6410
+      },
+      {
+        "path": "template/utils.py",
+        "ms": 63.3,
+        "radius": 571,
+        "bytes": 3571
+      },
+      {
+        "path": "templatetags/__init__.py",
+        "ms": 59.8,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "templatetags/cache.py",
+        "ms": 68.8,
+        "radius": 1,
+        "bytes": 3551
+      },
+      {
+        "path": "templatetags/i18n.py",
+        "ms": 72.0,
+        "radius": 1,
+        "bytes": 19961
+      },
+      {
+        "path": "templatetags/l10n.py",
+        "ms": 60.6,
+        "radius": 1,
+        "bytes": 1563
+      },
+      {
+        "path": "templatetags/static.py",
+        "ms": 62.7,
+        "radius": 571,
+        "bytes": 4730
+      },
+      {
+        "path": "templatetags/tz.py",
+        "ms": 64.4,
+        "radius": 1,
+        "bytes": 5357
+      },
+      {
+        "path": "test/__init__.py",
+        "ms": 59.5,
+        "radius": 9,
+        "bytes": 834
+      },
+      {
+        "path": "test/client.py",
+        "ms": 84.0,
+        "radius": 9,
+        "bytes": 56033
+      },
+      {
+        "path": "test/html.py",
+        "ms": 66.4,
+        "radius": 10,
+        "bytes": 8869
+      },
+      {
+        "path": "test/runner.py",
+        "ms": 81.6,
+        "radius": 2,
+        "bytes": 42812
+      },
+      {
+        "path": "test/selenium.py",
+        "ms": 65.4,
+        "radius": 2,
+        "bytes": 9685
+      },
+      {
+        "path": "test/signals.py",
+        "ms": 63.8,
+        "radius": 10,
+        "bytes": 7368
+      },
+      {
+        "path": "test/testcases.py",
+        "ms": 93.6,
+        "radius": 9,
+        "bytes": 68586
+      },
+      {
+        "path": "test/utils.py",
+        "ms": 84.3,
+        "radius": 9,
+        "bytes": 32702
+      },
+      {
+        "path": "urls/__init__.py",
+        "ms": 61.0,
+        "radius": 571,
+        "bytes": 1079
+      },
+      {
+        "path": "urls/base.py",
+        "ms": 67.0,
+        "radius": 571,
+        "bytes": 6191
+      },
+      {
+        "path": "urls/conf.py",
+        "ms": 64.0,
+        "radius": 571,
+        "bytes": 3426
+      },
+      {
+        "path": "urls/converters.py",
+        "ms": 62.0,
+        "radius": 571,
+        "bytes": 1782
+      },
+      {
+        "path": "urls/exceptions.py",
+        "ms": 61.1,
+        "radius": 571,
+        "bytes": 115
+      },
+      {
+        "path": "urls/resolvers.py",
+        "ms": 78.3,
+        "radius": 571,
+        "bytes": 31518
+      },
+      {
+        "path": "urls/utils.py",
+        "ms": 62.6,
+        "radius": 571,
+        "bytes": 2179
+      },
+      {
+        "path": "utils/__init__.py",
+        "ms": 74.9,
+        "radius": 573,
+        "bytes": 0
+      },
+      {
+        "path": "utils/_os.py",
+        "ms": 64.0,
+        "radius": 572,
+        "bytes": 4843
+      },
+      {
+        "path": "utils/archive.py",
+        "ms": 66.5,
+        "radius": 4,
+        "bytes": 8302
+      },
+      {
+        "path": "utils/asyncio.py",
+        "ms": 60.8,
+        "radius": 32,
+        "bytes": 1138
+      },
+      {
+        "path": "utils/autoreload.py",
+        "ms": 75.3,
+        "radius": 571,
+        "bytes": 24429
+      },
+      {
+        "path": "utils/cache.py",
+        "ms": 69.6,
+        "radius": 571,
+        "bytes": 16599
+      },
+      {
+        "path": "utils/choices.py",
+        "ms": 64.4,
+        "radius": 572,
+        "bytes": 4202
+      },
+      {
+        "path": "utils/connection.py",
+        "ms": 70.3,
+        "radius": 571,
+        "bytes": 2554
+      },
+      {
+        "path": "utils/crypto.py",
+        "ms": 72.8,
+        "radius": 571,
+        "bytes": 2662
+      },
+      {
+        "path": "utils/datastructures.py",
+        "ms": 68.8,
+        "radius": 573,
+        "bytes": 10267
+      },
+      {
+        "path": "utils/dateformat.py",
+        "ms": 72.1,
+        "radius": 571,
+        "bytes": 10118
+      },
+      {
+        "path": "utils/dateparse.py",
+        "ms": 64.0,
+        "radius": 571,
+        "bytes": 5356
+      },
+      {
+        "path": "utils/dates.py",
+        "ms": 67.8,
+        "radius": 571,
+        "bytes": 2179
+      },
+      {
+        "path": "utils/deconstruct.py",
+        "ms": 63.5,
+        "radius": 572,
+        "bytes": 2126
+      },
+      {
+        "path": "utils/decorators.py",
+        "ms": 71.3,
+        "radius": 572,
+        "bytes": 8328
+      },
+      {
+        "path": "utils/deprecation.py",
+        "ms": 65.4,
+        "radius": 577,
+        "bytes": 4876
+      },
+      {
+        "path": "utils/duration.py",
+        "ms": 62.1,
+        "radius": 572,
+        "bytes": 1230
+      },
+      {
+        "path": "utils/encoding.py",
+        "ms": 71.7,
+        "radius": 573,
+        "bytes": 8793
+      },
+      {
+        "path": "utils/feedgenerator.py",
+        "ms": 73.7,
+        "radius": 3,
+        "bytes": 18064
+      },
+      {
+        "path": "utils/formats.py",
+        "ms": 67.1,
+        "radius": 571,
+        "bytes": 10255
+      },
+      {
+        "path": "utils/functional.py",
+        "ms": 70.3,
+        "radius": 588,
+        "bytes": 14541
+      },
+      {
+        "path": "utils/hashable.py",
+        "ms": 61.4,
+        "radius": 587,
+        "bytes": 738
+      },
+      {
+        "path": "utils/html.py",
+        "ms": 74.3,
+        "radius": 571,
+        "bytes": 17544
+      },
+      {
+        "path": "utils/http.py",
+        "ms": 69.5,
+        "radius": 572,
+        "bytes": 13579
+      },
+      {
+        "path": "utils/inspect.py",
+        "ms": 65.1,
+        "radius": 573,
+        "bytes": 3725
+      },
+      {
+        "path": "utils/ipv6.py",
+        "ms": 62.4,
+        "radius": 571,
+        "bytes": 1823
+      },
+      {
+        "path": "utils/itercompat.py",
+        "ms": 60.5,
+        "radius": 1,
+        "bytes": 532
+      },
+      {
+        "path": "utils/log.py",
+        "ms": 68.3,
+        "radius": 571,
+        "bytes": 8329
+      },
+      {
+        "path": "utils/lorem_ipsum.py",
+        "ms": 62.7,
+        "radius": 3,
+        "bytes": 5473
+      },
+      {
+        "path": "utils/module_loading.py",
+        "ms": 64.2,
+        "radius": 571,
+        "bytes": 3820
+      },
+      {
+        "path": "utils/numberformat.py",
+        "ms": 64.4,
+        "radius": 571,
+        "bytes": 3781
+      },
+      {
+        "path": "utils/regex_helper.py",
+        "ms": 76.1,
+        "radius": 580,
+        "bytes": 12772
+      },
+      {
+        "path": "utils/safestring.py",
+        "ms": 63.2,
+        "radius": 572,
+        "bytes": 2178
+      },
+      {
+        "path": "utils/termcolors.py",
+        "ms": 64.9,
+        "radius": 573,
+        "bytes": 7386
+      },
+      {
+        "path": "utils/text.py",
+        "ms": 70.2,
+        "radius": 571,
+        "bytes": 14547
+      },
+      {
+        "path": "utils/timesince.py",
+        "ms": 64.1,
+        "radius": 50,
+        "bytes": 4914
+      },
+      {
+        "path": "utils/timezone.py",
+        "ms": 64.5,
+        "radius": 571,
+        "bytes": 7295
+      },
+      {
+        "path": "utils/translation/__init__.py",
+        "ms": 66.7,
+        "radius": 571,
+        "bytes": 8878
+      },
+      {
+        "path": "utils/translation/reloader.py",
+        "ms": 70.5,
+        "radius": 571,
+        "bytes": 1114
+      },
+      {
+        "path": "utils/translation/template.py",
+        "ms": 100.5,
+        "radius": 571,
+        "bytes": 10549
+      },
+      {
+        "path": "utils/translation/trans_null.py",
+        "ms": 61.1,
+        "radius": 571,
+        "bytes": 1287
+      },
+      {
+        "path": "utils/translation/trans_real.py",
+        "ms": 75.3,
+        "radius": 571,
+        "bytes": 22273
+      },
+      {
+        "path": "utils/tree.py",
+        "ms": 64.1,
+        "radius": 572,
+        "bytes": 4394
+      },
+      {
+        "path": "utils/version.py",
+        "ms": 64.5,
+        "radius": 577,
+        "bytes": 3737
+      },
+      {
+        "path": "utils/xmlutils.py",
+        "ms": 61.9,
+        "radius": 5,
+        "bytes": 1172
+      },
+      {
+        "path": "views/__init__.py",
+        "ms": 66.6,
+        "radius": 571,
+        "bytes": 63
+      },
+      {
+        "path": "views/csrf.py",
+        "ms": 63.0,
+        "radius": 1,
+        "bytes": 3425
+      },
+      {
+        "path": "views/debug.py",
+        "ms": 77.4,
+        "radius": 20,
+        "bytes": 25670
+      },
+      {
+        "path": "views/decorators/__init__.py",
+        "ms": 59.1,
+        "radius": 1,
+        "bytes": 0
+      },
+      {
+        "path": "views/decorators/cache.py",
+        "ms": 61.6,
+        "radius": 48,
+        "bytes": 2821
+      },
+      {
+        "path": "views/decorators/clickjacking.py",
+        "ms": 62.4,
+        "radius": 1,
+        "bytes": 2555
+      },
+      {
+        "path": "views/decorators/common.py",
+        "ms": 59.7,
+        "radius": 26,
+        "bytes": 739
+      },
+      {
+        "path": "views/decorators/csrf.py",
+        "ms": 61.6,
+        "radius": 571,
+        "bytes": 2324
+      },
+      {
+        "path": "views/decorators/debug.py",
+        "ms": 73.3,
+        "radius": 76,
+        "bytes": 5256
+      },
+      {
+        "path": "views/decorators/gzip.py",
+        "ms": 65.6,
+        "radius": 1,
+        "bytes": 253
+      },
+      {
+        "path": "views/decorators/http.py",
+        "ms": 62.0,
+        "radius": 1,
+        "bytes": 6533
+      },
+      {
+        "path": "views/decorators/vary.py",
+        "ms": 64.8,
+        "radius": 1,
+        "bytes": 1201
+      },
+      {
+        "path": "views/defaults.py",
+        "ms": 63.1,
+        "radius": 571,
+        "bytes": 4718
+      },
+      {
+        "path": "views/generic/__init__.py",
+        "ms": 60.8,
+        "radius": 29,
+        "bytes": 886
+      },
+      {
+        "path": "views/generic/base.py",
+        "ms": 66.8,
+        "radius": 571,
+        "bytes": 9303
+      },
+      {
+        "path": "views/generic/dates.py",
+        "ms": 72.7,
+        "radius": 30,
+        "bytes": 26921
+      },
+      {
+        "path": "views/generic/detail.py",
+        "ms": 66.6,
+        "radius": 54,
+        "bytes": 7022
+      },
+      {
+        "path": "views/generic/edit.py",
+        "ms": 64.3,
+        "radius": 52,
+        "bytes": 9040
+      },
+      {
+        "path": "views/generic/list.py",
+        "ms": 63.2,
+        "radius": 32,
+        "bytes": 8009
+      },
+      {
+        "path": "views/i18n.py",
+        "ms": 65.1,
+        "radius": 28,
+        "bytes": 8999
+      },
+      {
+        "path": "views/static.py",
+        "ms": 62.6,
+        "radius": 15,
+        "bytes": 4055
+      }
+    ]
+  }
+}
