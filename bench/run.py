@@ -312,9 +312,14 @@ def render(rows):
         L.append(f"| {r['package']} | {f['p50']} | {f['p75']} | {f['p90']} | {f['p99']} | "
                  f"{f['max']} | {f['mean']} | {f['share_le_10']}% | "
                  f"{r['core_scc']} ({round(100*r['core_scc']/max(r['files'],1))}%) |")
-    L.append("\nMedian far below mean is the signal: most changes are cheap to verify, "
-             "a minority are not. The expensive minority are the files inside the "
-             "largest import cycle.\n")
+    L.append("\nMedian far below mean is the signal where it appears: most changes are "
+             "cheap to verify, a minority are not, and the expensive minority are the "
+             "files inside the largest import cycle.\n")
+    L.append("\nIt does not appear everywhere, and the rows where it is absent say "
+             "something too. A package whose median sits at or above its mean has no "
+             "cheap majority to find, because enough of it is one import cycle that "
+             "nearly every file reaches nearly every other. That is the shape that "
+             "tells you incremental analysis will not help.\n")
 
     if any(r.get("_edit_dist") for r in rows):
         L.append("\n## Cost of absorbing an edit\n")

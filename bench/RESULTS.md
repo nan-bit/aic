@@ -31,7 +31,10 @@ Files implicated by a change to one file, computed for every file in the package
 | sqlalchemy 2.0.36 | 40 | 245 | 245 | 246 | 248 | 127.1 | 27.1% | 121 (47%) |
 | django 5.2.16 | 3 | 68 | 571 | 573 | 588 | 140.4 | 58.8% | 162 (18%) |
 
-Median far below mean is the signal: most changes are cheap to verify, a minority are not. The expensive minority are the files inside the largest import cycle.
+Median far below mean is the signal where it appears: most changes are cheap to verify, a minority are not, and the expensive minority are the files inside the largest import cycle.
+
+
+It does not appear everywhere, and the rows where it is absent say something too. A package whose median sits at or above its mean has no cheap majority to find, because enough of it is one import cycle that nearly every file reaches nearly every other. That is the shape that tells you incremental analysis will not help.
 
 
 ## Cost of absorbing an edit
